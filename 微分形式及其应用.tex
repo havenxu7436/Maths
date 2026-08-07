@@ -1,0 +1,1399 @@
+\documentclass[12pt,a4paper]{ctexbook}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+% 定理环境
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{注记}
+\newtheorem{example}[theorem]{例}
+
+% 封面设置
+\title{\Huge\bfseries 微分形式及其应用}
+\author{Manfredo P. do Carmo\\[1em] 中文翻译版}
+\date{}
+
+\begin{document}
+
+% 封面
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge\bfseries 微分形式及其应用\par}
+    \vspace{2cm}
+    {\Large Differential Forms and Applications\par}
+    \vspace{3cm}
+    {\Large Manfredo P. do Carmo\par}
+    \vspace{1cm}
+    {\large 中文翻译版\par}
+    \vspace{4cm}
+    {\large 第1、3、4章\par}
+    \vfill
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\chapter{$\mathbb{R}^n$中的微分形式}
+
+本章的目的是在$\mathbb{R}^n$中定义"交错形式场"，它将在以后用于获得几何结果。
+
+为了固定思想，我们最初将在三维空间$\mathbb{R}^3$中进行讨论。
+
+设$p$是$\mathbb{R}^3$中的一点。所有以$p$为起点的向量$q-p$（其中$q\in\mathbb{R}^3$）的集合称为$\mathbb{R}^3$在$p$点的\textbf{切空间}，记为$\mathbb{R}_p^3$。
+
+典范基中的向量$e_1=(1,0,0)$，$e_2=(0,1,0)$，$e_3=(0,0,1)$将与其在$p$点的平移$(e_1)_p$，$(e_2)_p$，$(e_3)_p$等同起来。
+
+$\mathbb{R}^3$中的一个\textbf{向量场}是一个映射$v$，它将每个点$p\in\mathbb{R}^3$对应到一个向量$v(p)\in\mathbb{R}_p^3$。我们可以将$v$写为
+$$v(p) = a_1(p)e_1 + a_2(p)e_2 + a_3(p)e_3,$$
+由此定义了三个函数$a_i:\mathbb{R}^3\to\mathbb{R}$，$i=1,2,3$，它们刻画了向量场$v$。如果函数$a_i$是可微的，则称$v$是\textbf{可微的}。
+
+对每个切空间$\mathbb{R}_p^3$，我们可以联系其对偶空间$(\mathbb{R}_p^3)^*$，即所有线性映射$\varphi:\mathbb{R}_p^3\to\mathbb{R}$的集合。$(\mathbb{R}_p^3)^*$的一组基由$(dx_i)_p$，$i=1,2,3$给出，其中$x_i:\mathbb{R}^3\to\mathbb{R}$是将每个点对应到其第$i$个坐标的映射。集合
+$$\{(dx_i)_p;\; i=1,2,3\}$$
+实际上是$\{(e_i)_p\}$的对偶基，因为
+$$(dx_i)_p(e_j) = \frac{\partial x_i}{\partial x_j} = \begin{cases} 0, & \text{若 } i\neq j \\ 1, & \text{若 } i=j. \end{cases}$$
+
+\begin{definition}
+$\mathbb{R}^3$中的\textbf{线性形式场}（或一次外形式）是一个映射$\omega$，它将每个$p\in\mathbb{R}^3$对应到一个元素$\omega(p)\in(\mathbb{R}_p^3)^*$；$\omega$可以写为
+$$\omega = \sum_{i=1}^3 a_i dx_i,$$
+其中$a_i$是$\mathbb{R}^3$上的实函数。如果函数$a_i$是可微的，则称$\omega$为一次微分形式。
+\end{definition}
+
+现在设$\Lambda^2(\mathbb{R}_p^3)^*$是所有双线性交错映射$\varphi:\mathbb{R}_p^3\times\mathbb{R}_p^3\to\mathbb{R}$的集合（即$\varphi$对每个变量都是线性的，且满足$\varphi(v_1,v_2)=-\varphi(v_2,v_1)$）。在通常的函数运算下，集合$\Lambda^2(\mathbb{R}_p^3)^*$成为一个向量空间。
+
+当$\varphi_1$和$\varphi_2$属于$(\mathbb{R}_p^3)^*$时，我们可以通过定义
+$$(\varphi_1\wedge\varphi_2)(v_1,v_2) = \det(\varphi_i(v_j))$$
+得到$\Lambda^2(\mathbb{R}_p^3)^*$中的一个元素$\varphi_1\wedge\varphi_2$。
+
+元素$(dx_i)_p\wedge(dx_j)_p\in\Lambda^2(\mathbb{R}_p^3)^*$将记为$(dx_i\wedge dx_j)_p$。容易看出，集合$\{(dx_i\wedge dx_j)_p,\;i<j\}$是$\Lambda^2(\mathbb{R}_p^3)^*$的一组基（这将在下面的命题1中在更一般的情形下证明）。此外，
+$$(dx_i\wedge dx_j)_p = -(dx_j\wedge dx_i)_p,\quad i\neq j,$$
+且$(dx_i\wedge dx_i)_p = 0$。
+
+\begin{definition}
+$\mathbb{R}^3$中的\textbf{双线性交错形式场}（或二次外形式）是一个对应关系$\omega$，它将每个$p\in\mathbb{R}^3$对应到一个元素$\omega(p)\in\Lambda^2(\mathbb{R}_p^3)^*$；$\omega$可以写为
+$$\omega(p) = a_{12}(p)(dx_1\wedge dx_2)_p + a_{13}(p)(dx_1\wedge dx_3)_p + a_{23}(p)(dx_2\wedge dx_3)_p$$
+或
+$$\omega = \sum_{i<j} a_{ij} dx_i\wedge dx_j,\quad i,j=1,2,3,$$
+其中$a_{ij}$是$\mathbb{R}^3$上的实函数。当函数$a_{ij}$可微时，$\omega$称为二次微分形式。
+\end{definition}
+
+现在我们将微分形式的概念推广到$\mathbb{R}^n$。设$p\in\mathbb{R}^n$，$\mathbb{R}_p^n$是$\mathbb{R}^n$在$p$点的切空间，$(\mathbb{R}_p^n)^*$是其对偶空间。设$\Lambda^k(\mathbb{R}_p^n)^*$是所有$k$线性交错映射
+$$\varphi:\underbrace{\mathbb{R}_p^n\times\cdots\times\mathbb{R}_p^n}_{k\text{次}}\to\mathbb{R}$$
+的集合（交错意味着交换两个相邻的自变量时$\varphi$变号）。在通常的运算下，$\Lambda^k(\mathbb{R}_p^n)^*$是一个向量空间。
+
+给定$\varphi_1,\ldots,\varphi_k\in(\mathbb{R}_p^n)^*$，我们可以通过定义
+$$(\varphi_1\wedge\varphi_2\wedge\cdots\wedge\varphi_k)(v_1,\ldots,v_k) = \det(\varphi_i(v_j))$$
+得到$\Lambda^k(\mathbb{R}_p^n)^*$中的一个元素$\varphi_1\wedge\varphi_2\wedge\cdots\wedge\varphi_k$。
+
+由行列式的性质可知，$\varphi_1\wedge\varphi_2\wedge\cdots\wedge\varphi_k$确实是$k$线性和交错的。特别地，$(dx_{i_1})_p\wedge(dx_{i_2})_p\wedge\cdots\wedge(dx_{i_k})_p\in\Lambda^k(\mathbb{R}_p^n)^*$，其中$i_1,i_2,\ldots,i_k=1,\ldots,n$。我们将这个元素记为$(dx_{i_1}\wedge dx_{i_2}\wedge\cdots\wedge dx_{i_k})_p$。
+
+\begin{proposition}
+集合
+$$\{(dx_{i_1}\wedge\cdots\wedge dx_{i_k})_p,\; i_1<i_2<\cdots<i_k,\; i_j\in\{1,\ldots,n\}\}$$
+是$\Lambda^k(\mathbb{R}_p^n)^*$的一组基。
+\end{proposition}
+
+\begin{proof}
+该集合中的元素是线性无关的。因为，如果
+$$\sum_{i_1<\cdots<i_k} a_{i_1\cdots i_k} dx_{i_1}\wedge\cdots\wedge dx_{i_k} \equiv 0,$$
+将其作用于$(e_{j_1},\ldots,e_{j_k})$，其中$j_1<\cdots<j_k$，$j_\ell\in\{1,\ldots,n\}$，我们得到（习题2）
+$$\sum_{i_1<\cdots<i_k} a_{i_1\cdots i_k} dx_{i_1}\wedge\cdots\wedge dx_{i_k}(e_{j_1},\ldots,e_{j_k}) = a_{j_1\cdots j_k} = 0.$$
+
+现在我们证明，如果$f\in\Lambda^k(\mathbb{R}_p^n)^*$，则$f$是形如
+$$\sum_{i_1<\cdots<i_k} a_{i_1\cdots i_k} dx_{i_1}\wedge\cdots\wedge dx_{i_k}$$
+的线性组合。为此，设
+$$g = \sum_{i_1<\cdots<i_k} f(e_{i_1},\ldots,e_{i_k}) dx_{i_1}\wedge\cdots\wedge dx_{i_k}.$$
+注意$g\in\Lambda^k(\mathbb{R}_p^n)^*$，且对所有$i_1,\ldots,i_k$，有$g(e_{i_1},\ldots,e_{i_k})=f(e_{i_1},\ldots,e_{i_k})$。由此可得$f=g$。令$f(e_{i_1},\ldots,e_{i_k})=a_{i_1\cdots i_k}$，我们就得到了$f$的上述表达式。
+\end{proof}
+
+\begin{definition}
+$\mathbb{R}^n$中的一个\textbf{外$k$形式}是一个映射$\omega$，它将每个$p\in\mathbb{R}^n$对应到一个元素$\omega(p)\in\Lambda^k(\mathbb{R}_p^n)^*$；由命题1，$\omega$可以写为
+$$\omega(p) = \sum_{i_1<\cdots<i_k} a_{i_1\cdots i_k}(p)(dx_{i_1}\wedge\cdots\wedge dx_{i_k})_p,\quad i_j\in\{1,\ldots,n\},$$
+其中$a_{i_1\cdots i_k}$是$\mathbb{R}^n$上的实函数。当$a_{i_1\cdots i_k}$是可微函数时，$\omega$称为\textbf{微分$k$形式}。
+\end{definition}
+
+为了记号方便，我们用$I$表示$k$元组$(i_1,\ldots,i_k)$，其中$i_1<\cdots<i_k$，$i_j\in\{1,\ldots,n\}$，并使用以下记号表示$\omega$：
+$$\omega = \sum_I a_I dx_I.$$
+
+我们还约定，微分0形式就是可微函数$f:\mathbb{R}^n\to\mathbb{R}$。
+
+\begin{example}
+在$\mathbb{R}^4$中，我们有以下类型的外形式（其中$a_i$，$a_{ij}$等是$\mathbb{R}^4$上的实函数）：
+\begin{itemize}
+    \item 0形式：$\mathbb{R}^4$上的函数
+    \item 1形式：$a_1dx_1 + a_2dx_2 + a_3dx_3 + a_4dx_4$
+    \item 2形式：$a_{12}dx_1\wedge dx_2 + a_{13}dx_1\wedge dx_3 + a_{14}dx_1\wedge dx_4 + a_{23}dx_2\wedge dx_3 + a_{24}dx_2\wedge dx_4 + a_{34}dx_3\wedge dx_4$
+    \item 3形式：$a_{123}dx_1\wedge dx_2\wedge dx_3 + a_{124}dx_1\wedge dx_2\wedge dx_4 + a_{134}dx_1\wedge dx_3\wedge dx_4 + a_{234}dx_2\wedge dx_3\wedge dx_4$
+    \item 4形式：$a_{1234}dx_1\wedge dx_2\wedge dx_3\wedge dx_4$
+\end{itemize}
+\end{example}
+
+从今以后，我们将局限于微分$k$形式，并简称其为$k$形式。
+
+我们将定义$\mathbb{R}^n$中$k$形式的一些运算。
+
+首先，如果$\omega$和$\varphi$是两个$k$形式：
+$$\omega = \sum_I a_I dx_I,\quad \varphi = \sum_I b_I dx_I,$$
+我们可以定义它们的和
+$$\omega + \varphi = \sum_I (a_I + b_I) dx_I.$$
+
+其次，如果$\omega$是一个$k$形式，$\varphi$是一个$s$形式，我们可以定义它们的\textbf{外积}$\omega\wedge\varphi$，它是一个$(k+s)$形式，定义如下。
+
+\begin{definition}
+设
+$$\omega = \sum_I a_I dx_I,\quad \varphi = \sum_J b_J dx_J,\quad j_1<\cdots<j_s.$$
+根据定义，
+$$\omega\wedge\varphi = \sum_{I,J} a_I b_J dx_I\wedge dx_J.$$
+\end{definition}
+
+\begin{example}
+设$\omega = x_1dx_1 + x_2dx_2 + x_3dx_3$是$\mathbb{R}^3$中的1形式，$\varphi = x_1dx_1\wedge dx_2 + dx_1\wedge dx_3$是$\mathbb{R}^3$中的2形式。则由于$dx_i\wedge dx_i=0$且$dx_i\wedge dx_j=-dx_j\wedge dx_i$（$i\neq j$），我们得到
+$$\omega\wedge\varphi = x_2dx_2\wedge dx_1\wedge dx_3 + x_3x_1 dx_3\wedge dx_1\wedge dx_2 = (x_1x_3 - x_2)dx_1\wedge dx_2\wedge dx_3.$$
+\end{example}
+
+\begin{remark}
+外积的定义方式使得如果$\varphi_1,\ldots,\varphi_k$是1形式，则外积$\varphi_1\wedge\cdots\wedge\varphi_k$与之前定义的$k$形式一致。这一点可直接由定义推出，留作练习（习题3）。
+\end{remark}
+
+$\mathbb{R}^n$中形式的外积具有以下性质。
+
+\begin{proposition}
+设$\omega$是$k$形式，$\varphi$是$s$形式，$\theta$是$r$形式。则：
+\begin{enumerate}[label=\alph*)]
+    \item $(\omega\wedge\varphi)\wedge\theta = \omega\wedge(\varphi\wedge\theta)$
+    \item $\omega\wedge\varphi = (-1)^{ks}\varphi\wedge\omega$
+    \item $\omega\wedge(\varphi+\theta) = \omega\wedge\varphi + \omega\wedge\theta$，若$r=s$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a)和(c)是直接的。为证明(b)，我们写
+$$\omega = \sum_I a_I dx_I,\quad \varphi = \sum_J b_J dx_J,\quad i_1<\cdots<i_k,\; j_1<\cdots<j_s.$$
+则
+$$\omega\wedge\varphi = \sum_{I,J} a_I b_J dx_{i_1}\wedge\cdots\wedge dx_{i_k}\wedge dx_{j_1}\wedge\cdots\wedge dx_{j_s}.$$
+将$dx_{j_1}$逐步移到前面，每次交换位置变号一次，共交换$k$次：
+$$= \sum_{I,J} b_J a_I (-1)^k dx_{j_1}\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_k}\wedge dx_{j_2}\wedge\cdots\wedge dx_{j_s}.$$
+由于$J$有$s$个元素，对每个$dx_{j_t}$（$j_t\in J$）重复上述论证，我们得到
+$$\omega\wedge\varphi = \sum_{J,I} b_J a_I (-1)^{ks} dx_{j_1}\wedge\cdots\wedge dx_{j_s}\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_k} = (-1)^{ks}\varphi\wedge\omega.$$
+\end{proof}
+
+\begin{remark}
+虽然$dx_i\wedge dx_i=0$，但并非对任意形式$\omega$都有$\omega\wedge\omega=0$。例如，如果
+$$\omega = dx_1\wedge dx_2 + dx_3\wedge dx_4,$$
+则
+$$\omega\wedge\omega = 2dx_1\wedge dx_2\wedge dx_3\wedge dx_4.$$
+但参见习题4。
+\end{remark}
+
+微分形式最重要的特征之一是它们在可微映射下的行为。设$f:\mathbb{R}^n\to\mathbb{R}^m$是一个可微映射。则$f$诱导一个映射$f^*$，它将$\mathbb{R}^m$中的$k$形式映为$\mathbb{R}^n$中的$k$形式，定义如下。设$\omega$是$\mathbb{R}^m$中的一个$k$形式。根据定义，$f^*\omega$是$\mathbb{R}^n$中的$k$形式，由
+$$(f^*\omega)(p)(v_1,\ldots,v_k) = \omega(f(p))(df_p(v_1),\ldots,df_p(v_k))$$
+给出。这里$p\in\mathbb{R}^n$，$v_1,\ldots,v_k\in\mathbb{R}_p^n$，$df_p:\mathbb{R}_p^n\to\mathbb{R}_{f(p)}^m$是映射$f$在$p$点的微分。我们约定，如果$g$是0形式，则
+$$f^*(g) = g\circ f.$$
+
+我们将证明，形式上的运算$f^*$等价于"变量替换"。在此之前，我们需要$f^*$的一些性质。
+
+\begin{proposition}
+设$f:\mathbb{R}^n\to\mathbb{R}^m$是可微映射，$\omega$和$\varphi$是$\mathbb{R}^m$上的$k$形式，$g:\mathbb{R}^m\to\mathbb{R}$是$\mathbb{R}^m$上的0形式。则：
+\begin{enumerate}[label=\alph*)]
+    \item $f^*(\omega+\varphi) = f^*\omega + f^*\varphi$
+    \item $f^*(g\omega) = f^*(g)f^*(\omega)$
+    \item 如果$\varphi_1,\ldots,\varphi_k$是$\mathbb{R}^m$中的1形式，则$f^*(\varphi_1\wedge\cdots\wedge\varphi_k) = f^*(\varphi_1)\wedge\cdots\wedge f^*(\varphi_k)$。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+证明非常简单。设$p\in\mathbb{R}^n$，$v_1,\ldots,v_k\in\mathbb{R}_p^n$。则
+
+(a) $f^*(\omega+\varphi)(p)(v_1,\ldots,v_k) = (\omega+\varphi)(f(p))(df_p(v_1),\ldots,df_p(v_k)) = (f^*\omega)(p)(v_1,\ldots,v_k) + (f^*\varphi)(p)(v_1,\ldots,v_k) = (f^*\omega + f^*\varphi)(p)(v_1,\ldots,v_k)$。
+
+(b) $f^*(g\omega)(p)(v_1,\ldots,v_k) = (g\omega)(f(p))(df_p(v_1),\ldots,df_p(v_k)) = (g\circ f)(p)\cdot f^*\omega(p)(v_1,\ldots,v_k) = f^*g(p)\cdot f^*\omega(p)(v_1,\ldots,v_k)$。
+
+(c) 省略点$p$的指示，我们得到
+$$f^*(\varphi_1\wedge\cdots\wedge\varphi_k)(v_1,\ldots,v_k) = (\varphi_1\wedge\cdots\wedge\varphi_k)(df(v_1),\ldots,df(v_k)) = \det(\varphi_i(df(v_j))) = \det(f^*\varphi_i(v_j)) = (f^*\varphi_1\wedge\cdots\wedge f^*\varphi_k)(v_1,\ldots,v_k).$$
+\end{proof}
+
+\begin{remark}
+我们将在下面（见命题4）证明，(c)不仅对1形成立，对$k$形式也成立。
+\end{remark}
+
+现在我们可以给出$f^*$的上述解释。设$(x_1,\ldots,x_n)$是$\mathbb{R}^n$中的坐标，$(y_1,\ldots,y_m)$是$\mathbb{R}^m$中的坐标，$f:\mathbb{R}^n\to\mathbb{R}^m$写为
+$$y_i = f_i(x_1,\ldots,x_n),\quad i=1,\ldots,m. \tag{$*$}$$
+
+设$\omega = \sum_I a_I dy_I$是$\mathbb{R}^m$中的$k$形式。利用$f^*$的上述性质，我们得到
+$$f^*\omega = \sum_I f^*(a_I)(f^*dy_{i_1})\wedge\cdots\wedge(f^*dy_{i_k}).$$
+由于
+$$f^*(dy_i)(v) = dy_i(df(v)) = d(y_i\circ f)(v) = df_i(v),$$
+我们有
+$$f^*\omega = \sum_I a_I(f_1(x_1,\ldots,x_n),\ldots,f_m(x_1,\ldots,x_n))df_{i_1}\wedge\cdots\wedge df_{i_k},$$
+其中$f_i$和$df_i$都是$x_j$的函数。因此，将$f^*$应用于$\omega$等价于在$\omega$中"替换"变量$y_i$及其微分为由$(*)$得到的$x_k$和$dx_k$的函数。
+
+\begin{remark}
+在各种情形下，使用仅定义在某个开集$U\subset\mathbb{R}^n$上而非整个$\mathbb{R}^n$上的微分形式是方便的。显然，目前为止所做的一切都可以平凡地推广到这种情形。
+\end{remark}
+
+\begin{example}[极坐标]
+设$\omega$是$\mathbb{R}^2\setminus\{(0,0)\}$中的1形式，由
+$$\omega = \frac{-y}{x^2+y^2}dx + \frac{x}{x^2+y^2}dy$$
+给出。设$U$是$(r,\theta)$平面中的集合
+$$U = \{r>0;\; 0<\theta<2\pi\},$$
+$f:U\to\mathbb{R}^2$是映射
+$$f(r,\theta) = \begin{cases} x = r\cos\theta \\ y = r\sin\theta \end{cases}$$
+
+让我们计算$f^*\omega$。由于
+$$dx = \cos\theta dr - r\sin\theta d\theta,$$
+$$dy = \sin\theta dr + r\cos\theta d\theta,$$
+我们得到
+$$f^*\omega = \frac{-r\sin\theta}{r^2}(\cos\theta dr - r\sin\theta d\theta) + \frac{r\cos\theta}{r^2}(\sin\theta dr + r\cos\theta d\theta) = d\theta.$$
+\end{example}
+
+注意，命题3的(a)说微分形式的加法与"变量替换"可交换。我们现在证明外积也有同样的性质。
+
+\begin{proposition}
+设$f:\mathbb{R}^n\to\mathbb{R}^m$是可微映射。则
+\begin{enumerate}[label=\alph*)]
+    \item $f^*(\omega\wedge\varphi) = (f^*\omega)\wedge(f^*\varphi)$，其中$\omega$和$\varphi$是$\mathbb{R}^m$中的任意两个形式。
+    \item $(f\circ g)^*\omega = g^*(f^*\omega)$，其中$g:\mathbb{R}^p\to\mathbb{R}^n$是可微映射。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+设$(y_1,\ldots,y_m) = (f_1(x_1,\ldots,x_n),\ldots,f_m(x_1,\ldots,x_n))\in\mathbb{R}^m$，$(x_1,\ldots,x_n)\in\mathbb{R}^n$，$\omega = \sum_I a_I dy_I$，$\varphi = \sum_J b_J dy_J$，我们得到
+$$f^*(\omega\wedge\varphi) = f^*\left(\sum_{I,J} a_I b_J dy_I\wedge dy_J\right) = \sum_{I,J} a_I(f_1,\ldots,f_m)b_J(f_1,\ldots,f_m)df_I\wedge df_J$$
+$$= \sum_I a_I(f_1,\ldots,f_m)df_I \wedge \sum_J b_J(f_1,\ldots,f_m)df_J = f^*\omega\wedge f^*\varphi.$$
+
+(b) $(f\circ g)^*\omega = \sum_I a_I((f\circ g)_1,\ldots,(f\circ g)_m)d(f\circ g)_I = \sum_I a_I(f_1(g_1,\ldots,g_n),\ldots,f_m(g_1,\ldots,g_n))df_i(dg_1,\ldots,dg_n) = g^*(f^*(\omega))$。
+\end{proof}
+
+现在我们将定义微分形式上的一个运算，它推广了函数的微分。设$g:\mathbb{R}^n\to\mathbb{R}$是一个0形式（即可微函数）。则微分
+$$dg = \sum_{i=1}^n \frac{\partial g}{\partial x_i}dx_i$$
+是一个1形式。我们希望推广这个过程，定义一个将$k$形式变为$(k+1)$形式的运算。
+
+\begin{definition}
+设$\omega = \sum_I a_I dx_I$是$\mathbb{R}^n$中的$k$形式。$\omega$的\textbf{外微分}$d\omega$定义为
+$$d\omega = \sum_I da_I\wedge dx_I.$$
+\end{definition}
+
+\begin{example}
+设$\omega = xyzdx + yzdy + (x+z)dz$，让我们计算$d\omega$：
+$$d\omega = d(xyz)\wedge dx + d(yz)\wedge dy + d(x+z)\wedge dz$$
+$$= (yzdx + xzdy + xydz)\wedge dx + (zdy + ydz)\wedge dy + (dx + dz)\wedge dz$$
+$$= -xzdx\wedge dy + (1-xy)dx\wedge dz - ydy\wedge dz.$$
+\end{example}
+
+现在我们给出外微分的一些性质。(c)可能是最重要的，(d)意味着运算$d$与变量替换可交换。
+
+\begin{proposition}
+\begin{enumerate}[label=\alph*)]
+    \item $d(\omega_1+\omega_2) = d\omega_1 + d\omega_2$，其中$\omega_1$和$\omega_2$是$k$形式。
+    \item $d(\omega\wedge\varphi) = d\omega\wedge\varphi + (-1)^k\omega\wedge d\varphi$，其中$\omega$是$k$形式，$\varphi$是$s$形式。
+    \item $d(d\omega) = d^2\omega = 0$。
+    \item $d(f^*\omega) = f^*(d\omega)$，其中$\omega$是$\mathbb{R}^m$中的$k$形式，$f:\mathbb{R}^n\to\mathbb{R}^m$是可微映射。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a)是直接的。
+
+(b) 设$\omega = \sum_I a_I dx_I$，$\varphi = \sum_J b_J dx_J$。则
+$$d(\omega\wedge\varphi) = d\left(\sum_{I,J} a_I b_J dx_I\wedge dx_J\right) = \sum_{I,J} d(a_I b_J)\wedge dx_I\wedge dx_J$$
+$$= \sum_{I,J} b_J da_I\wedge dx_I\wedge dx_J + \sum_{I,J} a_I db_J\wedge dx_I\wedge dx_J$$
+$$= d\omega\wedge\varphi + (-1)^k\sum_{I,J} a_I dx_I\wedge db_J\wedge dx_J = d\omega\wedge\varphi + (-1)^k\omega\wedge d\varphi.$$
+
+(c) 我们首先假设$\omega$是0形式，即$\omega$是函数$f:\mathbb{R}^n\to\mathbb{R}$，它将每个$(x_1,\ldots,x_n)\in\mathbb{R}^n$对应到值$f(x_1,\ldots,x_n)\in\mathbb{R}$。则
+$$d(df) = d\left(\sum_i \frac{\partial f}{\partial x_i}dx_i\right) = \sum_{i,j} \frac{\partial^2 f}{\partial x_j\partial x_i}dx_j\wedge dx_i.$$
+由于$\frac{\partial^2 f}{\partial x_i\partial x_j} = \frac{\partial^2 f}{\partial x_j\partial x_i}$且$dx_i\wedge dx_j = -dx_j\wedge dx_i$，我们得到$d(df)=0$。
+
+现在设$\omega = \sum_I a_I dx_I$。由(a)，我们可以局限于$\omega = a_I dx_I$且$a_I\neq 0$的情形。由(b)，我们有
+$$d\omega = da_I\wedge dx_I + a_I d(dx_I).$$
+但$d(dx_I) = d(1)\wedge dx_I = 0$。因此，
+$$d(d\omega) = d(da_I\wedge dx_I) = d(da_I)\wedge dx_I + da_I\wedge d(dx_I) = 0,$$
+因为$d(da_I)=0$且$d(dx_I)=0$，这就证明了(c)。
+
+(d) 我们首先对0形式证明结果。设$g:\mathbb{R}^m\to\mathbb{R}$是可微函数，它将每个$(y_1,\ldots,y_m)\in\mathbb{R}^m$对应到值$g(y_1,\ldots,y_m)$。则
+$$f^*(dg) = f^*\left(\sum_i \frac{\partial g}{\partial y_i}dy_i\right) = \sum_{i,j} \frac{\partial g}{\partial y_i}\frac{\partial f_i}{\partial x_j}dx_j$$
+$$= \sum_j \frac{\partial(g\circ f)}{\partial x_j}dx_j = d(g\circ f) = d(f^*g).$$
+
+现在设$\varphi = \sum_I a_I dx_I$是$k$形式。利用上述结果以及$f^*$与外积可交换的事实，我们得到
+$$d(f^*\varphi) = d\left(\sum_I f^*(a_I)f^*(dx_I)\right) = \sum_I d(f^*(a_I))\wedge f^*(dx_I)$$
+$$= \sum_I f^*(da_I)\wedge f^*(dx_I) = f^*\left(\sum_I da_I\wedge dx_I\right) = f^*(d\varphi),$$
+这就证明了(d)。
+\end{proof}
+
+在下面的习题中，我们将经常使用$\mathbb{R}_p^n$与其对偶$(\mathbb{R}_p^n)^*$之间的典范同构，它由$\mathbb{R}^n$的自然内积$(\,,\,)$建立。我们回忆，如果$\{e_i\}$是$\mathbb{R}^n$的典范基，$v_1 = \sum a_i e_i$，$v_2 = \sum b_i e_i$属于$(\mathbb{R}^n)_p$，则$(v_1,v_2) = \sum a_i b_i$。上述典范同构将向量$v\in\mathbb{R}_p^n$映为元素$\omega\in(\mathbb{R}_p^n)^*$，由
+$$\omega(u) = (v,u),\quad \text{对所有 } u\in\mathbb{R}_p^n$$
+给出。如果让点$p$变化，这就在$\mathbb{R}^n$中的向量场与$\mathbb{R}^n$中的外1形式之间建立了一一对应；容易看出，这个对应将可微向量场映为微分1形式，反之亦然。
+
+\section*{习题}
+\begin{enumerate}
+    \item 证明双线性形式$\varphi:\mathbb{R}^3\times\mathbb{R}^3\to\mathbb{R}$是交错的当且仅当$\varphi(v,v)=0$对所有$v\in\mathbb{R}^3$成立。
+    
+    \item 证明如果$i_1<i_2<\cdots<i_k$且$j_1<j_2<\cdots<j_k$，则
+    $$dx_{i_1}\wedge\cdots\wedge dx_{i_k}(e_{j_1},\ldots,e_{j_k}) = \begin{cases} 1, & \text{若 } i_1=j_1,\ldots,i_k=j_k \\ 0, & \text{否则}. \end{cases}$$
+    
+    \textbf{提示}：考虑行列式$\alpha = |dx_{i_\ell}(e_{j_m})|$。如果$i_1>j_1$，则$i_k>\cdots>i_2>i_1>j_1$，即$dx_{i_\ell}(e_{j_1})=0$对$\ell=1,\ldots,k$成立。如果$i_1<j_1$，则$j_k>\cdots>j_2>j_1>i_1$，即$dx_{i_1}(e_{j_m})=0$对$m=1,\ldots,k$成立。无论哪种情况，如果$i_1\neq j_1$则$\alpha=0$。现在假设$i_1=j_1$且$i_2\neq j_2$。如前所述，我们证明$\alpha=0$。这个论证可以容易地继续下去。
+    
+    \item 证明注记1中的陈述。
+    
+    \item 设$\varphi$是外$k$形式，其中$k$是奇数。证明$\varphi\wedge\varphi=0$。
+    
+    \item 设$\varphi$，$\psi$和$\theta$是$\mathbb{R}^3$中的以下形式：
+    $$\varphi = xdx - ydy,\quad \psi = zdx\wedge dy + xdy\wedge dz,\quad \theta = zdy.$$
+    计算：$\varphi\wedge\psi$，$\theta\wedge\varphi\wedge\psi$，$d\varphi$，$d\psi$，$d\theta$。
+    
+    \item 设$f:U\subset\mathbb{R}^m\to\mathbb{R}^n$是可微映射。假设$m<n$，设$\omega$是$\mathbb{R}^n$中的$k$形式，$k>m$。证明$f^*\omega=0$。
+    
+    \item 设$\omega$是$\mathbb{R}^{2n}$中的2形式，由
+    $$\omega = dx_1\wedge dx_2 + dx_3\wedge dx_4 + \cdots + dx_{2n-1}\wedge dx_{2n}$$
+    给出。计算$n$个$\omega$的外积。
+    
+    \item 设$f:\mathbb{R}^n\to\mathbb{R}^n$是可微映射，由
+    $$f(x_1,\ldots,x_n) = (y_1,\ldots,y_n)$$
+    给出，设$\omega = dy_1\wedge\cdots\wedge dy_n$。证明
+    $$f^*\omega = \det(df)dx_1\wedge\cdots\wedge dx_n.$$
+    
+    \item 设$\nu$是$\mathbb{R}^n$中的$n$形式，由
+    $$\nu(e_1,\ldots,e_n) = 1$$
+    定义，其中$\{e_i\}$，$i=1,\ldots,n$，是$\mathbb{R}^n$的典范基。证明：
+    \begin{enumerate}
+        \item 如果$v_i = \sum_j a_{ij}e_j$，则
+        $$\nu(v_1,\ldots,v_n) = \det(a_{ij}) = \text{vol}(v_1,\ldots,v_n).$$
+        （形式$\nu$称为$\mathbb{R}^n$的体积元素）
+        \item $\nu = dx_1\wedge\cdots\wedge dx_n$。
+    \end{enumerate}
+    
+    \item \textbf{（Hodge星算子）} 给定$\mathbb{R}^n$中的$k$形式$\omega$，我们通过定义
+    $$*(dx_{i_1}\wedge\cdots\wedge dx_{i_k}) = (-1)^\sigma(dx_{j_1}\wedge\cdots\wedge dx_{j_{n-k}})$$
+    并线性延拓来定义$(n-k)$形式$*\omega$，其中$i_1<\cdots<i_k$，$j_1<\cdots<j_{n-k}$，$(i_1,\ldots,i_k,j_1,\ldots,j_{n-k})$是$(1,2,\ldots,n)$的一个排列，$\sigma$根据排列是偶还是偶分别取0或1。证明：
+    \begin{enumerate}
+        \item 如果$\omega = a_{12}dx_1\wedge dx_2 + a_{13}dx_1\wedge dx_3 + a_{23}dx_2\wedge dx_3$是$\mathbb{R}^3$中的2形式，则
+        $$*\omega = a_{12}dx_3 - a_{13}dx_2 + a_{23}dx_1.$$
+        \item 如果$\omega = a_1dx_1 + a_2dx_2$是$\mathbb{R}^2$中的1形式，则
+        $$*\omega = a_1dx_2 - a_2dx_1.$$
+        \item $**\omega = (-1)^{k(n-k)}\omega$。
+    \end{enumerate}
+    
+    \item \textbf{（散度）} $\mathbb{R}^n$中的可微向量场$v$可以看作可微映射$v:\mathbb{R}^n\to\mathbb{R}^n$。我们将定义函数$\text{div}\,v:\mathbb{R}^n\to\mathbb{R}$（称为$v$的散度）如下：
+    $$(\text{div}\,v)(p) = \text{trace}(dv)_p,\quad p\in\mathbb{R}^n,$$
+    其中$(dv)_p:\mathbb{R}_p^n\to\mathbb{R}_p^n$是$v$在$p$点的微分。证明：
+    \begin{enumerate}
+        \item 如果$v = \sum_i a_i e_i$，其中$\{e_i\}$是$\mathbb{R}^n$的典范基，则
+        $$\text{div}\,v = \sum_i \frac{\partial a_i}{\partial x_i}.$$
+        \item 如果$\omega$表示由内积$(\,,\,)$诱导的典范同构从$v$得到的微分1形式，$\nu$是$\mathbb{R}^n$的体积元素（习题9），则散度可以如下得到：
+        $$v \mapsto \omega \mapsto *\omega \mapsto d(*\omega) = (\text{div}\,v)\nu,$$
+        其中我们使用了习题10中引入的星运算。
+    \end{enumerate}
+    
+    \item \textbf{（梯度）} 给定可微函数$f:\mathbb{R}^n\to\mathbb{R}$，定义$\mathbb{R}^n$中的向量场$\text{grad}\,f$（$f$的梯度）为
+    $$\langle \text{grad}\,f(p), u\rangle = df_p(u),\quad \text{对所有 } p\in\mathbb{R}^n \text{ 和所有 } u\in\mathbb{R}_p^n.$$
+    注意，$\text{grad}\,f$是典范同构中对应于1形式$df$的向量场。证明：
+    \begin{enumerate}
+        \item 在$\mathbb{R}^n$的典范基$\{e_i\}$中：
+        $$\text{grad}\,f = \sum_i \frac{\partial f}{\partial x_i}e_i.$$
+        \item 如果$p\in\mathbb{R}^n$使得$\text{grad}\,f(p)\neq 0$，则$\text{grad}\,f(p)$垂直于"水平面"$\{q\in\mathbb{R}^n;\; f(q)=f(p)\}$。
+        \item 线性映射$df_p:\mathbb{R}_p^n\to\mathbb{R}$限制在以$p$为中心的单位球面上，在$v=\text{grad}\,f/|\text{grad}\,f|$处达到最大值。
+    \end{enumerate}
+    
+    \item \textbf{（拉普拉斯算子）} 给定可微函数$f:\mathbb{R}^n\to\mathbb{R}$，我们定义拉普拉斯算子$\Delta f:\mathbb{R}^n\to\mathbb{R}$为
+    $$\Delta f = \text{div}(\text{grad}\,f).$$
+    证明：
+    \begin{enumerate}
+        \item $\Delta f = \sum_i \frac{\partial^2 f}{\partial x_i^2}$,
+        \item $\Delta(fg) = f\Delta g + g\Delta f + 2\langle\text{grad}\,f,\text{grad}\,g\rangle$,
+        \item $d*(df) = (\Delta f)\nu$，其中$\nu$是$\mathbb{R}^n$的体积元素。
+    \end{enumerate}
+    
+    \item \textbf{（旋度）} 设$v$是$\mathbb{R}^n$中的可微向量场。旋度$\text{rot}\,v$是$(n-2)$形式，定义为：
+    $$v \mapsto \omega \mapsto d\omega \mapsto *(d\omega) = \text{rot}\,v,$$
+    其中$v\mapsto\omega$是内积诱导的1形式与向量场之间的对应。
+    \begin{enumerate}
+        \item 证明$\text{rot}(\text{grad}\,f)=0$。
+        \item 在$n=3$的特殊情形下，1形式$\text{rot}\,v$对应于一个向量场，也记为$\text{rot}\,v$。证明，当$n=3$时：
+        \begin{enumerate}
+            \item $\text{rot}\left(\sum_{i=1}^3 a_i e_i\right) = \left(\frac{\partial a_3}{\partial x_2} - \frac{\partial a_2}{\partial x_3}\right)e_1 + \left(\frac{\partial a_1}{\partial x_3} - \frac{\partial a_3}{\partial x_1}\right)e_2 + \left(\frac{\partial a_2}{\partial x_1} - \frac{\partial a_1}{\partial x_2}\right)e_3$.
+            \item $\text{div}(\text{rot}\,v) = 0$。
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\chapter{微分流形}
+
+微分形式在第一章中是作为$\mathbb{R}^n$中的对象引入的；然而，它们以及所有涉及可微性的事物，都自然地存在于微分流形中，这是我们现在要发展的概念。
+
+我们将从最熟悉的微分流形例子开始，即$\mathbb{R}^3$中的正则曲面。在接下来的内容中，我们将参考"M. do Carmo, Differential Geometry of Curves and Surfaces, Prentice-Hall, 1976"，记为[dC]。让我们回顾一下（参见[dC]，第2章第2.2节），子集$S\subset\mathbb{R}^3$是一个正则曲面，如果对于每个$p\in S$，存在$p$在$\mathbb{R}^3$中的邻域$V$和一个从$\mathbb{R}^2$中开集$U_\alpha$到$V\cap S$上的映射$f_\alpha:U_\alpha\subset\mathbb{R}^2\to V\cap S$，使得：
+\begin{enumerate}
+    \item $f_\alpha$是可微同胚。
+    \item 微分$(df_\alpha)_q:T_q(U_\alpha)\to\mathbb{R}^3$对每个$q\in U_\alpha$都是单射。
+\end{enumerate}
+
+映射$f_\alpha:U_\alpha\to S$称为$S$在$p$附近的一个参数化。
+
+上述定义最重要的推论是参数变换是微分同胚。更准确地说，如果$f_\alpha:U_\alpha\to S$和$f_\beta:U_\beta\to S$是两个参数化，使得$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)=W\neq\emptyset$，则（参见[dC]，第2.5节的定理）映射
+$$f_\beta^{-1}\circ f_\alpha:f_\alpha^{-1}(W)\to\mathbb{R}^2,$$
+$$f_\alpha^{-1}\circ f_\beta:f_\beta^{-1}(W)\to\mathbb{R}^2$$
+都是可微的。由此可知，在正则曲面上谈论可微函数并应用微分学的方法是有意义的。
+
+上述定义最严重的问题是它依赖于$\mathbb{R}^3$。事实上，抽象曲面的自然想法是一个在某种意义上二维的对象，并且我们可以局部地应用$\mathbb{R}^2$中的微分学。这种抽象曲面（即不依赖于外围空间）的想法自高斯以来就已经被预见。然而，定义花了大约一个世纪才达到我们下面呈现的最终形式。这种延迟的原因之一是，即使对于$\mathbb{R}^3$中的曲面，参数变换的基本作用也没有被清楚地理解（见注记1）。
+
+由于将自己局限于二维并没有什么好处，我们将给出$n$维的定义。
+
+\begin{definition}
+一个$n$维微分流形是一个集合$M$连同一族单射$f_\alpha:U_\alpha\subset\mathbb{R}^n\to M$，其中$U_\alpha$是$\mathbb{R}^n$中的开集，满足：
+\begin{enumerate}
+    \item $\bigcup_\alpha f_\alpha(U_\alpha) = M$。
+    \item 对于每对$\alpha,\beta$，若$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)=W\neq\emptyset$，则集合$f_\alpha^{-1}(W)$和$f_\beta^{-1}(W)$是$\mathbb{R}^n$中的开集，且映射$f_\beta^{-1}\circ f_\alpha$和$f_\alpha^{-1}\circ f_\beta$都是可微的。
+    \item 族$\{(U_\alpha,f_\alpha)\}$相对于(1)和(2)是极大的。
+\end{enumerate}
+
+满足$p\in f_\alpha(U_\alpha)$的对$(U_\alpha,f_\alpha)$称为$M$在$p$点的参数化（或坐标系）；$f_\alpha(U_\alpha)$则称为$p$的坐标邻域。
+
+满足性质(1)和(2)的族$\{(f_\alpha,U_\alpha)\}$称为$M$上的微分结构。
+\end{definition}
+
+条件3是一个技术性条件。实际上，我们总是可以将一个微分结构延拓为极大的，方法是将所有与给定结构的某个参数化一起满足条件2的参数化添加到给定结构中。因此，在某种语言滥用的情况下，我们可以说微分流形是一个赋予了微分结构的集合，每当需要时都假设已延拓到极大的。
+
+\begin{remark}
+比较$\mathbb{R}^3$中正则曲面的定义和微分流形的定义表明，关键在于将参数变换的基本性质（对于曲面它是一个定理）作为定义1中的一条公理引入。正如我们很快将看到的，这使得我们可以将$\mathbb{R}^n$中微分学的所有概念移植到微分流形上。
+\end{remark}
+
+\begin{remark}
+集合$M$上的微分结构以自然的方式在$M$上诱导一个拓扑。只需定义$A\subset M$是开集，如果$f_\alpha^{-1}(A\cap f_\alpha(U_\alpha))$对所有$\alpha$都是$\mathbb{R}^n$中的开集。容易验证这在$M$上定义了一个拓扑，其中集合$f_\alpha(U_\alpha)$是开的，映射$f_\alpha$是连续的。
+\end{remark}
+
+\begin{remark}
+微分流形的自然拓扑可能相当奇怪。特别是，以下两条公理中的一条（或两条）可能不成立：
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Hausdorff公理}。给定$M$的两个不同点，存在这两个点的不相交的邻域。
+    \item \textbf{可数基公理}。$M$可以被可数个坐标邻域覆盖（这时我们说$M$有可数基）。
+\end{enumerate}
+
+公理(a)对于证明收敛序列的极限是唯一的是必不可少的，公理(b)对于单位分解的存在性是必不可少的（参见第4章），单位分解是研究流形拓扑的几乎不可或缺的工具。
+
+从今以后，我们将假设所有要考虑的流形都是Hausdorff的且有可数基。
+\end{remark}
+
+当然，正则曲面是二维微分流形的一个例子。$n$维微分流形的一个平凡例子是欧氏空间$\mathbb{R}^n$，其微分结构由恒等映射给出。
+
+不那么平凡的例子如下。
+
+\begin{example}[实射影平面$P^2(\mathbb{R})$]
+我们用$P^2(\mathbb{R})$表示$\mathbb{R}^3$中所有通过原点$(0,0,0)$的直线的集合，即$P^2(\mathbb{R})$是$\mathbb{R}^3$中"方向"的集合。
+
+我们要在$P^2(\mathbb{R})$中引入一个微分结构。为此，设$(x,y,z)\in\mathbb{R}^3$，注意$P^2(\mathbb{R})$是$\mathbb{R}^3\setminus\{(0,0,0)\}$在等价关系$\sim$下的商空间：
+$$(x,y,z)\sim(\lambda x,\lambda y,\lambda z),\quad \lambda\in\mathbb{R},\;\lambda\neq 0.$$
+$P^2(\mathbb{R})$中的点将记为$[x,y,z]$。
+
+现在我们定义$P^2(\mathbb{R})$中的集合$V_1,V_2,V_3$：
+$$V_1 = \{[x,y,z];\; x\neq 0\},$$
+$$V_2 = \{[x,y,z];\; y\neq 0\},$$
+$$V_3 = \{[x,y,z];\; z\neq 0\},$$
+以及映射$f_i:\mathbb{R}^2\to V_i$，$i=1,2,3$：
+$$f_1(u,v) = [1,u,v],\quad f_2(u,v) = [u,1,v],\quad f_3(u,v) = [u,v,1],$$
+其中$(u,v)\in\mathbb{R}^2$。几何上，例如$V_2$是$\mathbb{R}^3$中通过原点且不属于$xOz$平面的直线的集合。
+
+我们断言族$\{(f_i,\mathbb{R}^2)\}$是$P^2(\mathbb{R})$的微分结构。
+
+每个$f_i$，$i=1,2,3$，显然是双射，且$\bigcup_i f_i(\mathbb{R}^2) = P^2(\mathbb{R})$。还需证明$f_i^{-1}(V_i\cap V_j)$在$\mathbb{R}^2$中是开的，且$f_j^{-1}\circ f_i$是可微的。
+
+让我们考虑$i=1,j=2$的情况；其他情况完全类似。$f_1^{-1}(V_1\cap V_2)$中的点形如$(u,v)$且$u\neq 0$。因此$f_1^{-1}(V_1\cap V_2)$在$\mathbb{R}^2$中是开的，且
+$$f_2^{-1}\circ f_1(u,v) = f_2^{-1}([1,u,v]) = \left(\frac{1}{u},\frac{v}{u}\right),$$
+显然是可微的，如我们所断言。
+\end{example}
+
+\begin{example}[实射影空间]
+例1可以容易地推广。设$(x_1,\ldots,x_{n+1})\in\mathbb{R}^{n+1}$，定义$n$维实射影空间$P^n(\mathbb{R})$为$\mathbb{R}^{n+1}\setminus\{0\}$在等价关系下的商空间：
+$$(x_1,\ldots,x_{n+1})\sim(\lambda x_1,\ldots,\lambda x_{n+1}),\quad \lambda\in\mathbb{R},\;\lambda\neq 0;$$
+$P^n(\mathbb{R})$中的点将记为$[x_1,\ldots,x_{n+1}]$。
+
+定义子集$V_i\subset P^n(\mathbb{R})$，$i=1,\ldots,n+1$：
+$$V_i = \{[x_1,\ldots,x_{n+1}];\; x_i\neq 0\},$$
+以及映射$f_i:\mathbb{R}^n\to V_i$：
+$$f_i(y_1,\ldots,y_n) = [y_1,\ldots,y_{i-1},1,y_i,\ldots,y_n].$$
+
+如例1那样进行，容易验证族$\{(f_i,\mathbb{R}^n)\}$是$P^n(\mathbb{R})$中的微分结构（见习题1）。
+\end{example}
+
+\begin{example}[克莱因瓶]
+克莱因瓶是$\mathbb{R}^4$中如下定义的子集（图3.2）。设$Ox,Oy,Oz,Ow$是$\mathbb{R}^4$中的四个坐标轴。设$S$是半径为$r$的圆，包含在$xOz$平面中，圆心$C$在$Ox$轴上，使得$C$到$O$的距离为$a>r$。克莱因瓶是通过将这个圆绕$Oz$轴旋转生成的，使得当圆心$C$在$xOy$平面中转过角度$u$时，$S$所在的平面在三维空间$OCOzOw$中绕$OC$转过角度$u/2$（这是可能的，因为我们在$\mathbb{R}^4$中）。
+
+设$u$和$v$如图3.1所示，设$U_1\subset\mathbb{R}^2$由
+$$U_1 = \{(u,v)\in\mathbb{R}^2;\; 0<u<2\pi,\; 0<v<2\pi\}$$
+给出。现在定义映射$f_1:U_1\to\mathbb{R}^4$：
+$$f_1(u,v) = \begin{cases}
+x = (r\cos v + a)\cos u \\
+y = (r\cos v + a)\sin u \\
+z = r\sin v\cos(u/2) \\
+w = r\sin v\sin(u/2).
+\end{cases}$$
+
+显然，$f_1(U_1)$包含克莱因瓶上不在圆$u=0$和$v=0$上的点。我们断言$f_1$是单射。
+
+为了看出这一点，让我们首先假设$z\neq 0$。则$\sin v$和$\cos(u/2)$都非零。由于$0<u/2<\pi$，表达式$w/z = \tan(u/2)$确定了$u$。知道了$u$，我们可以用
+$$\sin v = \frac{z}{r\sin(u/2)},\quad \cos v = \frac{\sqrt{x^2+y^2} - a}{r}$$
+来确定$v$。这在$z\neq 0$时证明了我们的断言。如果$z=0$则$v=\pi$或$u=\pi$，单射性也容易验证。
+
+可以证明，如果我们改变$u$的原点和$v$的原点，我们可以用类似上述映射的像覆盖整个克莱因瓶。例如，如果我们定义映射$f_2:U_2\to\mathbb{R}^4$：
+$$f_2(u,v) = \begin{cases}
+x = -(r\cos v + a)\sin u \\
+y = (r\cos v + a)\cos u \\
+z = r\sin v\cos\left(\frac{u}{2} + \frac{\pi}{4}\right) \\
+w = r\sin v\sin\left(\frac{u}{2} + \frac{\pi}{4}\right)
+\end{cases}$$
+（几何上，这意味着我们从$Oy$开始测量$u$），我们看到$f_2(U_2)$包含克莱因瓶上$u=0$的点。容易验证$f_2$是单射。注意$f_1(U_1)\cap f_2(U_2)=W$不是连通的，而是有两个连通分支：
+$$W_1 = \{f_1(u,v);\; \frac{\pi}{2} < u < 2\pi\},\quad W_2 = \{f_1(u,v);\; 0 < u < \frac{\pi}{2}\}.$$
+
+坐标变换由下式给出：
+$$f_2^{-1}\circ f_1 = \begin{cases}
+\bar{u} = u - \pi/2 \\
+\bar{v} = v
+\end{cases}$$
+显然是可微的。
+
+类似地，我们可以找到一个单射$f_3:U_3\to\mathbb{R}^4$，其像覆盖克莱因瓶去掉圆$v=0$的部分（这相当于改变$v$的原点）。也不难验证坐标变换$f_j^{-1}\circ f_i$，$i,j=1,2,3$，都是可微的，这表明族$\{(f_i,U_i)\}$是克莱因瓶上的微分结构。
+\end{example}
+
+\begin{remark}
+克莱因瓶可以在以下意义上被看作扭转的环面。环面是通过将矩形的对边粘合得到的。在克莱因瓶中，其中一条边在粘合之前先绕其中心反射（图3.3）。可以证明，克莱因瓶不是$\mathbb{R}^3$中的正则曲面：图3.3的模型有自交。
+\end{remark}
+
+在给出更多例子之前，我们需要将$\mathbb{R}^n$中的局部微分学推广到微分流形。
+
+从今以后，当我们用$M^n$表示一个微分流形时，上标$n$表示$M=M^n$的维数。
+
+\begin{definition}
+设$M_1^n$和$M_2^m$是微分流形。映射$\varphi:M_1\to M_2$在点$p\in M_1$处可微，如果给定$\varphi(p)$附近的一个参数化$g:V\subset\mathbb{R}^m\to M_2$，存在$p$附近的一个参数化$f:U\subset\mathbb{R}^n\to M_1$，使得$\varphi(f(U))\subset g(V)$且映射
+$$g^{-1}\circ\varphi\circ f: U\subset\mathbb{R}^n\to\mathbb{R}^m$$
+在$f^{-1}(p)$处可微。如果映射$\varphi$在$M_1$的一个开集的所有点处都可微，则称它在该开集上可微。
+\end{definition}
+
+映射$g^{-1}\circ\varphi\circ f$是$\varphi$在参数化$f$和$g$下的表达式。由于参数变换是可微的，$\varphi$可微这一事实不依赖于参数化的选择。
+
+特别地，由上述可知，我们可以谈论微分流形上的可微函数（$\varphi:M^n\to\mathbb{R}$）和可微曲线（$\varphi:I\subset\mathbb{R}\to M^n$）（$I\subset\mathbb{R}$总是表示包含原点$0\in\mathbb{R}$的实直线开区间）。
+
+现在我们想要定义微分流形上可微曲线的切向量的概念。对于正则曲面$S\subset\mathbb{R}^3$上的可微曲线$\alpha:I\subset\mathbb{R}\to S\subset\mathbb{R}^3$，切向量$\alpha'(t)$就是$\alpha$作为$\mathbb{R}^3$中向量的速度。由于我们没有好的外围空间的支持，我们必须选择切向量的一个不依赖于外围空间的特征性质。
+
+为此，设$\alpha:(-\varepsilon,\varepsilon)\to\mathbb{R}^n$是$\mathbb{R}^n$中的可微曲线，$\alpha(0)=p\in\mathbb{R}^n$，写
+$$\alpha(t) = (x_1(t),\ldots,x_n(t)),\quad t\in(-\varepsilon,\varepsilon),\quad (x_1,\ldots,x_n)\in\mathbb{R}^n.$$
+则$\alpha'(0) = (x_1'(0),\ldots,x_n'(0)) = v\in\mathbb{R}^n$。现在设$\varphi$是$\mathbb{R}^n$中的实函数，在$p$的一个邻域中可微。则$\varphi$沿$v$在$p$点的导数由
+$$\frac{d}{dt}(\varphi\circ\alpha)\big|_{t=0} = \sum_{i=1}^n \frac{\partial\varphi}{\partial x_i}\frac{dx_i}{dt}\bigg|_{t=0} = \sum_{i=1}^n x_i'(0)\frac{\partial}{\partial x_i}\varphi$$
+给出。
+
+因此，"沿$v$的方向导数"是可微函数上的一个算子，它仅依赖于$v$。这就是我们将用来将向量推广到微分流形的向量的特征性质。
+
+\begin{definition}
+设$\alpha:I\to M$是微分流形$M$上的可微曲线，$\alpha(0)=p\in M$，设$D$是$M$上在$p$点可微的函数的集合。曲线$\alpha$在$p$点的切向量是映射$\alpha'(0):D\to\mathbb{R}$，由
+$$\alpha'(0)\varphi = \frac{d}{dt}(\varphi\circ\alpha)\big|_{t=0},\quad \varphi\in D$$
+给出。
+
+$p\in M$处的切向量是某条满足$\alpha(0)=p$的可微曲线$\alpha:I\to M$的切向量。
+\end{definition}
+
+我们要证明，$M^n$在点$p$处的所有切向量的集合构成一个$n$维实向量空间。为此，选取$p=f(0,\ldots,0)$附近的一个参数化$f:U\subset\mathbb{R}^n\to M$。则曲线$\alpha:I\to M$和函数$\varphi\in D$可以分别写为：
+$$f^{-1}\circ\alpha(t) = (x_1(t),\ldots,x_n(t)),$$
+$$\varphi\circ f(q) = \varphi(x_1,\ldots,x_n).$$
+因此
+$$\alpha'(0)\varphi = \frac{d}{dt}(\varphi\circ\alpha)\big|_{t=0} = \frac{d}{dt}\varphi(x_1(t),\ldots,x_n(t))\big|_{t=0} = \left(\sum_{i=1}^n x_i'(0)\left(\frac{\partial}{\partial x_i}\right)_0\right)\varphi,$$
+所以$p$点的切向量$\alpha'(0)$可以写为
+$$\alpha'(0) = \sum_{i=1}^n x_i'(0)\left(\frac{\partial}{\partial x_i}\right)_0. \tag{1}$$
+
+注意，$\left(\frac{\partial}{\partial x_i}\right)_0$是"坐标曲线"$x_i\mapsto f(0,\ldots,0,x_i,0,\ldots,0)$在$p$点的切向量。
+
+现在设$T_p$是由$\left\{\left(\frac{\partial}{\partial x_i}\right)_0,\; i=1,\ldots,n\right\}$生成的向量空间。
+
+\begin{lemma}
+$M$在$p$点的切向量集合$T_pM$等于$T_p$。
+\end{lemma}
+
+\begin{proof}
+我们刚刚证明了$T_pM\subset T_p$。反之，如果$v\in T_p$，则$v = \sum_i \lambda_i \left(\frac{\partial}{\partial x_i}\right)_0$。设$\alpha:I\to M$在参数化$f$下由$x_i = \lambda_i t$给出。则$\alpha'(0)=v$，即$v\in T_pM$。
+\end{proof}
+
+由此可知$T_pM$是一个向量空间。此外，参数化$f$的选择确定了$T_pM$的一组基$\left\{\left(\frac{\partial}{\partial x_i}\right)_0\right\}$。因此$T_pM$是一个$n$维向量空间，称为$M$在$p$点的切空间。基$\left\{\left(\frac{\partial}{\partial x_i}\right)_0\right\}$称为与参数化$f$相关联的基。
+
+有了切空间的概念，我们可以定义映射$\varphi:M_1^n\to M_2^m$的微分的概念。
+
+\begin{definition}
+设$M_1^n$和$M_2^m$是微分流形，$\varphi:M_1\to M_2$是可微映射。对每个$p\in M$，$\varphi$在$p$点的微分是线性映射$d\varphi_p:T_pM_1\to T_{\varphi(p)}M_2$，它将每个$v\in T_pM_1$对应到向量$d\varphi_p(v)\in T_{\varphi(p)}M_2$，定义如下：选取一条可微曲线$\alpha:(-\varepsilon,\varepsilon)\to M_1$，$\alpha(0)=p$，$\alpha'(0)=v$；则$d\varphi_p(v) = (\varphi\circ\alpha)'(0)$。
+\end{definition}
+
+为了使定义有意义，需要证明$(\varphi\circ\alpha)'(0)$不依赖于$\alpha$的选择，且$d\varphi_p$实际上是一个线性映射。这可以通过取$p$和$\varphi(p)$附近的参数化来证明，从而将问题化为从$\mathbb{R}^n$到$\mathbb{R}^m$的映射的情形，那里的性质是众所周知的（或者可以容易地证明）；对于$n=2,m=3$的情形，参见例如[dC]第2.4节。
+
+\begin{definition}
+设$M_1$和$M_2$是微分流形。映射$\varphi:M_1\to M_2$是微分同胚，如果它是可微的、双射的，且其逆$\varphi^{-1}$也是可微的。映射$\varphi$在$p\in M$处是局部微分同胚，如果存在$p$的邻域$U$和$\varphi(p)$的邻域$V$，使得$\varphi:U\to V$是微分同胚。
+\end{definition}
+
+线性映射$d\varphi_p$可以看作映射$\varphi$在$p$附近的一阶近似。微积分中最重要的局部定理可能是反函数定理，它指出如果$d\varphi_p$是同构，则$\varphi$在$p$点是局部微分同胚。作为一个局部定理，它立即推广到微分流形。
+
+\begin{example}[切丛]
+设$M^n$是微分流形，设
+$$TM = \{(p,v);\; p\in M,\; v\in T_pM\},$$
+即$TM$是$M$的所有切向量的集合。我们将在$TM$中引入一个（$2n$维的）微分结构；有了这样的结构，$TM$称为$M$的切丛。
+
+设$f_\alpha:U_\alpha\subset\mathbb{R}^n\to M$是$M$的参数化，$(x_1^\alpha,\ldots,x_n^\alpha)\in U_\alpha$。对于$w\in T_{f_\alpha(q)}M$，$q\in U_\alpha$，我们可以写
+$$w = \sum_i y_i^\alpha \frac{\partial}{\partial x_i^\alpha}.$$
+定义映射$F_\alpha:U_\alpha\times\mathbb{R}^n\to TM$：
+$$F_\alpha(x_1^\alpha,\ldots,x_n^\alpha,y_1^\alpha,\ldots,y_n^\alpha) = \left(f_\alpha(x_1^\alpha,\ldots,x_n^\alpha),\sum_i y_i^\alpha\frac{\partial}{\partial x_i^\alpha}\right).$$
+
+我们断言，如果$\{(U_\alpha,f_\alpha)\}$是$M$的微分结构，则$\{(U_\alpha\times\mathbb{R}^n,F_\alpha)\}$是$TM$的微分结构。几何上，这意味着我们将点$(p,v)\in TM$的坐标取为$p$的坐标连同$v$在相关基中的坐标。
+
+设
+$$F_\beta^{-1}\circ F_\alpha(q_\alpha,v_\alpha) = F_\beta^{-1}(f_\alpha(q_\alpha),df_\alpha(v_\alpha)) = (f_\beta^{-1}\circ f_\alpha(q_\alpha), d(f_\beta^{-1}\circ f_\alpha)(v_\alpha)).$$
+由于$f_\beta^{-1}\circ f_\alpha$是可微的，$d(f_\beta^{-1}\circ f_\alpha)$也是可微的。由此可知$F_\beta^{-1}\circ F_\alpha$是可微的。这证明了定义1的条件(2)。由于条件(1)是直接的，我们的断言成立。
+\end{example}
+
+\begin{definition}
+设$M^m$和$N^n$是微分流形。可微映射$\varphi:M\to N$是浸入，如果$d\varphi_p:T_pM\to T_{\varphi(p)}N$对所有$p\in M$都是单射。如果此外$\varphi$是到$\varphi(M)\subset N$上的同胚（其中$\varphi(M)$具有由$N$诱导的拓扑），则$\varphi$是嵌入。如果$M\subset N$且包含映射$i:M\subset N$是嵌入，则称$M$是$N$的子流形。
+\end{definition}
+
+\begin{example}
+\begin{enumerate}[label=\alph*)]
+    \item 由$\alpha(t)=(t^3,t^2)$给出的曲线$\alpha:\mathbb{R}\to\mathbb{R}^2$是可微映射但不是浸入。事实上，在这种情况下浸入条件等价于$\alpha'(t)\neq 0$，这在$t=0$时不成立。
+    
+    \item 曲线$\alpha(t)=(t^3-4t,t^2-4)$是一个浸入但不是嵌入，因为它在$(0,0)$处有自交（对应$t=2$和$t=-2$）。
+    
+    \item 曲线（图3.4）
+    $$\alpha(t) = \begin{cases}
+    (0, -(t+2)), & t\in(-3,-1) \\
+    \text{如图3.2的正则曲线}, & t\in(-1,-1/\pi) \\
+    (-t, -\sin(1/t)), & t\in(-1/\pi,0)
+    \end{cases}$$
+    是一个浸入$\alpha:(-3,0)\to\mathbb{R}^2$，没有自交。然而，$\alpha$不是嵌入。因为在$\mathbb{R}^2$的拓扑中，曲线竖直部分上一点$p$的邻域有无穷多个连通分支，而在由$\alpha$诱导的拓扑中，它是一个连通区间。
+    
+    \item 正则曲面$S\subset\mathbb{R}^3$的包含映射$i:S\subset\mathbb{R}^3$是一个嵌入。这由本章开头正则曲面定义的条件(1)和(2)推出。
+\end{enumerate}
+\end{example}
+
+\begin{example}[$\mathbb{R}^n$中的正则曲面]
+$\mathbb{R}^3$中正则曲面概念的自然推广是$\mathbb{R}^n$中$k$维曲面的概念，$k<n$。子集$M^k\subset\mathbb{R}^n$是$k$维正则曲面，如果对每个$p\in M$，存在$p$在$\mathbb{R}^n$中的邻域$V$和一个从$\mathbb{R}^k$中开集$U$到$M\cap V$上的映射$f:U\subset\mathbb{R}^k\to M\cap V$，使得：
+\begin{enumerate}
+    \item $f$是可微同胚，
+    \item $(df)_q:\mathbb{R}^k\to\mathbb{R}^n$对所有$q\in U$都是单射。
+\end{enumerate}
+
+除了涉及的维数外，定义与$\mathbb{R}^3$中正则曲面的定义相同。
+
+可以证明，给定两个参数化$f_1:U_1\subset\mathbb{R}^k\to M$，$f_2:U_2\subset\mathbb{R}^k\to M$，且$f_1(U_1)\cap f_2(U_2)=W\neq\emptyset$，则参数变换$f_1^{-1}\circ f_2:f_2^{-1}(W)\to f_1^{-1}(W)$是微分同胚。证明与曲面的情形相同（参见[dC]第71页）。
+\end{example}
+
+\begin{example}
+可以证明，例2中给出的映射$f_i$，$i=1,2,3$，具有单射的微分。这表明克莱因瓶是$\mathbb{R}^4$中的2维曲面。
+\end{example}
+
+\begin{example}[再谈射影平面]
+$\mathbb{R}^3$中通过原点的直线的集合可以看作单位球面$S^2=\{p\in\mathbb{R}^3;\; |p|=1\}$在将$p$与对径点$-p$等同的等价关系下的商空间。因为每条通过原点的直线在$S^2$上确定两个对径点，这样得到的对应显然是双射。
+
+考虑到这一点，让我们在$P^2(\mathbb{R})$中引入另一个微分结构。为此，注意我们可以用一族参数化覆盖正则曲面$S^2\subset\mathbb{R}^3$：
+$$f_i^+:U_i\to S^2,\quad f_i^-:U_i\to S^2,$$
+其中
+$$U_1 = \{(x_1,x_2,x_3)\in\mathbb{R}^3;\; x_1=0,\; x_2^2+x_3^2<1\}$$
+$$f_1^+(x_2,x_3) = (D_1,x_2,x_3),\quad D_1 = \sqrt{1-(x_2^2+x_3^2)}$$
+$$f_1^-(x_2,x_3) = (-D_1,x_2,x_3);$$
+$$U_2 = \{(x_1,x_2,x_3)\in\mathbb{R}^3;\; x_2=0,\; x_1^2+x_3^2<1\}$$
+$$f_2^+(x_1,x_3) = (x_1,D_2,x_3),\quad D_2 = \sqrt{1-(x_1^2+x_3^2)}$$
+$$f_2^-(x_1,x_3) = (x_1,-D_2,x_3);$$
+$i=3$时类似（图3.5）。直接验证这确实是$S^2$的微分结构。
+
+设$\pi:S^2\to P^2(\mathbb{R})$是典范投影，即$\pi(p)=\{p,-p\}$，注意$\pi(f_i^+(U_i))=\pi(f_i^-(U_i))$。我们定义$g_i:U_i\to P^2(\mathbb{R})$为
+$$g_i = \pi\circ f_i^+.$$
+由于$\pi$在$f_i^+(U_i)$上的限制是单射，我们得到
+$$g_j^{-1}\circ g_i = (\pi\circ f_j^+)^{-1}\circ (\pi\circ f_i^+) = (f_j^+)^{-1}\circ f_i^+.$$
+由此可知$g_j^{-1}\circ g_i$对所有$i,j=1,2,3$都是可微的，因此$\{(U_i,g_i)\}$是$P^2(\mathbb{R})$的微分结构。
+
+实际上，上述结构和例1中的结构将确定同一个极大结构。因为坐标邻域是相同的，且坐标变换（例如$i=1$时）由
+$$f_1^{-1}\circ g_1(x,y) = f_1^{-1}([\sqrt{1-(x^2+y^2)},x,y]) = \left(\frac{x}{\sqrt{1-(x^2+y^2)}},\frac{y}{\sqrt{1-(x^2+y^2)}}\right)$$
+给出，显然是可微的。还注意到，由上述可知，典范投影$\pi:S^2\to P^2(\mathbb{R})$在$S^2$的每个点处都是局部微分同胚。
+\end{example}
+
+\begin{remark}
+可以证明射影平面不能嵌入$\mathbb{R}^3$。图3.6描述了射影平面到$\mathbb{R}^3$的一个可微映射，它有一条自交线段和该线段端点处的两个奇点。用更复杂的构造，可以描述$P^2(\mathbb{R})$到$\mathbb{R}^3$的一个浸入（所谓的Boy曲面，当然有自交）。更多细节参见Gerd Fischer, [FISC], Commentary, Chapter 6 (by U. Pinkall)。
+\end{remark}
+
+\begin{example}[射影平面到$\mathbb{R}^4$的浸入]
+设$\varphi:\mathbb{R}^3\to\mathbb{R}^4$是由
+$$\varphi(x,y,z) = (x^2-y^2, xy, xz, yz),\quad (x,y,z)\in\mathbb{R}^3$$
+给出的映射。设$S^2\subset\mathbb{R}^3$是单位球面，$\pi:S^2\to P^2(\mathbb{R})$是$S^2$到实射影平面的典范投影（见例7）。注意$\varphi(p)=\varphi(-p)$，定义映射$\sigma:P^2(\mathbb{R})\to\mathbb{R}^4$为
+$$\sigma(\{p,-p\}) = \varphi(p).$$
+由于$\pi$是局部微分同胚，要证明$\sigma$是浸入，只需证明$\varphi$在球面$S^2$上的限制是浸入。
+
+为了看出这一点，选取例7中给出的$S^2$的参数化。例如，$f_1^+$由
+$$f_1^+(x,y) = (x,y,\sqrt{1-(x^2+y^2)})$$
+给出，且
+$$\varphi\circ f_1^+(x,y) = (x^2-y^2, xy, xD, yD),\quad D = \sqrt{1-(x^2+y^2)}.$$
+要证明$d(\varphi\circ f_1^+)$是单射，只需证明矩阵
+$$\begin{pmatrix}
+2x & y & D + xD_x & yD_x \\
+-2y & x & xD_y & D + yD_y
+\end{pmatrix}$$
+的秩等于2，这是容易验证的。类似地，我们可以验证所有其他参数化也成立，这就完成了例子。
+
+浸入$\sigma$实际上是一个嵌入。细节留作练习（习题5）。
+\end{example}
+
+\begin{remark}
+微分流形理论中的一个自然问题是知道一个给定的微分流形能否浸入或嵌入到某个欧氏空间中。Whitney的一个基本定理指出：每个（Hausdorff且有可数基的）$n$维微分流形都可以浸入到$\mathbb{R}^{2n}$中并嵌入到$\mathbb{R}^{2n+1}$中。参见例如M. Hirsh, [HIR]。
+\end{remark}
+
+现在我们将第1章中微分形式的概念推广到微分流形。给定向量空间$V$，我们用$\Lambda^k(V)$表示所有交错$k$线性映射$\omega:V\times\cdots\times V\to\mathbb{R}$的集合，其中$V\times\cdots\times V$包含$k$个因子。
+
+\begin{definition}
+设$M^n$是微分流形。$M$中的外$k$形式$\omega$是对每个$p\in M$选取切空间$T_pM$的交错$k$线性形式空间$\Lambda^k(T_pM)^*$中的一个元素$\omega(p)$。
+\end{definition}
+
+给定外$k$形式$\omega$和$p\in f_\alpha(U_\alpha)$附近的参数化$f_\alpha:U_\alpha\to M^n$，我们定义$\omega$在这个参数化下的表示为$U_\alpha\subset\mathbb{R}^n$中的外$k$形式$\omega_\alpha$，由
+$$\omega_\alpha(v_1,\ldots,v_k) = \omega(df_\alpha(v_1),\ldots,df_\alpha(v_k)),\quad v_1,\ldots,v_k\in\mathbb{R}^n$$
+给出。
+
+如果我们将坐标变换为$f_\beta:U_\beta\to M^n$，$p\in f_\beta(U_\beta)$，我们得到
+$$(f_\beta^{-1}\circ f_\alpha)^*\omega_\beta(v_1,\ldots,v_k) = \omega_\beta(d(f_\beta^{-1}\circ f_\alpha)(v_1),\ldots,d(f_\beta^{-1}\circ f_\alpha)(v_k))$$
+$$= \omega((df_\beta\circ d(f_\beta^{-1}\circ f_\alpha))(v_1),\ldots,(df_\beta\circ d(f_\beta^{-1}\circ f_\alpha))(v_k)) = \omega_\alpha(v_1,\ldots,v_k),$$
+即$(f_\beta^{-1}\circ f_\alpha)^*\omega_\beta = \omega_\alpha$。
+
+\begin{definition}
+微分流形$M^n$中的$k$次微分形式（或微分$k$形式）是一个外$k$形式，使得在某个坐标系中（因此在所有坐标系中），它的表示是可微的。
+\end{definition}
+
+由上述可知，$M^n$中的微分$k$形式是对$M$的每个参数化$(U_\alpha,f_\alpha)$选取$U_\alpha$中的一个微分$k$形式$\omega_\alpha$，使得对于另一个参数化$(U_\beta,f_\beta)$，若$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)\neq\emptyset$，我们有$\omega_\alpha = (f_\beta^{-1}\circ f_\alpha)^*\omega_\beta$。
+
+一个重要的事实是，$\mathbb{R}^n$中微分形式的所有运算都可以通过它们的局部表示延拓到$M^n$中的微分形式。例如，如果$\omega$是$M$中的微分形式，则$d\omega$是$M$中的微分形式，其局部表示为$d\omega_\alpha$。由于
+$$d\omega_\alpha = d(f_\beta^{-1}\circ f_\alpha)^*\omega_\beta = (f_\beta^{-1}\circ f_\alpha)^*d\omega_\beta,$$
+$d\omega$是$M$上良定义的微分形式。
+
+与微分形式密切相关的是向量场的概念。
+
+\begin{definition}
+微分流形$M$上的向量场$X$是一个对应关系，它将每个点$p\in M$对应到一个向量$X(p)\in T_pM$。如果对每个可微函数$\varphi:M\to\mathbb{R}$，$X\varphi$仍然是可微函数，则向量场$X$是可微的。
+\end{definition}
+
+设$f_\alpha:U_\alpha\to M^n$是$M$的参数化，$X_i = \frac{\partial}{\partial x_i}$，$i=1,\ldots,n$，是与参数化相关联的基。则向量场$X$在$f_\alpha(U_\alpha)$中可以写为
+$$X = \sum_i a_i \frac{\partial}{\partial x_i}.$$
+
+由于$M$上的向量场$X$是$M$的可微函数空间$D$上的一个运算，我们可以取这个运算的迭代。例如，如果$X$和$Y$是可微向量场，$\varphi:M\to\mathbb{R}$是可微函数，我们可以考虑函数$Y(X\varphi)$和$X(Y\varphi)$。一般来说，这样的迭代运算不导致向量场，因为它们涉及高于一阶的导数。然而，以下成立。
+
+\begin{lemma}
+设$X$和$Y$是微分流形$M$上的可微向量场。则存在唯一的向量场$Z$在$M$上，使得对每个$\varphi\in D$，$Z\varphi = (XY-YX)\varphi$。
+\end{lemma}
+
+\begin{proof}
+我们首先证明，如果这样的$Z$存在，则它是唯一的。为此，设$f:U\to M$是参数化，设
+$$X = \sum_i a_i \frac{\partial}{\partial x_i},\quad Y = \sum_j b_j \frac{\partial}{\partial x_j}$$
+分别是$X$和$Y$在参数化下的表达式。则
+$$XY\varphi = \sum_i a_i \frac{\partial}{\partial x_i}\left(\sum_j b_j \frac{\partial\varphi}{\partial x_j}\right) = \sum_{i,j} a_i \frac{\partial b_j}{\partial x_i}\frac{\partial\varphi}{\partial x_j} + \sum_{i,j} a_i b_j \frac{\partial^2\varphi}{\partial x_i\partial x_j},$$
+因此
+$$(XY-YX)\varphi = \sum_j \left(\sum_i \left(a_i \frac{\partial b_j}{\partial x_i} - b_i \frac{\partial a_j}{\partial x_i}\right)\right)\frac{\partial\varphi}{\partial x_j}.$$
+
+由此可知，如果存在具有所需性质的$Z$，则它在任何坐标系中都必须如上表达，因此是唯一的。
+
+为证明存在性，只需在每个坐标邻域$f_\alpha(U_\alpha)\subset M$中按上述表达式定义$Z_\alpha$。由唯一性，$Z_\alpha = Z_\beta$在$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)$中，因此$Z$在$M$上是良定义的。
+\end{proof}
+
+\begin{definition}
+由上述引理确定的向量场称为$X$和$Y$的括号$[X,Y]=XY-YX$，它显然是可微的。
+\end{definition}
+
+括号运算具有以下性质：
+
+\begin{proposition}
+设$X,Y,Z$是可微向量场，$a,b$是实数，$\varphi,\theta$是可微函数。则
+\begin{enumerate}[label=\alph*)]
+    \item $[X,Y] = -[Y,X]$,
+    \item $[aX+bY, Z] = a[X,Z] + b[Y,Z]$,
+    \item $[[X,Y],Z] + [[Y,Z],X] + [[Z,X],Y] = 0$（Jacobi恒等式）,
+    \item $[\theta X, \varphi Y] = \theta\varphi[X,Y] + \theta\cdot X(\varphi)Y - \varphi\cdot Y(\theta)X$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a)和(b)是直接的。为证明(c)，我们注意到
+$$[[X,Y],Z] = [XY-YX,Z] = XYZ - YXZ - ZXY + ZYX = [X,[Y,Z]] + [Y,[Z,X]],$$
+利用(a)得到(c)。(d)的证明是直接而简单的计算。
+\end{proof}
+
+微分形式的外微分与括号运算之间有一个有趣的关系。对于1形式的情形，关系如下。
+
+\begin{proposition}
+设$\omega$是微分流形$M$上的可微1形式，$X$和$Y$是$M$上的可微向量场。则
+$$d\omega(X,Y) = X\omega(Y) - Y\omega(X) - \omega([X,Y]). \tag{2}$$
+\end{proposition}
+
+\begin{proof}
+设$f:U\to M$是$M$的参数化，设
+$$X = \sum_i a_i \frac{\partial}{\partial x_i},\quad Y = \sum_j b_j \frac{\partial}{\partial x_j}$$
+是$X$和$Y$在这个参数化下的表达式。我们首先观察到，如果(2)对$X_i$和$Y_j$成立，则它也对$\sum_i X_i$和$\sum_j Y_j$成立。其次，我们断言，如果(2)对$X$和$Y$成立，则它也对$\theta X$和$\varphi Y$成立，其中$\theta$和$\varphi$是可微函数。
+
+为了看出这一点，我们首先注意到，由假设，
+$$d\omega(\theta X,\varphi Y) = \theta\varphi d\omega(X,Y) = \theta\varphi\{X\omega(Y) - Y\omega(X) - \omega([X,Y])\}.$$
+利用命题1的(d)，我们得到
+$$(\theta X)\omega(\varphi Y) - (\varphi Y)\omega(\theta X) - \omega([\theta X,\varphi Y])$$
+$$= \theta X(\varphi)\omega(Y) + (\theta\varphi X)\omega(Y) - \varphi Y(\theta)\omega(X) - (\varphi\theta Y)\omega(X)$$
+$$- \theta\varphi\omega([X,Y]) - \theta X(\varphi)\omega(Y) + \varphi Y(\theta)\omega(X)$$
+$$= \theta\varphi\{X\omega(Y) - Y\omega(X) - \omega([X,Y])\} = d\omega(\theta X,\varphi Y),$$
+这证明了我们的断言。
+
+因此，只需对向量$\frac{\partial}{\partial x_i}$，$\frac{\partial}{\partial x_j}$证明(2)。由于$\left[\frac{\partial}{\partial x_i},\frac{\partial}{\partial x_j}\right]=0$，只需证明
+$$d\omega\left(\frac{\partial}{\partial x_i},\frac{\partial}{\partial x_j}\right) = \frac{\partial}{\partial x_i}\omega\left(\frac{\partial}{\partial x_j}\right) - \frac{\partial}{\partial x_j}\omega\left(\frac{\partial}{\partial x_i}\right). \tag{2'}$$
+
+注意，如果(2')对$\omega_1$和$\omega_2$成立，则它也对$\omega_1+\omega_2$成立。因此，只需证明
+$$d(\alpha dx_k)\left(\frac{\partial}{\partial x_i},\frac{\partial}{\partial x_j}\right) = \frac{\partial\alpha}{\partial x_i}\delta_{kj} - \frac{\partial\alpha}{\partial x_j}\delta_{ki},$$
+其中$\alpha$是可微函数。上式化为
+$$(d\alpha\wedge dx_k)\left(\frac{\partial}{\partial x_i},\frac{\partial}{\partial x_j}\right) = \frac{\partial\alpha}{\partial x_i}\delta_{kj} - \frac{\partial\alpha}{\partial x_j}\delta_{ki},$$
+由外积的定义，这成立。
+\end{proof}
+
+\begin{remark}
+用本质上相同的证明，可以证明命题2的以下推广。设$\omega$是可微$k$形式，$X_1,\ldots,X_{k+1}$是可微向量场。则
+$$d\omega(X_1,\ldots,X_{k+1}) = \sum_{i=1}^{k+1} (-1)^{i+1} X_i\omega(X_1,\ldots,\hat{X_i},\ldots,X_{k+1})$$
+$$+ \sum_{i<j} (-1)^{i+j}\omega([X_i,X_j],X_1,\ldots,\hat{X_i},\ldots,\hat{X_j},\ldots,X_{k+1}),$$
+其中$\hat{X_i}$表示$X_i$被省略。
+\end{remark}
+
+我们将以流形的可定向性这一全局概念来结束本章。
+
+\begin{definition}
+微分流形$M$是可定向的，如果$M$有一个微分结构$\{(U_\alpha,f_\alpha)\}$，使得对于每对$\alpha,\beta$，若$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)\neq\emptyset$，则坐标变换$f_\beta^{-1}\circ f_\alpha$的微分有正的行列式。否则，$M$称为不可定向的。
+
+如果$M$是可定向的，满足上述条件的微分结构的选择称为$M$的一个定向。
+\end{definition}
+
+可定向和不可定向流形的例子在习题中给出。
+
+\begin{remark}
+可以证明，$\mathbb{R}^3$中的紧致正则曲面是可定向的。这个事实的一个漂亮而简单的证明可以在Elon Lima [LIM2]中找到。
+
+如我们将在习题10和11中看到的，射影平面和克莱因瓶是不可定向的；因此，它们不能嵌入$\mathbb{R}^3$，这是注记4和5中早先提到的事实。
+\end{remark}
+
+\section*{习题}
+\begin{enumerate}
+    \item 详细证明实射影空间$P^n(\mathbb{R})$是一个微分流形。
+    
+    \item 设$M$和$N$是微分流形，其中$\{(U_\alpha,f_\alpha)\}$是$M$的微分结构，$\{(V_\beta,g_\beta)\}$是$N$的微分结构。考虑笛卡尔积$M\times N$和映射$h_{\alpha\beta}:U_\alpha\times V_\beta\to M\times N$，由
+    $$h_{\alpha\beta}(x,y) = (f_\alpha(x),g_\beta(y)).$$
+    证明$\{(U_\alpha\times V_\beta,h_{\alpha\beta})\}$是$M\times N$的微分结构，称为$M$和$N$的积流形。描述两个圆的积流形$S^1\times S^1$，其中$S^1$具有通常的微分结构。
+    
+    \item 设$\varphi:M\to N$是可微映射。证明$\varphi$在$p$点的微分$d\varphi_p:T_pM\to T_{\varphi(p)}N$的定义（定义4）不依赖于曲线的选择，且$d\varphi_p$是一个线性映射。
+    
+    \item 设$\varphi:M\to N$是浸入，$p$是$M$中的一点。证明存在$p$的邻域$V\subset M$，使得$\varphi$在$V$上的限制$\varphi|_V$是一个嵌入（这意味着每个浸入都是局部嵌入）。
+    
+    \item 证明例8中给出的$P^2(\mathbb{R})$到$\mathbb{R}^4$的浸入是一个嵌入。
+    
+    \textbf{提示}：为证明$\sigma$的单射性，设
+    $$x^2-y^2 = a,\quad xy = b,\quad xz = c,\quad yz = d. \tag{$*$}$$
+    只需验证，在条件$x^2+y^2+z^2=1$下，上述方程只有两个解，形如$(x,y,z)$和$(-x,-y,-z)$。最后三个方程给出：
+    $$b = xy,\quad c = xz,\quad d = yz \Rightarrow bc = x^2yz = xd,\quad bd = xy^2z = yc,\quad cd = xyz^2 = zb. \tag{$**$}$$
+    如果$b,c,d$都为零，则方程$(*)$表明$x,y,z$中至少有两个为零，第三个为$\pm 1$，因为$x^2+y^2+z^2=1$。如果$b,c,d$中有一个非零，则方程$(**)$连同$x^2+y^2+z^2=1$将确定$x^2,y^2,z^2$。从方程$(*)$，我们看到$x,y,z$中一个的符号选择确定了其余两个的符号。
+    
+    \item 考虑圆柱面$C = \{(x,y,z)\in\mathbb{R}^3;\; x^2+y^2=1\}$，将点$(x,y,z)$与$(-x,-y,-z)$等同。证明$C$在这个等价关系下的商空间可以赋予一个微分结构（无限莫比乌斯带）。
+    
+    \item 证明微分流形的切丛是可定向的（即使流形本身不可定向）。
+    
+    \item 设$M$是一个微分流形，可以被两个坐标邻域$V_1$和$V_2$覆盖，使得交$V_1\cap V_2$是连通的。证明$M$是可定向的。
+    
+    \item 证明球面$S^n = \{p\in\mathbb{R}^{n+1};\; |p|=1\}$是可定向的。
+    
+    \item 证明实射影平面$P^2(\mathbb{R})$是不可定向的。
+    
+    \textbf{提示}：证明如果流形$M$是可定向的，则$M$中的任何开集都是可定向流形。注意$P^2(\mathbb{R})$包含一个开的莫比乌斯带，而莫比乌斯带是不可定向的（参见[dC]，第2.6节，例3）。
+    
+    \item 证明克莱因瓶是不可定向的。
+\end{enumerate}
+
+\chapter{流形上的积分；斯托克斯定理与庞加莱引理}
+
+\section{微分形式的积分}
+
+在本节中，我们将定义$n$维微分流形上$n$次微分形式的积分。我们将从$\mathbb{R}^n$的情形开始。
+
+设$\omega$是定义在开集$U\subset M^n$中的微分形式。$\omega$的支集$K$是集合
+$$A = \{p\in M^n;\; \omega(p)\neq 0\}$$
+的闭包。
+
+设$\omega$是$n$形式，$M^n=\mathbb{R}^n$。则
+$$\omega = a(x_1,\ldots,x_n)dx_1\wedge\cdots\wedge dx_n.$$
+假设$\omega$的支集$K$是紧致的且包含在$U$中。我们定义
+$$\int_U \omega = \int_U a\,dx_1\cdots dx_n,$$
+其中右边是$\mathbb{R}^n$中通常的多重积分。
+
+现在我们着手定义$M^n$上$n$形式的积分。为了避免收敛问题，方便起见假设$M$是紧致的；那么$\omega$的支集$K$作为紧致空间中的闭集，也是紧致的。我们很快将看到，还需要假设$M$是可定向的，即$M$被一族坐标邻域$\{V_\alpha\}$覆盖，使得坐标变换有正的雅可比行列式。
+
+让我们最初假设$K$包含在某个坐标邻域$V_\alpha = f_\alpha(U_\alpha)$中。那么，如果$\omega$在$U_\alpha$中的局部表示$\omega_\alpha$是
+$$\omega_\alpha = a_\alpha dx_1\wedge\cdots\wedge dx_n,$$
+我们定义
+$$\int_M \omega = \int_{V_\alpha} \omega = \int_{U_\alpha} a_\alpha\,dx_1\cdots dx_n,$$
+其中右边是$\mathbb{R}^n$中的积分。
+
+可能发生的情况是$K$包含在同一族的另一个坐标邻域$V_\beta = f_\beta(U_\beta)$中，我们必须证明上述定义不依赖于坐标邻域的选择。
+
+为此，通过收缩$U_\alpha$和$U_\beta$（如果必要的话），我们可以假设$V_\alpha = V_\beta$。设坐标变换
+$$f = f_\alpha^{-1}\circ f_\beta: U_\beta\to U_\alpha$$
+由
+$$x_i = f_i(y_1,\ldots,y_n),\quad i=1,\ldots,n,$$
+$(x_1,\ldots,x_n)\in U_\alpha$，$(y_1,\ldots,y_n)\in U_\beta$给出。
+
+由于$\omega_\beta = f^*(\omega_\alpha)$，我们得到
+$$\omega_\beta = \det(df)a_\beta\,dy_1\wedge\cdots\wedge dy_n,$$
+其中
+$$a_\beta = a_\alpha(f_1(y_1,\ldots,y_n),\ldots,f_n(y_1,\ldots,y_n)).$$
+
+另一方面，由$\mathbb{R}^n$中多重积分的变量替换公式，我们得到
+$$\int_{U_\alpha} a_\alpha\,dx_1\cdots dx_n = \int_{U_\beta} a_\alpha(f(y))|\det(df_y)|\,dy_1\cdots dy_n.$$
+因此，由于$\det(df)>0$，
+$$\int_{V_\alpha} \omega_\alpha = \int_{V_\beta} \omega_\beta,$$
+故所断言的独立性成立。
+
+注意，如果没有$M$可定向的假设，$\omega$积分的符号就不是良定义的。$M$的定向的选择确定了$\omega$积分的一个符号，它随定向的改变而改变。
+
+现在让我们考虑$\omega$的支集$K$不包含在任何坐标邻域中的情形。为此，我们需要一些预备知识，在进入细节之前，我们将给出我们打算做的事情的概要。
+
+给定紧致微分流形$M$的一个覆盖$\{V_\alpha\}$，我们将构造一个有限的可微函数族$\varphi_1,\ldots,\varphi_m$，使得：
+\begin{enumerate}[label=\alph*)]
+    \item $\sum_{i=1}^m \varphi_i = 1$,
+    \item $0\leq \varphi_i\leq 1$，且$\varphi_i$的支集包含在某个$V_{\alpha_i}=V_i$中。
+\end{enumerate}
+
+族$\{\varphi_i\}$称为从属于覆盖$\{V_\alpha\}$的可微单位分解（当$M$可定向时，我们选择与定向相容的$\{V_\alpha\}$）。
+
+让我们暂时假设这样一个族存在。进一步假设$M$是可定向的。我们将如下定义$M^n$上$n$形式$\omega$的积分。
+
+形式$\varphi_i\omega$的支集包含在$V_i$中。根据之前的定义，写
+$$\int_M \omega = \sum_{i=1}^m \int_M \varphi_i\omega$$
+是有意义的，唯一的问题是这个定义是否不依赖于所做的选择。
+
+考虑$M$的另一个覆盖$\{W_\beta\}$，它在$M$上确定与$\{V_\alpha\}$相同的定向，设$\{\psi_j\}$，$j=1,\ldots,s$，是从属于$\{W_\beta\}$的单位分解。则$\{V_\alpha\cap W_\beta\}$将是$M$的一个覆盖，族$\varphi_i\psi_j$将是从属于$\{V_\alpha\cap W_\beta\}$的单位分解。因此
+$$\sum_i \int_M \varphi_i\omega = \sum_i \sum_j \int_M \varphi_i\psi_j\omega = \sum_j \sum_i \int_M \varphi_i\psi_j\omega = \sum_j \int_M \psi_j\omega,$$
+其中在最后一个等式中使用了，对每个$i$，函数$\varphi_i\psi_j$定义在$V_i$中。类似地，
+$$\sum_j \int_M \psi_j\omega = \sum_j \sum_i \int_M \varphi_i\psi_j\omega,$$
+这证明了所需的独立性。
+
+\begin{remark}
+我们所做的本质上如下。我们观察到，定义域包含在一个坐标邻域中的微分形式的积分化为多重积分。要在更复杂的定义域中积分微分形式，我们可以用以下两种方式之一进行：我们将复杂的定义域分成较简单的定义域，并将结果相加，或者我们将形式分解为在简单定义域外为零的形式，并将结果相加。由于用函数比用定义域更容易处理，第二种选择通常更受青睐，这也是这里使用的方法。
+\end{remark}
+
+现在我们来证明从属于紧致微分流形$M^n$的给定坐标邻域覆盖的可微单位分解的存在性（对此我们不需要可定向性）。
+
+在接下来的内容中，$B_r(0) = \{p\in\mathbb{R}^n;\; |p|<r\}$。
+
+\begin{lemma}
+存在一个可微函数$\varphi: B_3(0)\to\mathbb{R}$，使得：
+\begin{enumerate}[label=\alph*)]
+    \item $\varphi(p) = 1$，如果$p\in B_1(0)$,
+    \item $0 < \varphi(p) \leq 1$，如果$p\in B_2(0)$,
+    \item $\varphi(p) = 0$，如果$p\in B_3(0)\setminus B_2(0)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+我们首先考虑函数$\alpha:\mathbb{R}\to\mathbb{R}$，由（图4.1(a)）
+$$\alpha(t) = e^{-1/((t+1)(t+2))},\quad t\in(-2,-1),$$
+$$\alpha(t) = 0,\quad t\notin(-2,-1)$$
+给出。
+
+注意，函数$\alpha$是众所周知的函数$e^{-1/x^2}$的一个简单修改，关键在于它在每一点都是$C^\infty$的。
+
+现在取积分
+$$\gamma(t) = \int_{-\infty}^t \alpha(s)\,ds$$
+得到一个可微函数$\gamma$（图4.1(b)），其最大值（在$t=-1$处）由$\int_{-2}^{-1} \alpha(s)\,ds = A$给出。然后，令$\beta(t) = \gamma(t)/A$，我们得到一个具有以下性质的可微函数：
+$$\beta(t) = 0,\quad \text{如果 } t\leq -2,$$
+$$0 < \beta(t) \leq 1,\quad \text{如果 } t\in(-2,-1),$$
+$$\beta(t) = 1,\quad \text{如果 } t\geq -1.$$
+
+所需的函数$\varphi: B_3(0)\to\mathbb{R}$由$\varphi(p) = \beta(-|p|)$，$p\in B_3(0)$得到；对于$\mathbb{R}^2$的情形，它具有图4.1(c)的形式。
+\end{proof}
+
+\begin{lemma}
+设$M^n$是微分流形，$p\in M$，$g:U\subset\mathbb{R}^n\to M$是$p$附近的参数化。则可以得到$p$附近的一个参数化$f:B_3(0)\to M$，使得$f(B_3(0))\subset g(U)$且$f^{-1}(p) = (0,\ldots,0)$。
+\end{lemma}
+
+\begin{proof}
+设$(x_1^0,\ldots,x_n^0)\in U$使得$g(x_1^0,\ldots,x_n^0)=p$。由于$U$是开的，存在$r>0$使得$B_r(x_1^0,\ldots,x_n^0)\subset U$。设$T$是$\mathbb{R}^n$中将$(x_1^0,\ldots,x_n^0)$映到$(0,\ldots,0)$的平移，设$H:\mathbb{R}^n\to\mathbb{R}^n$是将每个$p\in\mathbb{R}^n$对应到点$\frac{3}{r}p$的映射。则$H\circ T$将$B_r(x_1^0,\ldots,x_n^0)$映到$B_3(0)$。
+
+我们定义参数化$f:B_3(0)\to M$为
+$$f = g\circ T^{-1}\circ H^{-1},$$
+容易验证它满足所需条件。
+\end{proof}
+
+\begin{proposition}[可微单位分解的存在性]
+设$M$是紧致流形，$\{V_\alpha\}$是$M$的坐标邻域覆盖。则存在可微函数$\varphi_1,\ldots,\varphi_m$，使得：
+\begin{enumerate}[label=\alph*)]
+    \item $\sum_{i=1}^m \varphi_i = 1$,
+    \item $0\leq \varphi_i\leq 1$，且$\varphi_i$的支集包含在覆盖$\{V_\alpha\}$的某个$V_{\alpha_i}$中。
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+对每个$p\in M$，考虑由引理2给出的参数化$f_p:B_3(0)\to M$，其中$f_p(B_3(0))=V_p\subset V_\alpha$，对于覆盖$\{V_\alpha\}$的某个$V_\alpha$。设$W_p = f_p(B_1(0))\subset V_p$。
+
+族$\{W_p\}$是$M$的开覆盖。由于$M$是紧致的，我们可以从中选出一个有限覆盖$W_1,\ldots,W_m$。对应的$V_1,\ldots,V_m$将构成$M$的一个覆盖。
+
+让我们定义函数$\theta_i:M\to\mathbb{R}$，$i=1,\ldots,m$，由
+$$\theta_i = \varphi\circ f_i^{-1}\quad \text{在 } V_i\text{ 中},\quad \theta_i = 0\quad \text{在 } M\setminus V_i\text{ 中},$$
+其中$\varphi:B_3(0)\to\mathbb{R}$是引理1给出的函数。函数$\theta_i$是可微的，且$\theta_i$的支集包含在$V_i$中。
+
+最后定义$\varphi_i$为
+$$\varphi_i(p) = \frac{\theta_i(p)}{\sum_{j=1}^m \theta_j(p)},\quad p\in M.$$
+直接验证如此构造的函数$\varphi_i$满足条件(a)和(b)。
+\end{proof}
+
+\begin{remark}
+可微单位分解的存在性是研究微分流形上整体问题的最有用的事实之一。命题1对于非紧致流形（具有可数基）也成立，只需考虑局部有限的可数覆盖（局部有限意味着流形的每个点只与覆盖的有限个成员相交），证明本质上相同。每个流形都有局部有限的可数覆盖，这可以在例如F. Warner, [WAR]中找到。
+\end{remark}
+
+\section{斯托克斯定理}
+
+在本节中，我们打算建立斯托克斯定理。为此，我们需要一系列定义，使得能够精确地陈述定理；一旦陈述出来，定理的证明就相对简单了。
+
+对于二维的情形，定理的粗略描述如下。
+
+设$\omega$是定义在二维可定向流形$M^2$上的微分1形式，$d\omega$是它的外微分。考虑$M^2$中由闭正则曲线$C=\partial R$围成的区域$R$。$R$的定向在$C$上诱导一个定向，包含映射$i:C\to M$使我们能够考虑$\omega$在$C$上的限制$i^*\omega$。在这些条件下，斯托克斯定理指出，2形式$d\omega$在$R$中的积分等于$i^*\omega$在$\partial R=C$中的积分。
+
+因此，在某种意义上，算子$d$（作用于形式）和$\partial$（作用于光滑区域）是互为对偶的。
+
+特别地，如果$M^2=\mathbb{R}^2$且$\omega = Pdx + Qdy$，斯托克斯定理化为高斯定理：
+$$\iint_R \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)dxdy = \oint_C Pdx + Qdy.$$
+
+现在我们开始给出我们需要的定义，这些定义在其他情形中也是有用的。第一个是流形概念的推广，以包括有"边界"的流形。流形的定义不包括例如由
+$$M = \{(x,y,z)\in\mathbb{R}^3;\; z = x^2+y^2,\; z\leq z_0,\; z_0>0\}$$
+给出的集合$M$（$M$是旋转抛物面的闭集，上方由$z=z_0$界定），因为$M$的"边界"上一点$p=(x,y,z_0)$的任何邻域$V$与$M$的交$V\cap M$不与$\mathbb{R}^2$的开集同胚（图4.2）。
+
+然而，注意$V\cap M$与闭半空间$\{(x_1,x_2)\in\mathbb{R}^2;\; x_1\leq 0\}$的开集同胚，而$M$中不在边界上的点的行为如同2维流形中的点。这暗示了一个新的定义，它将包括上述情形。
+
+$\mathbb{R}^n$的半空间是集合
+$$H^n = \{(x_1,\ldots,x_n)\in\mathbb{R}^n;\; x_1\leq 0\}.$$
+$H^n$的开集是$\mathbb{R}^n$中开集$U$与$H^n$的交。
+
+我们说定义在$H^n$的开集$V$中的函数$f:V\to\mathbb{R}$是可微的，如果存在开集$U\supset V$和$U$中的可微函数$\tilde{f}$，使得$\tilde{f}$在$V$上的限制等于$f$。在这种情况下，$f$在$p\in V$处的微分$df_p$定义为$df_p = d\tilde{f}_p$。
+
+当$V$不包含形如$(0,x_2,\ldots,x_n)$的点时，$V$是$\mathbb{R}^n$的开集，$df_p$的定义与通常的定义一致。如果$p$形如$(0,x_2,\ldots,x_n)$，则$df_p$对$U$中通过$p$的曲线的所有切向量都有定义，即对$\mathbb{R}^n$中以$p$为起点的所有向量都有定义。使用这样的曲线，容易证明$df_p$的定义不依赖于$f$的延拓。
+
+类似地，我们定义可微映射$f:V\to\mathbb{R}^m$。
+
+\begin{definition}
+$n$维带（正则）边界的微分流形是一个集合$M$和一族单射$f_\alpha:U_\alpha\subset H^n\to M$，其中$U_\alpha$是$H^n$的开集，满足：
+\begin{enumerate}
+    \item $\bigcup_\alpha f_\alpha(U_\alpha) = M$.
+    \item 对所有满足$f_\alpha(U_\alpha)\cap f_\beta(U_\beta)=W\neq\emptyset$的对$\alpha,\beta$，集合$f_\alpha^{-1}(W)$和$f_\beta^{-1}(W)$是$H^n$中的开集，且映射$f_\beta^{-1}\circ f_\alpha$和$f_\alpha^{-1}\circ f_\beta$都是可微的。
+    \item 族$\{(U_\alpha,f_\alpha)\}$相对于(1)和(2)是极大的。
+\end{enumerate}
+
+点$p\in M$称为$M$的边界点，如果对于$p$附近的某个参数化$f:U\subset H^n\to M$，我们有$f(0,x_2,\ldots,x_n)=p$。
+\end{definition}
+
+\begin{lemma}
+边界点的定义不依赖于参数化。
+\end{lemma}
+
+\begin{proof}
+设$f_1:U_1\to M$是$p$附近的参数化，使得$f_1(q_1)=p$，$q_1=(0,x_2,\ldots,x_n)$。
+
+用反证法，假设对于$p$附近的某个参数化$f_2:U_2\to M$，我们有$f_2^{-1}(p)=q_2=(x_1,\ldots,x_n)$且$x_1\neq 0$（图4.3）。
+
+设$W = f_1(U_1)\cap f_2(U_2)$。映射
+$$f_1^{-1}\circ f_2: f_2^{-1}(W)\to f_1^{-1}(W)$$
+是微分同胚。由于$x_1\neq 0$，存在$q_2$的邻域$U$，$U\subset f_2^{-1}(W)$，不与$x_1$轴相交。将$f_1^{-1}\circ f_2$限制到$U$，我们将有一个可微映射
+$$f_1^{-1}\circ f_2: U\to H^n$$
+使得$d(f_1^{-1}\circ f_2)_{q_2}$的行列式非零。由反函数定理，$f_1^{-1}\circ f_2$将$q_2$的邻域$V\subset U$微分同胚地映到$f_1^{-1}\circ f_2(V)$。但这样$f_1^{-1}\circ f_2(V)$将包含形如$(x_1,\ldots,x_n)$且$x_1>0$的点，这些点不在$H^n$中。这导致矛盾，完成了证明。
+\end{proof}
+
+因此，$M$的边界点的集合是良定义的；它称为$M$的边界，记为$\partial M$。如果$\partial M=\emptyset$，定义1与第3章给出的微分流形的定义一致。
+
+带边流形的可微函数、切空间、可定向性等的定义，与微分流形的相应定义完全相同地引入，只需额外注意将$\mathbb{R}^n$替换为$H^n$。
+
+\begin{proposition}
+$n$维带边微分流形$M$的边界$\partial M$是一个$(n-1)$维微分流形。此外，如果$M$是可定向的，则$M$的一个定向在$\partial M$上诱导一个定向。
+\end{proposition}
+
+\begin{proof}
+设$p\in M$是$M$的边界点，$f_\alpha:U_\alpha\subset H^n\to M^n$是$p$附近的参数化。则$f_\alpha^{-1}(p)=q=(0,x_2,\ldots,x_n)\in U_\alpha$。设
+$$\bar{U}_\alpha = U_\alpha \cap \{(x_1,\ldots,x_n)\in\mathbb{R}^n;\; x_1=0\}.$$
+
+通过将集合$\{(x_1,\ldots,x_n)\in\mathbb{R}^n;\; x_1=0\}$与$\mathbb{R}^{n-1}$等同，我们看到$\bar{U}_\alpha$是$\mathbb{R}^{n-1}$中的开集。用$\bar{f}_\alpha$表示$f_\alpha$在$\bar{U}_\alpha$上的限制，由引理3，我们看到$\bar{f}_\alpha(\bar{U}_\alpha)\subset\partial M$。最后，让$p$取遍$\partial M$的点，我们容易验证族$\{(\bar{U}_\alpha,\bar{f}_\alpha)\}$是$\partial M$的微分结构。这证明了命题的第一部分。
+
+为证明第二部分，假设$M$是可定向的，选择$M$的一个定向，即一个微分结构$\{(U_\alpha,f_\alpha)\}$，使得坐标变换有正的雅可比行列式。考虑满足条件$f_\alpha(U_\alpha)\cap\partial M\neq\emptyset$的族中的元素。则第一部分中描述的族$\{(\bar{U}_\alpha,\bar{f}_\alpha)\}$是$\partial M$的微分结构。我们要证明，如果$\bar{f}_\alpha(\bar{U}_\alpha)\cap\bar{f}_\beta(\bar{U}_\beta)\neq\emptyset$，则坐标变换有正的雅可比行列式，即
+$$\det(d(\bar{f}_\alpha^{-1}\circ \bar{f}_\beta)_q) > 0,$$
+对所有其像（通过某个参数化）在边界中的点$q$。
+
+观察到坐标变换$f_\alpha^{-1}\circ f_\beta$将形如$(0,x_2^\beta,\ldots,x_n^\beta)$的点映到形如$(0,x_2^\alpha,\ldots,x_n^\alpha)$的点。因此，对于像在边界中的点$q$，
+$$\det(d(f_\alpha^{-1}\circ f_\beta)) = \frac{\partial x_1^\alpha}{\partial x_1^\beta} \det(d(\bar{f}_\alpha^{-1}\circ \bar{f}_\beta)).$$
+但$\frac{\partial x_1^\alpha}{\partial x_1^\beta} > 0$，因为在$q=(0,x_2^\beta,\ldots,x_n^\beta)$中$x_1=0$，且$x_1^\alpha$和$x_1^\beta$在$p$的邻域中都是负的。由于$\det(d(f_\alpha^{-1}\circ f_\beta))>0$（由假设），我们得出$\det(d(\bar{f}_\alpha^{-1}\circ \bar{f}_\beta))>0$，如我们所愿。
+\end{proof}
+
+现在我们可以陈述并证明斯托克斯定理。
+
+\begin{theorem}[斯托克斯定理]
+设$M^n$是带边的紧致可定向微分流形。设$\omega$是$M$上的微分$(n-1)$形式，$i:\partial M\to M$是边界$\partial M$到$M$的包含映射。则
+$$\int_{\partial M} i^*\omega = \int_M d\omega.$$
+\end{theorem}
+
+\begin{proof}
+设$K$是$\omega$的支集。我们将考虑以下情形：
+
+\textbf{情形A)} $K$包含在参数化$f:U\subset H^n\to M$的某个坐标邻域$V=f(U)$中。在$U$中，
+$$\omega = \sum_{j=1}^n a_j dx_1\wedge\cdots\wedge dx_{j-1}\wedge dx_{j+1}\wedge\cdots\wedge dx_n,$$
+其中$a_j = a_j(x_1,\ldots,x_n)$是$U$上的可微函数。因此
+$$d\omega = \sum_{j=1}^n (-1)^{j-1} \frac{\partial a_j}{\partial x_j} dx_1\wedge\cdots\wedge dx_n.$$
+
+\textbf{A1)} 首先假设$f(U)\cap\partial M=\emptyset$。则$\omega$在$\partial M$上为零，$i^*\omega=0$。因此
+$$\int_{\partial M} i^*\omega = 0.$$
+我们将证明
+$$\int_M d\omega = 0.$$
+
+为此，将函数$a_j$延拓到$H^n$，令
+$$a_j(x_1,\ldots,x_n) = a_j(x_1,\ldots,x_n),\quad \text{如果 } (x_1,\ldots,x_n)\in U,$$
+$$a_j(x_1,\ldots,x_n) = 0,\quad \text{如果 } (x_1,\ldots,x_n)\in H^n\setminus U.$$
+由于$f^{-1}(K)\subset U$，如此定义的函数$a_j$在$H^n$中是可微的。现在设$Q\subset H^n$是由$x_j^1\leq x_j\leq x_j^2$，$j=1,\ldots,n$给出的平行六面体，且在其内部包含$f^{-1}(K)$（图4.4）。
+
+则
+$$\int_U d\omega = \sum_{j=1}^n (-1)^{j-1} \int_Q \frac{\partial a_j}{\partial x_j}\,dx_1\cdots dx_n$$
+$$= \sum_{j=1}^n (-1)^{j-1} \int [a_j(x_1,\ldots,x_{j-1},x_j^2,x_{j+1},\ldots,x_n) - a_j(x_1,\ldots,x_{j-1},x_j^1,x_{j+1},\ldots,x_n)]\,dx_1\cdots dx_{j-1}dx_{j+1}\cdots dx_n = 0,$$
+因为对所有$j$，$a_j(x_1,\ldots,x_j^2,\ldots,x_n) = a_j(x_1,\ldots,x_j^1,\ldots,x_n) = 0$。
+
+\textbf{A2)} 现在假设$f(U)\cap\partial M\neq\emptyset$。则包含映射$i$可以写为：$x_1=0$，$x_j=x_j$。因此，利用边界上的诱导定向，
+$$i^*\omega = a_1(0,x_2,\ldots,x_n)\,dx_2\wedge\cdots\wedge dx_n.$$
+
+如情形(A1)那样，我们将函数$a_j$延拓到$H^n$，并考虑由
+$$x_1^1\leq x_1\leq 0,\quad x_j^1\leq x_j\leq x_j^2,\quad j=2,\ldots,n$$
+给出的平行六面体$Q$，使得$Q$的内部与超平面$x_1=0$的并包含$f^{-1}(K)$。则
+$$\int_M d\omega = \sum_{j=1}^n (-1)^{j-1} \int_Q \frac{\partial a_j}{\partial x_j}\,dx_1\cdots dx_n$$
+$$= \int [a_1(0,x_2,\ldots,x_n) - a_1(x_1^1,x_2,\ldots,x_n)]\,dx_2\cdots dx_n$$
+$$+ \sum_{j=2}^n (-1)^{j-1} \int_Q [a_j(x_1,\ldots,x_j^2,\ldots,x_n) - a_j(x_1,\ldots,x_j^1,\ldots,x_n)]\,dx_1\cdots dx_{j-1}dx_{j+1}\cdots dx_n.$$
+
+由于对$j=2,\ldots,n$，$a_j(x_1,\ldots,x_j^2,\ldots,x_n) = a_j(x_1,\ldots,x_j^1,\ldots,x_n) = 0$，且$a_1(x_1^1,x_2,\ldots,x_n) = 0$，我们得到
+$$\int_M d\omega = \int a_1(0,x_2,\ldots,x_n)\,dx_2\cdots dx_n = \int_{\partial M} i^*\omega.$$
+
+\textbf{情形B)} 现在让我们考虑一般情形。设$\{V_\alpha\}$是$M$的与定向相容的坐标邻域覆盖，$\varphi_1,\ldots,\varphi_m$是从属于$V_\alpha$的可微单位分解。形式$\omega_j = \varphi_j\omega$，$j=1,\ldots,m$，满足情形A的条件。此外，由于$\sum_j d\varphi_j = 0$，我们有
+$$d\omega = d\left(\sum_j \varphi_j\omega\right) = \sum_j d(\varphi_j\omega).$$
+
+因此，
+$$\int_M d\omega = \sum_j \int_M d(\varphi_j\omega) = \sum_j \int_{\partial M} i^*(\varphi_j\omega) = \int_{\partial M} i^*\left(\sum_j \varphi_j\omega\right) = \int_{\partial M} i^*\omega.$$
+\end{proof}
+
+\begin{example}
+设$M$是$\mathbb{R}^3$中的有界区域，使得$M$的边界$\partial M$是$\mathbb{R}^3$的正则超曲面；则$M$是一个紧致的3维带边流形，边界为$\partial M$。设$v$是$\mathbb{R}^3$中的可微向量场，$\omega$是$\mathbb{R}^3$中与$v$在$\mathbb{R}^3$的自然内积下对偶的1形式。则（参见第1章习题11）$d(*\omega) = (\text{div}\,v)\nu$，其中$\nu$是$\mathbb{R}^3$的体积元。
+
+现在选择$\mathbb{R}^3$的一个定向，设$N$是$\partial M$在诱导定向下的单位法向量。最后，设$\sigma$是$\partial M$的面积元。
+
+在$p\in M$的邻域$U\subset\mathbb{R}^3$中，考虑可微单位正交标架场$e_1,e_2,N$，使得在$\partial M$的点上，$e_1$和$e_2$与$\partial M$相切。则
+$$i^*(*\omega)(e_1,e_2) = *\omega(N) = \langle v, N\rangle,$$
+即$i^*(*\omega) = \langle v, N\rangle\sigma$。因此，在这种情况下，斯托克斯定理可以写为
+$$\int_M \text{div}\,v\,\nu = \int_{\partial M} \langle v, N\rangle\,\sigma,$$
+这就是分析中众所周知的散度定理。
+\end{example}
+
+\begin{remark}
+散度定理是分析中的基本工具（参见例如O. Kellog, [KELL]中的精彩叙述）。虽然我们对正则边界和光滑函数证明了它，但它可以大大推广。参见例如D. Figueiredo的文章[FIG]。
+\end{remark}
+
+\section{庞加莱引理}
+
+设$M^n$是微分流形。微分$k$形式$\omega$称为恰当的，如果存在一个$(k-1)$形式$\beta$使得$d\beta = \omega$；$\omega$称为闭的，如果$d\omega = 0$。由于$d^2=0$，恰当形式是闭的。
+
+上述事实的逆一般不成立。例如，设$\omega = \frac{xdy - ydx}{x^2+y^2}$定义在$\mathbb{R}^2\setminus\{(0,0)\}=U$中。容易验证$d\omega = 0$，即$\omega$是闭的，但在$U$中不存在可微函数$g$使得$dg = \omega$；否则，由斯托克斯定理，
+$$\int_C \omega = \int_C dg = \int_{\partial C} g = 0,$$
+这与容易计算的事实$\int_C \omega = 2\pi$矛盾。然而，可以证明，对每个$p\in U$，存在$p$的邻域$V\subset U$和$V$中的可微函数$g_V$使得$dg_V = \omega$。
+
+在本节中，我们将证明这个例子的情形是完全一般的，即条件$d\omega=0$是$\omega$局部恰当的充分条件（那些熟悉第2章内容的人会注意到我们正在推广那一章的定理1）。实际上，我们将以一种稍微更一般的形式证明这个结果，这对应用更方便。
+
+\begin{definition}
+微分流形$M$称为可缩的（到某个点$p_0\in M$），如果存在可微映射$H:M\times\mathbb{R}\to M$，$H(p,t)\in M$，$p\in M$，$t\in\mathbb{R}$，使得
+$$H(p,1) = p,\quad H(p,0) = p_0,\quad \text{对所有 } p\in M.$$
+\end{definition}
+
+容易看出$\mathbb{R}^n$可缩到任意点$p_0\in\mathbb{R}^n$；只需定义$H(p,t) = p_0 + (p-p_0)t$。同样的论证表明球$B_r(0) = \{p\in\mathbb{R}^n;\; |p|<r\}$可缩到原点$O$。由此可知，任何微分流形都是局部可缩的。
+
+\begin{theorem}[庞加莱引理]
+设$M$是可缩的微分流形，$\omega$是$M$中的可微$k$形式且$d\omega=0$。则$\omega$是恰当的，即存在$M$中的$(k-1)$形式$\alpha$使得$d\alpha = \omega$。
+\end{theorem}
+
+\begin{proof}
+设$\pi:M\times\mathbb{R}\to M$是投影$\pi(p,t)=p$，设$\tilde{\omega}$是$M\times\mathbb{R}$上的$k$形式，由$\tilde{\omega} = H^*\omega$给出，其中$H$是可缩性定义中给出的映射。我们需要以下引理。
+
+\begin{lemma}
+$M\times\mathbb{R}$上的每个$k$形式$\omega$都可以唯一地写为
+$$\omega = \omega_1 + dt\wedge \eta, \tag{1}$$
+其中$\omega_1$是$M\times\mathbb{R}$上的$k$形式，具有性质：如果某个$v_i$，$i=1,\ldots,k$，属于$d\pi$的核，则$\omega_1(v_1,\ldots,v_k)=0$；$\eta$是具有类似性质的$(k-1)$形式。
+\end{lemma}
+
+\begin{proof}[引理4的证明]
+设$p\in M$，$f:U\to M$是$p$附近的参数化。则$f(U)\times\mathbb{R}$是$M\times\mathbb{R}$的坐标邻域，坐标例如为$(x_1,\ldots,x_n,t)$。在$f(U)\times\mathbb{R}$中，$\omega$可以写为
+$$\omega = \sum a_{i_1\cdots i_k} dx_{i_1}\wedge\cdots\wedge dx_{i_k} + dt\wedge \sum b_{j_1\cdots j_{k-1}} dx_{j_1}\wedge\cdots\wedge dx_{j_{k-1}} \tag{2}$$
+$$= \omega_1 + dt\wedge \eta.$$
+
+显然$\omega_1$和$\eta$具有所需的性质。此外，如果分解(1)在整个$M$上成立，则它必须局部形如(2)，因此是唯一的。为证明存在性，我们在每个坐标邻域上按(2)定义$\omega_1$和$\eta$。在两个这样的邻域的交集中，由唯一性，定义一致，因此$\omega_1$和$\eta$可以延拓到整个$M$，满足(1)。这证明了引理4。
+\end{proof}
+
+现在设$i_t:M\to M\times\mathbb{R}$是由$i_t(p)=(p,t)$给出的映射；它是$M$到$M\times\mathbb{R}$在"水平"$t$处的包含。我们将定义一个映射$I$，它将$M\times\mathbb{R}$的$k$形式映到$M$的$(k-1)$形式，如下：如果$p\in M$且$v_1,v_2,\ldots,v_{k-1}\in T_pM$，则在$p$点，
+$$(I\omega)(v_1,\ldots,v_{k-1}) = \int_0^1 \eta(p,t)(di_t(v_1),\ldots,di_t(v_{k-1}))\,dt,$$
+其中$\eta$由引理4的分解$\omega = \omega_1 + dt\wedge\eta$给出。
+
+定理的关键点包含在以下引理中。
+
+\begin{lemma}
+$i_1^*\omega - i_0^*\omega = d(I\omega) + I(d\omega).$
+\end{lemma}
+
+\begin{proof}[引理5的证明]
+设$p\in M$。我们将使用引理4中引入的坐标系$(x_1,\ldots,x_n,t)$。我们首先注意到运算$I$是可加的，即$I(\omega_1+\omega_2) = I(\omega_1) + I(\omega_2)$。由此可知，只需考虑以下两种情形：
+\begin{enumerate}[label=\alph*)]
+    \item $\omega = f\,dx_{i_1}\wedge\cdots\wedge dx_{i_k}$;
+    \item $\omega = f\,dt\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}$.
+\end{enumerate}
+
+\textbf{情形(a)} 如果$\omega = f\,dx_{i_1}\wedge\cdots\wedge dx_{i_k}$，则$d\omega = \frac{\partial f}{\partial t}dt\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_k} + \text{不含}dt\text{的项}$。
+
+注意，在坐标系$(x_1,\ldots,x_n,t)$中，运算$I$相当于沿第二个因子$t$积分$\omega$的局部表示。因此，
+$$I(d\omega)(p) = \left(\int_0^1 \frac{\partial f}{\partial t}\,dt\right) dx_{i_1}\wedge\cdots\wedge dx_{i_k}$$
+$$= (f(p,1) - f(p,0))\,dx_{i_1}\wedge\cdots\wedge dx_{i_k} = i_1^*\omega(p) - i_0^*\omega(p).$$
+由于$I\omega = 0$，我们在情形(a)中得出引理成立。
+
+\textbf{情形(b)} 如果$\omega = f\,dt\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}$，则$i_1^*\omega = 0 = i_0^*\omega$。另一方面，
+$$d\omega = \sum_j \frac{\partial f}{\partial x_j} dx_j\wedge dt\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}.$$
+因此，
+$$I(d\omega) = \sum_j (-1) \left(\int_0^1 \frac{\partial f}{\partial x_j}\,dt\right) dx_j\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}},$$
+且
+$$d(I\omega) = d\left(\left(\int_0^1 f\,dt\right) dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}\right)$$
+$$= \sum_j \frac{\partial}{\partial x_j}\left(\int_0^1 f\,dt\right) dx_j\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}$$
+$$= \sum_j \left(\int_0^1 \frac{\partial f}{\partial x_j}\,dt\right) dx_j\wedge dx_{i_1}\wedge\cdots\wedge dx_{i_{k-1}}.$$
+所以
+$$d(I\omega) + I(d\omega) = 0 = i_1^*\omega - i_0^*\omega,$$
+这完成了情形(b)，以及引理的证明。
+\end{proof}
+
+现在我们可以完成定理的证明（注意，到目前为止我们还没有用到$d\omega=0$）。由于$M$是可缩的，
+$$H\circ i_1 = \text{恒等},\quad H\circ i_0 = \text{常值} = p_0\in M.$$
+因此
+$$\omega = (H\circ i_1)^*\omega = i_1^*(H^*\omega) = i_1^*\tilde{\omega},$$
+$$0 = (H\circ i_0)^*\omega = i_0^*(H^*\omega) = i_0^*\tilde{\omega}.$$
+
+现在，由于$d\omega=0$，我们得到$d\tilde{\omega} = H^*d\omega = 0$。由引理5，
+$$\omega = i_1^*\tilde{\omega} = d(I\tilde{\omega}) = d\alpha,$$
+其中$\alpha = I\tilde{\omega}$。
+\end{proof}
+
+\section*{习题}
+\begin{enumerate}
+    \item 设$f:\mathbb{R}^3\to\mathbb{R}$是可微函数，$\omega$是$\mathbb{R}^3$中的2形式，由
+    $$\omega = \frac{f_x dy\wedge dz + f_y dz\wedge dx + f_z dx\wedge dy}{\sqrt{f_x^2 + f_y^2 + f_z^2}}$$
+    给出。众所周知，如果$a\in\mathbb{R}$是$f$的正则值（即对所有$p\in f^{-1}(a)$，映射$df_p$是满射），则
+    $$M^2 = \{(x,y,z)\in\mathbb{R}^3;\; f(x,y,z) = a\}$$
+    是$\mathbb{R}^3$中的正则可定向曲面（参见[dC]，第2.2节）。证明$\omega$在$M^2$上的限制是$M^2$的面积元。
+    
+    \item 
+    \begin{enumerate}[label=\alph*)]
+        \item 设$\omega = xdy - ydx$，$j:M\hookrightarrow\mathbb{R}^2$是具有正则边界$\partial M$的有界区域的包含映射。证明$M$的面积由$\frac{1}{2}\int_{\partial M} \omega$给出。
+        
+        \item 设$\omega = xdy\wedge dz - ydx\wedge dz + zdx\wedge dy$，$j:M\subset\mathbb{R}^3$是具有正则边界$\partial M$的有界区域的包含映射。证明$M$的体积由$\frac{1}{3}\int_{\partial M} \omega$给出。
+        
+        \item 将上述结果推广到$\mathbb{R}^n$。
+    \end{enumerate}
+    
+    \item 设
+    $$\omega = \frac{xdy\wedge dz + ydz\wedge dx + zdx\wedge dy}{(x^2+y^2+z^2)^{3/2}}$$
+    是定义在$\mathbb{R}^3\setminus\{0\}$中的2形式，$M^2\subset\mathbb{R}^3$是不通过原点$O=(0,0,0)$的可定向曲面。证明：
+    \begin{enumerate}[label=\alph*)]
+        \item $\omega$在$M^2$上的限制等于$\frac{\cos\theta}{r^2}\sigma$，其中$\sigma$是$M^2$的面积元，$r$是从$O$到点$p\in M^2$的距离，$\theta$是从$Op$到$M^2$在$p$点的单位正法向量$N$的正角。
+        
+        \item 定义$M^2$从$O$点看的立体角为$\int_{M^2} \frac{\cos\theta}{r^2}\sigma$。现在设$M$是$\mathbb{R}^3$中具有正则边界$\partial M$的有界区域，使得$O\notin\partial M$，设$\Omega$是$\partial M$从$O$点看的立体角。证明：如果$O\notin M$，则$\Omega=0$；如果$O\in M$，则$\Omega=4\pi$。
+    \end{enumerate}
+    
+    \item 设$\varphi:\mathbb{R}^3\to\mathbb{R}$是可微函数，$k$次齐次（即$\varphi(tx,ty,tz) = t^k\varphi(x,y,z)$）。证明：
+    \begin{enumerate}[label=\alph*)]
+        \item 如果$B = \{p\in\mathbb{R}^3;\; |p|\leq 1\}$是单位球面$S^2$围成的区域，则
+        $$\int_B \Delta^2\varphi\,dx\wedge dy\wedge dz = \int_{S^2} k\varphi\,\sigma,$$
+        其中$\sigma$是$S^2$的面积元，$\Delta^2\varphi = \varphi_{xx}+\varphi_{yy}+\varphi_{zz}$是$\varphi$的拉普拉斯算子。
+        
+        \item 设$\varphi = a_1x^4 + a_2y^4 + a_3z^4 + 3a_4x^2y^2 + 3a_5y^2z^2 + 3a_6x^2z^2$，则
+        $$\int_{S^2} \varphi\,\sigma = \frac{4\pi}{5}\sum_{i=1}^6 a_i.$$
+    \end{enumerate}
+    
+    \item 设$g:\mathbb{R}^3\to\mathbb{R}$，$f:\mathbb{R}^3\to\mathbb{R}$是可微函数，$M^3\subset\mathbb{R}^3$是具有边界$\partial M^2$的紧致可微流形。证明：
+    \begin{enumerate}[label=\alph*)]
+        \item （第一格林恒等式）
+        $$\int_M \langle \text{grad}\,f, \text{grad}\,g\rangle\nu + \int_M f\Delta^2 g\,\nu = \int_{\partial M} f\langle \text{grad}\,g, N\rangle\sigma,$$
+        其中$\nu$和$\sigma$分别是$M$的体积元和$\partial M$的面积元，$N$是$\partial M$的单位法向量。
+        
+        \item （第二格林恒等式）
+        $$\int_M (f\Delta^2 g - g\Delta^2 f)\nu = \int_{\partial M} (f\langle \text{grad}\,g, N\rangle - g\langle \text{grad}\,f, N\rangle)\sigma.$$
+    \end{enumerate}
+    
+    \item 能否找到一个三维可定向微分流形$M^3$，其边界是实射影平面？
+    
+    \item 设$\omega_1$和$\omega_2$是微分流形$M$上的微分形式。假设$\omega_1$和$\omega_2$都是闭的，且$\omega_2$是恰当的。证明$\omega_1\wedge\omega_2$是闭的且恰当的。
+    
+    \item 设$M^n$是紧致可定向无边流形（即$\partial M=\emptyset$），$\omega$是$M^n$上的微分$(n-1)$形式。证明存在点$p\in M$使得$d\omega(p)=0$。
+    
+    \item 证明不存在单位圆周$S^1$到实直线$\mathbb{R}$的浸入$f:S^1\to\mathbb{R}$。
+    
+    \item 设$M^2\subset\mathbb{R}^3$是具有正则边界$\partial M$的紧致可定向正则曲面，$v$是包含$M^2$的$\mathbb{R}^3$的开集中的可微向量场。
+    \begin{enumerate}[label=\alph*)]
+        \item 证明
+        $$\int_{M^2} \langle \text{rot}\,v, N\rangle\sigma = \int_{\partial M} \langle v, t\rangle ds,$$
+        其中$N$是单位法向量场，$\sigma$是$M^2$的面积元，$t$是$\partial M$的单位切向量，$ds$是$\partial M$的弧元。
+        
+        \item 设$p\in\mathbb{R}^3$，$\xi$是$\mathbb{R}^3$中的单位向量，$P$是法向量为$\xi$、通过$p$的平面，其定向与$\xi$一起给出$\mathbb{R}^3$的定向。考虑中心在$p$的圆盘$D\subset P$，将(a)应用于由$D$及其边界$\partial D$组成的曲面，得到
+        $$\langle \text{rot}\,v, \xi\rangle(p) = \lim_{D\to p} \frac{1}{\text{area } D} \int_{\partial D} \langle v, t\rangle ds,$$
+        其中极限是当$D$在一族同心圆盘族中趋近于$p$时取的。
+    \end{enumerate}
+    
+    \item （$\mathbb{R}^3$中的势论导引）
+    
+    可微函数$g:\mathbb{R}^3\to\mathbb{R}$称为在子集$B\subset\mathbb{R}^3$中是调和的，如果对所有$p\in B$，$\Delta^2 g = 0$。设$M\subset\mathbb{R}^3$是具有正则边界$\partial M$的有界区域。证明：
+    \begin{enumerate}[label=\alph*)]
+        \item 如果$g_1$和$g_2$在$M$中调和且在$\partial M$上$g_1=g_2$，则在$M$中$g_1=g_2$。
+        
+        \item 如果$g$在$M$中调和且在$\partial M$上$\frac{\partial g}{\partial N} = 0$（其中$N$是$\partial M$的单位法向量），则在$M$中$g=\text{常数}$。
+        
+        \item 如果$g_1$和$g_2$在$M$中调和且在$\partial M$上$\frac{\partial g_1}{\partial N} = \frac{\partial g_2}{\partial N}$，则在$M$中$g_1 = g_2 + \text{常数}$。
+        
+        \item 如果$g$在$M$中调和，则$\int_{\partial M} \frac{\partial g}{\partial N}\sigma = 0$。
+        
+        \item 函数$\frac{1}{\sqrt{x^2+y^2+z^2}}$在$\mathbb{R}^3\setminus\{0\}$中是调和的。
+        
+        \item （平均值定理）设$f$在区域$B_r = \{p\in\mathbb{R}^3;\; |p-p_0|^2\leq r^2\}$中调和，其边界是中心在$p_0$的球面$S_r$。则
+        $$f(p_0) = \frac{1}{4\pi r^2}\int_{S_r} f\,\sigma.$$
+        
+        \item （最大值原理）设$f$是闭有界区域$M\subset\mathbb{R}^3$中的非常值调和函数（即$M$是有界连通开集与其边界的并，边界不一定正则）。则$f$在$M$的边界$\partial M$上达到最大值和最小值。
+    \end{enumerate}
+    
+    \item 设$M^n$是无边紧致微分流形。证明$M$是可定向的当且仅当存在定义在$M$上且处处非零的微分$n$形式$\omega$。
+    
+    \item 设$M$是紧致可定向无边微分流形。证明$M$不可缩到一点。
+    
+    \item 设$A,B,C$是$\mathbb{R}^3$中的可微函数，考虑微分方程组
+    $$\begin{cases}
+    \frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z} = A \\
+    \frac{\partial P}{\partial z} - \frac{\partial R}{\partial x} = B \\
+    \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = C
+    \end{cases}$$
+    其中$P,Q,R$是$\mathbb{R}^3$中的未知函数。
+    \begin{enumerate}[label=\alph*)]
+        \item 证明上述方程组存在解的充要条件是
+        $$\frac{\partial A}{\partial x} + \frac{\partial B}{\partial y} + \frac{\partial C}{\partial z} = 0.$$
+        
+        \item 假设上述条件满足，确定函数$P,Q,R$。
+    \end{enumerate}
+    
+    \item 设$v$是$\mathbb{R}^3$中的可微向量场。证明：
+    \begin{enumerate}[label=\alph*)]
+        \item 如果$\text{div}\,v = 0$，则存在$\mathbb{R}^3$中的向量场$u$使得$\text{rot}\,u = v$。
+        
+        \item 如果$\text{rot}\,v = 0$，则存在$\mathbb{R}^3$中的函数$f$使得$\text{grad}\,f = v$。
+    \end{enumerate}
+    
+    \item （布劳威尔不动点定理）
+    \begin{enumerate}[label=\alph*)]
+        \item 设$M^n$是紧致可定向带边微分流形，$\partial M\neq\emptyset$。证明不存在可微映射$f:M\to\partial M$使得限制$f|_{\partial M}$是恒等映射。
+        
+        \item 证明布劳威尔不动点定理：设$B\subset\mathbb{R}^n$是球$\{p\in\mathbb{R}^n;\; |p|\leq 1\}$。每个可微映射$g:B\to B$都有一个不动点，即存在$q\in B$使得$g(q)=q$。
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
