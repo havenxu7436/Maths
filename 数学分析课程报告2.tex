@@ -1,17 +1,55 @@
-\documentclass[UTF8]{ctexart}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
+\documentclass[UTF8,zihao=5,linespread=1.34]{ctexart}
+\usepackage{mathtools,amssymb,amsthm}
+\usepackage[a4paper,top=27mm,bottom=27mm,left=28mm,right=28mm,
+            headheight=15pt,headsep=8mm,footskip=12mm]{geometry}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{fancyhdr}
 
-\newtheorem{definition}{定义}
-\newtheorem{proposition}{命题}
-\newtheorem{lemma}{引理}
-\newtheorem{theorem}{定理}
-\newtheorem{corollary}{推论}
+\allowdisplaybreaks[2]
+\setlist{nosep,leftmargin=2em}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\setlength{\abovedisplayskip}{7pt plus 2pt minus 2pt}
+\setlength{\belowdisplayskip}{7pt plus 2pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt plus 2pt}
+\setlength{\belowdisplayshortskip}{4pt plus 2pt minus 2pt}
 
-\title{两种热方程的讨论及Poisson求和公式的应用}
+\newtheoremstyle{cnplain}
+  {6pt}{6pt}{\normalfont}{0pt}{\bfseries}{.}{0.5em}{}
+\newtheoremstyle{cnremark}
+  {6pt}{6pt}{\normalfont}{0pt}{\bfseries}{.}{0.5em}{}
+\theoremstyle{cnplain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{cnremark}
+\newtheorem*{remark}{注}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\sectionmark}[1]{%
+  \markboth{\thesection\quad #1}{}%
+}
+\renewcommand{\subsectionmark}[1]{}
+
+\ctexset{
+  section={format=\centering\bfseries\zihao{3},beforeskip=16pt,afterskip=12pt},
+  subsection={format=\bfseries\zihao{4},beforeskip=12pt,afterskip=7pt}
+}
+
+\title{两种热方程的讨论及 Poisson 求和公式的应用}
 \author{许瀚文}
-\date{2026.7}
+\date{2026 年 8 月}
 
 \begin{document}
 
@@ -21,12 +59,15 @@
 
 热方程（Heat Equation）是偏微分方程中最经典、最重要的方程之一，它描述热量在介质中的扩散过程，也可以看作各种扩散现象（浓度扩散、概率扩散等）的数学模型。本文先讨论两种平面上热方程在特定限制下的解与解的相关分析性质，再介绍Poisson求和公式的两个应用。
 
-经过物理推导，可得出如下平面上的热方程的定义：
+\setcounter{section}{-1}
+\section{预备知识}
+
+经过相关推导，可得出如下平面上的热方程的定义：
 
 \begin{definition}
-记$(x,y)$处在$t > 0$时刻的温度为$u(x,y,t)$，假定已经给定$t = 0$时刻的温度分布，则
+设$\Omega$为平面区域，记$(x,y) \in \Omega$处在$t \geq 0$时刻的温度为$u(x,y,t)$，假定已经给定$t = 0$时刻的温度分布，则
 \[
-c\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}} + \frac{\partial^{2}u}{\partial y^{2}},\quad c\text{为常数}
+c\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}} + \frac{\partial^{2}u}{\partial y^{2}},\quad c\text{为正常数},\quad t>0,
 \]
 称为平面上的热方程。利用Laplace算子$\Delta = \frac{\partial^{2}}{\partial x^{2}} + \frac{\partial^{2}}{\partial y^{2}}$，可写作
 \[
@@ -34,6 +75,75 @@ c\frac{\partial u}{\partial t} = \Delta u.
 \]
 \end{definition}
 
+下面我们介绍Poisson求和公式：
+
+\begin{definition}\label{def:schwartz}
+$\mathbb{R}^{d}$上的Schwartz空间由满足下面性质的函数$f$组成：$f \in C^{\infty}(\mathbb{R}^{d})$，且对任意多重指标$\alpha,\beta \in \mathbb{N}^{d}$，有
+\[
+\sup_{x \in \mathbb{R}^{d}} |x^{\alpha} ( \frac{\partial}{\partial x} )^{\beta} f(x)| < \infty.
+\]
+记这个空间为$\mathcal{S}(\mathbb{R}^{d})$。
+\end{definition}
+
+对Schwartz空间中的函数，其Fourier变换良定义：
+
+\begin{definition}
+设$f \in \mathcal{S}(\mathbb{R}^{d})$，定义$f$的Fourier变换为：
+\[
+\widehat{f}(\xi) = \int_{\mathbb{R}^{d}} f(x) e^{-2\pi i x \cdot \xi}\,dx,\quad \xi \in \mathbb{R}^{d}.
+\]
+进一步可自证$\widehat{f} \in \mathcal{S}(\mathbb{R}^{d})$。
+\end{definition}
+
+\begin{theorem}[Poisson 求和公式]\label{thm:poisson-summation}
+若$f \in \mathcal{S}(\mathbb{R}^{d})$，则
+\[
+\sum_{n \in \mathbb{Z}^{d}} f(n) = \sum_{k \in \mathbb{Z}^{d}} \widehat{f}(k).
+\]
+\end{theorem}
+
+\begin{proof}
+证明的想法是构造周期化函数，定义
+\[
+F(x) = \sum_{n \in \mathbb{Z}^{d}} f(x+n).
+\]
+首先注意$F$是$\mathbb{Z}^{d}$-周期函数，即对任意$m \in \mathbb{Z}^{d}$，$F(x+m) = F(x)$。
+
+由于$f \in \mathcal{S}(\mathbb{R}^{d})$，存在常数$C > 0$，使得$|f(y)| \leq \frac{C}{1 + |y|^{d+1}}$。因此存在常数$C' > 0$，使得
+\[
+\sum_{n \in \mathbb{Z}^{d}} \sup_{x \in [0,1]^{d}} |f(x+n)|
+\leq C' \sum_{n \in \mathbb{Z}^{d}} \frac{1}{1 + |n|^{d+1}} < \infty.
+\]
+由Weierstrass-M判别法知级数在闭方体$[0,1]^d$上一致收敛；再由$f \in \mathcal{S}(\mathbb{R}^{d})$知$F$在$[0,1]^d$上连续，进而由周期性知在$\mathbb{R}^{d}$上连续。模仿类似论证方式并适当选取定义~\ref{def:schwartz}中适当的参数$\alpha$与$\beta$，易于推理知$F$为$\mathbb{R}^{d}$上光滑函数。
+
+考察$F$的Fourier系数，记$Q = [0,1]^{d}$为周期单元，
+\begin{align*}
+\widehat{F}(k)
+&= \int_{Q} F(x) e^{-2\pi i x \cdot k}\,dx \\
+&= \int_{Q} \sum_{n \in \mathbb{Z}^{d}} f(x+n) e^{-2\pi i x \cdot k}\,dx \\
+&= \sum_{n \in \mathbb{Z}^{d}} \int_{Q} f(x+n) e^{-2\pi i x \cdot k}\,dx \\
+&= \sum_{n \in \mathbb{Z}^{d}} \int_{n+Q} f(t) e^{-2\pi i (t-n) \cdot k}\,dt \\
+&= \int_{\mathbb{R}^{d}} f(t) e^{-2\pi i t \cdot k}\,dt \\
+&= \widehat{f}(k).
+\end{align*}
+其中积分与无穷求和交换是由于级数一致收敛。
+
+同上推理同理可知级数
+\[
+\sum_{k \in \mathbb{Z}^{d}} \widehat{f}(k) e^{2\pi i x \cdot k}
+\]
+在$\mathbb{R}^{d}$上一致收敛，由$F$在$\mathbb{R}^{d}$上光滑知
+\[
+F(x) = \sum_{k \in \mathbb{Z}^{d}} \widehat{F}(k) e^{2\pi i x \cdot k}
+= \sum_{k \in \mathbb{Z}^{d}} \widehat{f}(k) e^{2\pi i x \cdot k}.
+\]
+令$x = 0$得，
+\[
+\sum_{n \in \mathbb{Z}^{d}} f(n) = \sum_{k \in \mathbb{Z}^{d}} \widehat{f}(k).\qedhere
+\]
+\end{proof}
+
+\newpage
 \section{圆盘上的Dirichlet问题}
 
 经过一段时间，系统达到热平衡，即$\frac{\partial u}{\partial t} = 0$，在这种情况下，热方程简化为稳态热方程：
@@ -44,9 +154,7 @@ c\frac{\partial u}{\partial t} = \Delta u.
 \[
 \Delta u = 0
 \]
-$u$被称为调和函数。
-
-现在考察单位圆盘上的稳态热方程，并给定边界圆周上的初始条件。为了方便描述边界条件，这里利用极坐标进行刻画。
+亦即$u$为调和函数。现在考察单位圆盘上的稳态热方程，并给定边界圆周上的初始条件。为了方便描述边界条件，这里利用极坐标进行刻画。
 
 \begin{definition}[圆盘上的Dirichlet问题]
 $f$为定义在圆周上的函数，考虑平面上单位圆盘及其边界：
@@ -61,8 +169,8 @@ D = \{(r,\theta): 0 \leq r < 1\}\quad\text{和}\quad C = \{(r,\theta): r = 1\}
 
 为了配合边界条件，首先应将$\Delta u$进行极坐标表示。
 
-\begin{proposition}
-Laplace算子
+\begin{proposition}\label{prop:polar-laplacian}
+当$r>0$时，Laplace算子
 \[
 \Delta = \frac{\partial^{2}}{\partial x^{2}} + \frac{\partial^{2}}{\partial y^{2}}
 \]
@@ -73,7 +181,7 @@ Laplace算子
 \end{proposition}
 
 \begin{proof}
-利用$r = \sqrt{x^{2} + y^{2}},\ \theta = \arctan(\frac{y}{x})$，结合链式法则带入即可。
+利用$r = \sqrt{x^{2} + y^{2}},\ \theta = \arctan(\frac{y}{x})$，结合链式法则代入即可。
 \end{proof}
 
 我们接下来着手解这个偏微分方程，即在$u(1,\theta) = f(\theta)$下，解
@@ -123,11 +231,13 @@ u_{m}(r,\theta) = r^{|m|}e^{im\theta},\quad m \in \mathbb{Z}.
 \[
 u(r,\theta) = \sum_{m=-\infty}^{\infty} a_{m} r^{|m|} e^{im\theta}.
 \]
-代入初始条件，即
+
+上述解的形式提示我们利用$f$的Fourier系数构造圆盘内部的解。当$f$在圆周上Riemann可积时，定义
 \[
-f(\theta) = u(1,\theta) = \sum_{m=-\infty}^{\infty} a_{m} e^{im\theta}.
+\widehat{f}(m) = \frac{1}{2\pi}\int_{0}^{2\pi} f(\phi)e^{-im\phi}\,d\phi,
+\quad m \in \mathbb{Z}.
 \]
-当$f$在圆周上Riemann可积时，有$a_{m} = \widehat{f}(m)$，从而
+对$0 \leq r < 1$，令
 \[
 u(r,\theta) = \sum_{m=-\infty}^{\infty} \widehat{f}(m) r^{|m|} e^{im\theta} = (f * P_r)(\theta),
 \]
@@ -135,7 +245,7 @@ u(r,\theta) = \sum_{m=-\infty}^{\infty} \widehat{f}(m) r^{|m|} e^{im\theta} = (f
 
 至此，我们已经找到了一个形式解。接下来的问题是，这个解的光滑性以及边界条件是否能很好地适合原方程？以及对$f$添加怎样的条件，能使预设解成为唯一解？下面的定理告诉我们当$f$连续时，该预设解确实是唯一解，我们先给出几个引理。
 
-\begin{lemma}
+\begin{lemma}\label{lem:disk-smoothness}
 若$f$在圆周上Riemann可积，则$u(r,\theta) = (f * P_r)(\theta)$在$D$内无穷次可微。
 \end{lemma}
 
@@ -157,23 +267,23 @@ u(r,\theta) = \sum_{m=-\infty}^{\infty} \widehat{f}(m) r^{|m|} e^{im\theta} = (f
 由Weierstrass-M判别法知级数一致收敛，可得无穷次可微。
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem:poisson-approximation}
 $f$在圆周上可积，当$r \rightarrow 1^{-}$时，Poisson核$P_r(\theta)$为好核，进而有，当$\theta$为$f$连续点时，
 \[
 \lim_{r \rightarrow 1^{-}} (f * P_r)(\theta) = f(\theta).
 \]
 若$f$在圆周上连续，则上述极限是一致的。
 
-此即好核作为恒等逼近元性质，证明可参考[1]。
+此即好核作为恒等逼近元性质，可自行证明（可参考[1]）。
 \end{lemma}
 
-\begin{lemma}[调和函数极值原理]
-设$\Omega$为有界连通区域且$u$为$\overline{\Omega}$上的连续函数且在$\Omega$上调和，则$\max_{\Omega}u,\min_{\Omega}u$均在$\partial\Omega$上达到。
+\begin{lemma}[调和函数极值原理]\label{lem:harmonic-maximum}
+设 $\Omega$ 为有界连通区域，$u$ 在 $\overline{\Omega}$ 上连续且在 $\Omega$ 上调和。则 $u$ 在 $\overline{\Omega}$ 上的最大值和最小值均可在 $\partial\Omega$ 上达到。
 
-调和函数的经典性质，证明可参考[2]。
+调和函数的经典性质，可自行证明（可参考[2]）。
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{thm:disk-dirichlet}
 $f$是定义在圆周上的Riemann可积函数，定义$D$上的函数
 \[
 u(r,\theta) = (f * P_r)(\theta).
@@ -191,7 +301,7 @@ u(r,\theta) = (f * P_r)(\theta).
 \end{theorem}
 
 \begin{proof}
-(1)(2)由引理1、2立得。对于(3)，反证法，反设$v(r,\theta)$也是满足条件的解，令$w = u - v$，则$\Delta w = 0$且$\lim_{r \rightarrow 1^{-}} w(r,\theta) = 0$一致成立，只需证$w = 0$。
+(1)(2)由引理~\ref{lem:disk-smoothness}、\ref{lem:poisson-approximation} 立得。对于(3)，反证法，反设$v(r,\theta)$也是满足条件的解，令$w = u - v$，则$\Delta w = 0$且$\lim_{r \rightarrow 1^{-}} w(r,\theta) = 0$一致成立，只需证$w = 0$。
 
 作延拓
 \[
@@ -201,9 +311,9 @@ w(r,\theta), & r < 1, \\
 0, & r = 1,
 \end{cases}
 \]
-则有(i)$\widetilde{w}$在$D$上调和；(ii)由引理1知$\widetilde{w}$在$D$连续，进而在$\overline{D}$连续。
+则有：(i) $\widetilde{w}$ 在 $D$ 上调和；(ii) 由引理~\ref{lem:disk-smoothness}、\ref{lem:poisson-approximation} 知 $\widetilde{w}$ 在 $D$ 连续，进而在 $\overline{D}$ 连续。
 
-由引理3知
+由引理~\ref{lem:harmonic-maximum} 知
 \[
 \max_{\overline{D}}\widetilde{w} = \max_{\partial D}\widetilde{w} = 0,\quad
 \min_{\overline{D}}\widetilde{w} = \min_{\partial D}\widetilde{w} = 0.
@@ -211,19 +321,22 @@ w(r,\theta), & r < 1, \\
 从而$\widetilde{w} \equiv 0$，进而$w = 0$。
 \end{proof}
 
-\textbf{评注：}事实上，可用完全相同的手法考察$\mathbb{R}^{n}(n > 2)$中的Dirichlet问题。记$S^{n-1}$为$n$维单位球面，解由球面卷积
+\begin{remark}
+事实上，可用完全相同的手法考察 $\mathbb{R}^{n}$（$n>2$）中的 Dirichlet 问题。记 $S^{n-1}$ 为 $n$ 维欧氏空间中的单位球面，解由球面卷积
 \[
-u(x) := P[f](x) = \int_{S^{n-1}} f(\zeta) P(x,\zeta)\,d\sigma(\zeta)
+u(x) := P[f](x) = \int_{S^{n-1}} f(\zeta) P(x,\zeta)\,d\sigma
 \]
 给出，其中
 \[
-P(x,\zeta) = \frac{1 - |x|^{2}}{|\zeta - x|^{n}}
+P(x,\zeta) = \frac{1}{|S^{n-1}|}\frac{1 - |x|^{2}}{|\zeta - x|^{n}}
 \]
-为$n$维Poisson核。相关讨论可阅读[3]。
+为 $n$ 维 Poisson 核。相关讨论可阅读文献~[3]。
+\end{remark}
 
+\newpage
 \section{圆周上的热方程}
 
-这一部分我们将讨论在单位圆周上的热方程。利用$\theta = 2\pi x,\ 0 \leq x < 1$来描述单位圆周上的点，记$u(x,t)$为$(1,\theta)$在$t > 0$时刻的温度，并给定$t = 0$时刻初始温度分布$u(x,0) = f(x)$，相应的热方程变为
+这一部分我们将讨论在单位圆周上的热方程。利用$\theta = 2\pi x,\ 0 \leq x < 1$来描述单位圆周上的点，记$u(x,t)$为$(1,\theta)$在$t \geq 0$时刻的温度，并给定$t = 0$时刻初始温度分布$u(x,0) = f(x)$，相应的热方程变为
 \[
 c\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}},\quad c\text{为常数}.
 \]
@@ -232,7 +345,8 @@ c\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}},\quad c\te
 \begin{definition}[圆周上的热方程]
 $f$为周期为1的函数，在初始条件$u(x,0) = f(x)$下，解方程
 \[
-\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}} \quad (\ast)
+\frac{\partial u}{\partial t} = \frac{\partial^{2}u}{\partial x^{2}}.
+\tag{H}\label{eq:circle-heat}
 \]
 \end{definition}
 
@@ -260,15 +374,17 @@ u_n(x,t) = a_n e^{-4\pi^{2}n^{2}t} e^{2\pi inx}.
 \[
 u(x,t) = \sum_{n=-\infty}^{\infty} a_n e^{-4\pi^{2}n^{2}t} e^{2\pi inx}.
 \]
-代入初始条件，即
+
+上述解的形式提示我们利用$f$的Fourier系数构造$t>0$时的解。当$f$在圆周上Riemann可积时，定义
 \[
-f(x) = u(x,0) = \sum_{n=-\infty}^{\infty} a_n e^{2\pi inx}.
+\widehat{f}(n) = \int_{0}^{1} f(y)e^{-2\pi iny}\,dy,
+\quad n \in \mathbb{Z},
 \]
-当$f$ Riemann可积时，有$a_n = \widehat{f}(n) = \int_{0}^{1} f(x) e^{-2\pi inx}\,dx$。从而有
+并对$t>0$令
 \[
 u(x,t) = \sum_{n=-\infty}^{\infty} \widehat{f}(n) e^{-4\pi^{2}n^{2}t} e^{2\pi inx}.
 \]
-类似于引理2.3，容易观察出$u$在圆周上是光滑的（由于$e^{-4\pi^{2}n^{2}t}$速降），我们尝试将表达式写成卷积形式（此处卷积为$[0,1]$上卷积），有：
+由于$\widehat{f}(n)$有界且$e^{-4\pi^{2}n^{2}t}$速降，类似于引理~\ref{lem:disk-smoothness}的证明，上述级数在任意$t \geq t_{0}>0$上一致绝对收敛，并可逐项求导，故$u$在$t>0$时光滑。我们将表达式写成卷积形式（此处卷积为$[0,1]$上卷积），有：
 \[
 u(x,t) = (f * H_t)(x),
 \]
@@ -278,7 +394,7 @@ H_t(x) = \sum_{n=-\infty}^{\infty} e^{-4\pi^{2}n^{2}t} e^{2\pi inx}
 \]
 称为圆周上的热核。注意到与Poisson核的相似性，此时我们自然会问：$H_t(x)\ (t \rightarrow 0^{+})$是否为好核？答案是肯定的，但并不平凡，这将是我们接下去讨论的核心，写成如下定理：
 
-\begin{theorem}
+\begin{theorem}\label{thm:heat-kernel-good}
 圆周上的热核定义为
 \[
 H_t(x) = \sum_{n=-\infty}^{\infty} e^{-4\pi^{2}n^{2}t} e^{2\pi inx}.
@@ -286,37 +402,22 @@ H_t(x) = \sum_{n=-\infty}^{\infty} e^{-4\pi^{2}n^{2}t} e^{2\pi inx}.
 当$t \rightarrow 0^{+}$时，$H_t(x)$是好核。
 \end{theorem}
 
-圆周热核的Fourier级数表达式虽然自然，但要验证其为好核，直接估计尾部并不方便。因此我们希望借助Poisson求和公式把它改写成好核的周期化形式。在证明之前，我们做一些准备。
-
-\begin{definition}
-$\mathbb{R}$上的Schwartz空间由满足下面性质的函数$f$组成：$f \in C^{\infty}(\mathbb{R})$，且对任意$k,l \geq 0$，有
-\[
-\sup_{x \in \mathbb{R}} |x|^{k} |f^{(l)}(x)| < \infty.
-\]
-记这个空间为$\mathcal{S}(\mathbb{R})$。
-\end{definition}
-
-\begin{proposition}
-$\mathcal{S}(\mathbb{R})$为$\mathbb{C}$上向量空间，且若$f \in \mathcal{S}(\mathbb{R})$，则
-\[
-f'(x) \in \mathcal{S}(\mathbb{R})\quad\text{且}\quad xf(x) \in \mathcal{S}(\mathbb{R}).
-\]
-后者在说$\mathcal{S}(\mathbb{R})$在求导及与多项式乘积运算下封闭。
-\end{proposition}
+圆周热核的Fourier级数表达式虽然自然，但要验证其为好核，直接估计尾部并不方便。因此我们希望借助Poisson求和公式把它改写成好核的周期化形式。这里，我们将Poisson求和公式应用于一维Gaussian核。
 
 \begin{definition}[Gaussian Kernel]
 对任意$\delta > 0$，定义
 \[
 K_{\delta}(x) = \frac{1}{\sqrt{\delta}} e^{-\pi x^{2}/\delta}
 \]
-为Gaussian Kernel。
+为一维Gaussian Kernel。
 \end{definition}
+
 容易验证$K_{\delta} \in \mathcal{S}(\mathbb{R})$，进一步有：
 
-\begin{proposition}
+\begin{proposition}\label{prop:gaussian-fourier}
 对任意$\delta > 0$且$K_{\delta}(x) = \frac{1}{\sqrt{\delta}} e^{-\pi x^{2}/\delta}$，则
 \[
-\widehat{K_{\delta}}(\xi) = e^{-\pi\delta \xi^{2}}.
+\widehat{K_{\delta}}(\xi) = e^{-\pi\delta \xi^{2}}.\qedhere
 \]
 \end{proposition}
 
@@ -343,8 +444,8 @@ G(0) = \frac{1}{\sqrt{\delta}} \int_{-\infty}^{\infty} e^{-\pi x^{2}/\delta}\,dx
 \]
 \end{proof}
 
-\begin{proposition}
-当$\delta \rightarrow 0^{+}$时，$K_{\delta}$是好核。（此处积分定义在实直线上）
+\begin{proposition}\label{prop:gaussian-good-kernel}
+当$\delta \rightarrow 0^{+}$时，$K_{\delta}$是好核。
 \end{proposition}
 
 \begin{proof}
@@ -362,53 +463,16 @@ G(0) = \frac{1}{\sqrt{\delta}} \int_{-\infty}^{\infty} e^{-\pi x^{2}/\delta}\,dx
 再由$K_{\delta}$正性知(1)(2)成立。最后注意到当$\delta \rightarrow 0^{+}$时，
 \[
 \int_{|x| > \eta} |K_{\delta}(x)|\,dx = \frac{1}{\sqrt{\delta}} \int_{|x| > \eta} e^{-\pi x^{2}/\delta}\,dx
-= \frac{1}{\sqrt{\pi}} \int_{|y| > \sqrt{\pi}\eta/\sqrt{\delta}} e^{-y^{2}}\,dx \rightarrow 0,
+= \frac{1}{\sqrt{\pi}} \int_{|y| > \sqrt{\pi}\eta/\sqrt{\delta}} e^{-y^{2}}\,dy \rightarrow 0,
 \]
 最后一个等号由于反常积分收敛，故(3)成立。
-\end{proof}
-
-下面引入周期化的手法：对实直线上的函数$f \in \mathcal{S}(\mathbb{R})$，通过以下方式可以定义在圆周上的新的函数
-\[
-F_1(x) = \sum_{n=-\infty}^{\infty} f(x+n).
-\]
-由于$f \in \mathcal{S}(\mathbb{R})$，故该级数在$\mathbb{R}$任何紧集上绝对收敛进而一致收敛，故$F_1 \in C(\mathbb{R})$，且此时对任意$x \in \mathbb{R},\ F_1(x+1) = F_1(x)$，即$F_1$为1-周期的函数。函数$F_1$称为函数$f$的\textbf{周期化}。
-
-再考察另外一种方式得到$f$的周期模型，考虑将Fourier反演公式离散化，定义
-\[
-F_2(x) = \sum_{n=-\infty}^{\infty} \widehat{f}(n) e^{2\pi inx}.
-\]
-由于$f \in \mathcal{S}(\mathbb{R})$，故该级数也在$\mathbb{R}$任何紧集上绝对收敛进而一致收敛，且显然也有$F_2$为1-周期的函数。
-
-下面的定理告诉我们，这两种方式得到的函数$F_1$和$F_2$是相同的。
-
-\begin{theorem}[Poisson求和公式]
-若 $f \in \mathcal{S}(\mathbb{R})$，则
-\[
-\sum_{n=-\infty}^{\infty} f(x+n) = \sum_{n=-\infty}^{\infty} \widehat{f}(n) e^{2\pi inx}.
-\]
-特别地，取 $x = 0$，有
-\[
-\sum_{n=-\infty}^{\infty} f(n) = \sum_{n=-\infty}^{\infty} \widehat{f}(n).
-\]
-也就是说：$f$周期化的Fourier系数由其Fourier变换在整数点取值确定。
-\end{theorem}
-
-\begin{proof}
-由于两边均连续且作为圆周上的函数，只需证明两边函数具有相同Fourier系数即可。显然RHS的第$m$项系数为$\widehat{f}(m)$，对于LHS，
-\begin{align*}
-\int_{0}^{1} \left( \sum_{n=-\infty}^{\infty} f(x+n) \right) e^{-2\pi imx}\,dx
-&= \sum_{n=-\infty}^{\infty} \int_{0}^{1} f(x+n) e^{-2\pi imx}\,dx \\
-&= \sum_{n=-\infty}^{\infty} \int_{n}^{n+1} f(y) e^{-2\pi imy}\,dy \\
-&= \int_{-\infty}^{\infty} f(y) e^{-2\pi imy}\,dy = \widehat{f}(m),
-\end{align*}
-其中换序的合法性是由于无穷求和一致收敛。
 \end{proof}
 
 回忆圆周上的热核
 \[
 H_t(x) = \sum_{n=-\infty}^{\infty} e^{-4\pi^{2}n^{2}t} e^{2\pi inx},
 \]
-且由命题3知
+且由命题~\ref{prop:gaussian-fourier} 知
 \[
 \widehat{K_{\delta}}(\xi) = e^{-\pi\delta \xi^{2}}.
 \]
@@ -416,26 +480,26 @@ H_t(x) = \sum_{n=-\infty}^{\infty} e^{-4\pi^{2}n^{2}t} e^{2\pi inx},
 \[
 \widehat{\mathcal{H}_t}(\xi) = e^{-4\pi^{2}\xi^{2}t}.
 \]
-于是有下面的引理：
+利用一维Poisson求和公式，我们有：
 
-\begin{lemma}
+\begin{lemma}\label{lem:heat-periodization}
 $H_t(x)$是$\mathcal{H}_t(x)$的周期化，即
 \[
 H_t(x) = \sum_{n=-\infty}^{\infty} \mathcal{H}_t(x+n).
 \]
 \end{lemma}
 
-命题4已经给出$\mathcal{H}_t$当$t \rightarrow 0^{+}$时是好核，下面我们将借助这一点和引理4一起导出定理2。
+命题~\ref{prop:gaussian-good-kernel} 已经给出 $\mathcal{H}_t$ 当 $t \rightarrow 0^{+}$ 时是好核，下面将借助这一点和引理~\ref{lem:heat-periodization} 一起导出定理~\ref{thm:heat-kernel-good}。
 
-\subsection*{定理2的证明}
-
-利用引理4，有
+\begin{proof}[定理~\ref{thm:heat-kernel-good} 的证明]
+利用引理~\ref{lem:heat-periodization}，有
 \begin{align*}
 \int_{|x| \leq \frac{1}{2}} H_t(x)\,dx
 &= \int_{|x| \leq \frac{1}{2}} \left( \sum_{n=-\infty}^{\infty} \mathcal{H}_t(x+n) \right) dx \\
 &= \sum_{n=-\infty}^{\infty} \int_{|x| \leq \frac{1}{2}} \mathcal{H}_t(x+n)\,dx \\
 &= \sum_{n=-\infty}^{\infty} \int_{n-\frac{1}{2}}^{n+\frac{1}{2}} \mathcal{H}_t(y)\,dy \\
-&= \int_{-\infty}^{\infty} \mathcal{H}_t(y)\,dy = 1,
+&= \int_{-\infty}^{\infty} \mathcal{H}_t(y)\,dy \\
+&= 1,
 \end{align*}
 其中换序的合法性是由于无穷求和一致收敛。且由于$\mathcal{H}_t(x) \geq 0$可得$H_t(x) \geq 0$。因此好核前两条符合，下面验证第三条，注意对$|x| \leq \frac{1}{2}$，
 \[
@@ -449,7 +513,7 @@ H_t(x) = \mathcal{H}_t(x) + \sum_{|n| \geq 1} \mathcal{H}_t(x+n) \triangleq \mat
 &= C t^{-\frac{1}{2}} \sum_{n \geq 1} e^{-c/t} e^{-c(n^{2}-1)/t} \\
 &\leq C t^{-\frac{1}{2}} e^{-c/t} \sum_{n \geq 1} e^{-c(n^{2}-1)}.
 \end{align*}
-记$A = \sum_{n \geq 1} e^{-c(n^{2}-1)} < \infty$，且存在常数$0 < c' < c$使得$t^{-\frac{1}{2}}e^{-c/t} \leq e^{-c'/t}$，因此存在常数$C_1,\ C_2 > 0$使得
+记$A = \sum_{n \geq 1} e^{-c(n^{2}-1)} < \infty$，且存在常数$0 < c' < c$使得$t^{-\frac{1}{2}} e^{-c/t} \leq e^{-c'/t}$，因此存在常数$C_1,\ C_2 > 0$使得
 \[
 |\varepsilon_t(x)| \leq C_1 e^{-C_2/t}.
 \]
@@ -457,20 +521,21 @@ H_t(x) = \mathcal{H}_t(x) + \sum_{|n| \geq 1} \mathcal{H}_t(x+n) \triangleq \mat
 \begin{align*}
 \int_{\eta < |x| \leq \frac{1}{2}} |H_t(x)|\,dx
 &= \int_{\eta < |x| \leq \frac{1}{2}} |\mathcal{H}_t(x)|\,dx + \int_{\eta < |x| \leq \frac{1}{2}} |\varepsilon_t(x)|\,dx \\
-&\leq \int_{\eta < |x| \leq \frac{1}{2}} |\mathcal{H}_t(x)|\,dx + \frac{1}{2} C_1 e^{-C_2/t},
+&\leq \int_{\eta < |x| \leq \frac{1}{2}} |\mathcal{H}_t(x)|\,dx + C_1 e^{-C_2/t},
 \end{align*}
 注意$\mathcal{H}_t$为好核，故当$t \rightarrow 0^{+}$时，有
 \[
-\int_{\eta < |x| \leq \frac{1}{2}} |H_t(x)|\,dx \rightarrow 0.
+\int_{\eta < |x| \leq \frac{1}{2}} |H_t(x)|\,dx \rightarrow 0.\qedhere
 \]
+\end{proof}
 
-我们可以类似建立定理1有关解唯一性的定理，主要需要的是定理2和有关抛物型方程极值原理，下面的引理5是热方程相应的极值原理，证明可参考[4]。
+我们可以类似建立定理~\ref{thm:disk-dirichlet} 有关解唯一性的定理，主要需要的是定理~\ref{thm:heat-kernel-good} 和抛物型方程的极值原理。下面的引理~\ref{lem:parabolic-maximum} 是热方程相应的极值原理，证明可参考文献~[4]。
 
-\begin{lemma}
-设$u$在矩形$D_T = [\alpha,\beta] \times [0,T]$上连续，并且在矩形内部满足热方程$(\ast)$，则$u$在矩形两个侧边（$x = \alpha$及$x = \beta$，$0 \leq t \leq T$）及底边（$t = 0$，$\alpha \leq x \leq \beta$）上取到最大值和最小值。
+\begin{lemma}\label{lem:parabolic-maximum}
+设$u$在矩形$D_T = [\alpha,\beta] \times [T_0,T]$（$0<T_0<T$）上连续，并且在矩形内部满足热方程~\eqref{eq:circle-heat}，则$u$在矩形两个侧边（$x = \alpha$及$x = \beta$，$T_0 \leq t \leq T$）及底边（$t = T_0$，$\alpha \leq x \leq \beta$）上取到最大值和最小值。
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{thm:circle-heat}
 记$\mathbb{T} = \mathbb{R}/\mathbb{Z}$，$f$周期为1且$f \in \mathcal{R}(\mathbb{T})$，定义$D = \mathbb{T} \times (0,\infty)$上的函数
 \[
 u(x,t) = (f * H_t)(x).
@@ -488,7 +553,9 @@ u(x,t) = (f * H_t)(x).
 \end{theorem}
 
 \begin{proof}
-(1)(2)由$H_{t}(x)\ (t \rightarrow 0^{+})$为好核及类似引理1、2的推理可得。对于(3)，反证法，反设$v(x,t)$也是满足条件的解，令$w = u - v$，则$w$满足热方程$(\ast)$且$\lim_{t \rightarrow 0^{+}} w(x,t) = 0$一致成立，只需证$w = 0$。
+(1)(2)由 $H_{t}(x)$（$t \rightarrow 0^{+}$）为好核及类似引理~\ref{lem:disk-smoothness}、\ref{lem:poisson-approximation} 的推理可得。
+
+对于(3)，使用反证法。反设 $v(x,t)$ 也是满足条件的解，令 $w=u-v$，则 $w$ 满足热方程~\eqref{eq:circle-heat}，且 $\lim_{t\rightarrow0^{+}}w(x,t)=0$ 一致成立，只需证 $w=0$。
 
 作延拓
 \[
@@ -500,7 +567,7 @@ w(x,t), & t > 0, \\
 \]
 任取$T > 0$和$\varepsilon > 0$，由$\lim_{t \rightarrow 0^{+}} \widetilde{w}(x,t) = 0$一致成立知存在$0 < \delta < T$，使得对任意$0 \leq t \leq \delta$，有$|\widetilde{w}(x,t)| < \varepsilon$。
 
-考察区域$\mathbb{T} \times [\delta,T]$，则$\widetilde{w}$满足引理5中的条件，又由于$\mathbb{T}$为圆周，故区域最值不在侧边达到，从而
+考察区域$\mathbb{T} \times [\delta,T]$，则$\widetilde{w}$满足引理~\ref{lem:parabolic-maximum} 中的条件，又由于$\mathbb{T}$为圆周无侧边，从而
 \[
 \sup_{(x,t) \in \mathbb{T} \times [\delta,T]} |\widetilde{w}(x,t)| \leq \sup_{x \in \mathbb{T}} |\widetilde{w}(x,\delta)| < \varepsilon.
 \]
@@ -515,11 +582,8 @@ w(x,t), & t > 0, \\
 再由$\varepsilon,\ T > 0$的任意性，知$w = 0$。
 \end{proof}
 
-\section{Poisson求和公式的两个应用}
-
-在讨论圆周上的热方程时，我们利用Poisson求和公式将圆周上的热核$H_{t}(x)$用Gaussian kernel $\mathcal{H}_{t}(x)$进行表达，进而给出了$H_{t}(x)$特定的渐进估计进而证明其为好核。下面我们再介绍Poisson求和公式在复分析和调和分析的两个应用，体会一下其在不同场景下的功效。
-
-\subsection{Riemann zeta函数的解析延拓}
+\newpage
+\section{Riemann zeta函数的解析延拓}
 
 最初的Riemann zeta函数是通过收敛级数定义的，写成下面的引理：
 
@@ -536,14 +600,16 @@ w(x,t), & t > 0, \\
 \[
 |n^{-s}| = |e^{-s\log n}| = e^{-\sigma \log n} = n^{-\sigma}.
 \]
-若$\sigma > 1 + \delta > 1$，则
+任取紧集$K \subset \{s \in \mathbb{C}:\mathrm{Re}(s)>1\}$，存在$\delta>0$使得对任意$s\in K$都有$\mathrm{Re}(s)\geq 1+\delta$，从而
 \[
-|\zeta(s)| < \sum_{n=1}^{\infty} \frac{1}{n^{1+\delta}} < \infty.
+\left|\frac{1}{n^s}\right|\leq \frac{1}{n^{1+\delta}},
+\qquad
+\sum_{n=1}^{\infty}\frac{1}{n^{1+\delta}}<\infty.
 \]
-于是级数$\sum_{n=1}^{\infty} \frac{1}{n^{s}}$在任意半平面$\mathrm{Re}(s) > 1 + \delta > 1$上一致收敛，因此在半平面$\mathrm{Re}(s) > 1$上函数全纯。
+由Weierstrass-M判别法，级数$\sum_{n=1}^{\infty}n^{-s}$在$K$上一致收敛。由于$K$任意，故$\zeta(s)$在半平面$\mathrm{Re}(s)>1$上全纯。
 \end{proof}
 
-我们接下来的目标是将函数$\zeta$解析延拓到整个复平面$\mathbb{C}$上，这里需要用到两个重要的辅助函数$\Gamma$和$\vartheta$。
+我们接下来的目标是将函数$\zeta(s)$亚纯延拓到整个复平面$\mathbb{C}$上，并证明其唯一的奇点是$s=1$处的单极点。这里需要用到两个重要的辅助函数$\Gamma$和$\vartheta$。
 
 \begin{enumerate}
 \item $\Gamma$函数首先是通过积分收敛
@@ -568,142 +634,277 @@ w(x,t), & t > 0, \\
 \]
 我们利用Poisson求和公式来给出$\vartheta$函数的两个重要性质。
 
-\textbf{性质1：} $\vartheta(t) = \frac{1}{\sqrt{t}} \vartheta(\frac{1}{t})$
-
-\textbf{证明：} 对函数$f(x) = e^{-\pi t (x+a)^{2}}$，利用Fourier变换可得
+\begin{proposition}[$\vartheta$ 函数的反演公式]\label{prop:theta-inversion}
+对任意 $t>0$，有
 \[
-\widehat{f}(\xi) = t^{-\frac{1}{2}} e^{-\frac{\pi n^{2}}{t}} e^{2\pi ia\xi}.
+\vartheta(t)=\frac{1}{\sqrt{t}}\vartheta\left(\frac{1}{t}\right).
 \]
-利用Poisson求和公式，有
+\end{proposition}
+
+\begin{proof}
+对函数$f(x) = e^{-\pi t (x+a)^{2}}$，利用Fourier变换可得
 \[
-\sum_{n=-\infty}^{\infty} e^{-\pi t (n+a)^{2}} = \sum_{n=-\infty}^{\infty} t^{-\frac{1}{2}} e^{-\frac{\pi n^{2}}{t}} e^{2\pi ina}.
+\widehat{f}(\xi) = t^{-\frac{1}{2}}
+e^{-\frac{\pi \xi^{2}}{t}} e^{2\pi ia\xi}.
+\]
+利用一维Poisson求和公式，有
+\[
+\sum_{n=-\infty}^{\infty} e^{-\pi t (n+a)^{2}}
+=
+\sum_{n=-\infty}^{\infty}
+t^{-\frac{1}{2}} e^{-\frac{\pi n^{2}}{t}}e^{2\pi ina}.
 \]
 令$a = 0$，即有
 \[
-\sum_{n=-\infty}^{\infty} e^{-\pi t n^{2}} = \sum_{n=-\infty}^{\infty} t^{-\frac{1}{2}} e^{-\frac{\pi n^{2}}{t}}.
+\sum_{n=-\infty}^{\infty} e^{-\pi t n^{2}}
+=
+\sum_{n=-\infty}^{\infty}
+t^{-\frac{1}{2}} e^{-\frac{\pi n^{2}}{t}}.
 \]
 亦即
 \[
-\vartheta(t) = \frac{1}{\sqrt{t}} \vartheta(\frac{1}{t}).
+\vartheta(t) = \frac{1}{\sqrt{t}}\vartheta\left(\frac{1}{t}\right).\qedhere
 \]
+\end{proof}
 
-\textbf{性质2：} $\vartheta(t) = \mathcal{O}(\frac{1}{\sqrt{t}}),\ t \rightarrow 0^{+}$
-
-\textbf{证明：} 注意到
+\begin{proposition}[$\vartheta$ 函数在原点附近的估计]\label{prop:theta-estimate}
+当 $t\rightarrow0^{+}$ 时，
 \[
-\vartheta(\frac{1}{t}) = \sum_{n=-\infty}^{\infty} e^{-\frac{\pi n^{2}}{t}}
-= 1 + 2\sum_{n=1}^{\infty} e^{-\frac{\pi n^{2}}{t}}
-\leq 1 + 2\sum_{n=1}^{\infty} e^{-\frac{\pi n}{t}}
-= 1 + \frac{2}{e^{\pi/t} - 1}
-< 1 + \frac{2}{e^{\pi} - 1} \triangleq C,\quad \text{当 } t < 1.
+\vartheta(t)=\mathcal{O}\!\left(t^{-1/2}\right).
 \]
-利用性质1即有
+\end{proposition}
+
+\begin{proof}
+注意到当$t<1$时，
+\begin{align*}
+\vartheta\left(\frac{1}{t}\right)
+&= \sum_{n=-\infty}^{\infty}e^{-\pi n^{2}/t} \\
+&= 1+2\sum_{n=1}^{\infty}e^{-\pi n^{2}/t} \\
+&\leq 1+2\sum_{n=1}^{\infty}e^{-\pi n/t} \\
+&= 1+\frac{2}{e^{\pi/t}-1} \\
+&<1+\frac{2}{e^{\pi}-1}\triangleq C.
+\end{align*}
+利用命题~\ref{prop:theta-inversion} 即有
 \[
-\vartheta(t) < \frac{C}{\sqrt{t}},\quad \text{当 } t \rightarrow 0^{+}.
+\vartheta(t)<\frac{C}{\sqrt{t}},
+\quad \text{当 }t\rightarrow0^{+}.
 \]
 即证。
+\end{proof}
 \end{enumerate}
 
-我们开始着手做Riemann zeta函数的解析延拓，记$z(t) = \sum_{n=1}^{\infty} e^{-n^{2}t}$，注意到
+我们开始着手做Riemann zeta函数的解析延拓，记
 \[
-\int_{0}^{\infty} t^{x-1} z(t)\,dt
-= \int_{0}^{\infty} t^{x-1} \sum_{n=1}^{\infty} e^{-n^{2}t}\,dt
-= \sum_{n=1}^{\infty} \int_{0}^{\infty} t^{x-1} e^{-n^{2}t}\,dt,
+z(t)=\sum_{n=1}^{\infty}e^{-n^{2}t}.
 \]
-其中积分与求和可交换由于无穷求和一致收敛。作换元$s = n^{2}t$，有
+当$\mathrm{Re}(x)>\frac{1}{2}$时，记$\sigma=\mathrm{Re}(x)$，则
 \[
-\int_{0}^{\infty} t^{x-1} e^{-n^{2}t}\,dt = \frac{1}{n^{2x}} \int_{0}^{\infty} s^{x-1} e^{-s}\,ds = \frac{1}{n^{2x}} \Gamma(x).
+\sum_{n=1}^{\infty}\int_{0}^{\infty}
+\left|t^{x-1}e^{-n^{2}t}\right|\,dt
+=
+\sum_{n=1}^{\infty}\int_{0}^{\infty}
+t^{\sigma-1}e^{-n^{2}t}\,dt
+=
+\Gamma(\sigma)\sum_{n=1}^{\infty}\frac{1}{n^{2\sigma}}
+<\infty.
+\]
+故由绝对收敛可交换积分与求和，从而
+\[
+\int_{0}^{\infty}t^{x-1}z(t)\,dt
+=
+\int_{0}^{\infty}t^{x-1}
+\sum_{n=1}^{\infty}e^{-n^{2}t}\,dt
+=
+\sum_{n=1}^{\infty}\int_{0}^{\infty}
+t^{x-1}e^{-n^{2}t}\,dt.
+\]
+作换元$s=n^{2}t$，有
+\[
+\int_{0}^{\infty}t^{x-1}e^{-n^{2}t}\,dt
+=
+\frac{1}{n^{2x}}\int_{0}^{\infty}s^{x-1}e^{-s}\,ds
+=
+\frac{1}{n^{2x}}\Gamma(x).
 \]
 故
 \[
-\int_{0}^{\infty} t^{x-1} z(t)\,dt = \sum_{n=1}^{\infty} \frac{1}{n^{2x}} \Gamma(x) = \Gamma(x)\zeta(2x).
+\int_{0}^{\infty}t^{x-1}z(t)\,dt
+=
+\sum_{n=1}^{\infty}\frac{1}{n^{2x}}\Gamma(x)
+=
+\Gamma(x)\zeta(2x).
 \]
-由$\zeta$函数的定义，$\mathrm{Re}(x) > 0.5$时上式有意义，即当$\mathrm{Re}(x) > 0.5$时，有
+即当$\mathrm{Re}(x)>\frac{1}{2}$时，有
 \[
-\zeta(2x) = \frac{1}{\Gamma(x)} \int_{0}^{\infty} t^{x-1} z(t)\,dt.
+\zeta(2x)
+=
+\frac{1}{\Gamma(x)}
+\int_{0}^{\infty}t^{x-1}z(t)\,dt.
 \]
 
-由性质1，
+由命题~\ref{prop:theta-inversion}，
 \begin{align*}
-2z(t) + 1 &= \sum_{n=-\infty}^{\infty} e^{-n^{2}t}
-= \vartheta\left(\frac{t}{\pi}\right)
-= \sqrt{\frac{\pi}{t}} \vartheta\left(\frac{\pi}{t}\right) \\
-&= \sqrt{\frac{\pi}{t}} \sum_{n=-\infty}^{\infty} e^{-\frac{\pi^{2}n^{2}}{t}}
-= \sqrt{\frac{\pi}{t}} \left( 1 + 2\sum_{n=1}^{\infty} e^{-\frac{\pi^{2}n^{2}}{t}} \right).
+2z(t)+1
+&=\sum_{n=-\infty}^{\infty}e^{-n^{2}t} \\
+&=\vartheta\left(\frac{t}{\pi}\right) \\
+&=\sqrt{\frac{\pi}{t}}
+ \vartheta\left(\frac{\pi}{t}\right)\\
+&=\sqrt{\frac{\pi}{t}}
+  \sum_{n=-\infty}^{\infty}e^{-\frac{\pi^{2}n^{2}}{t}}\\
+&=\sqrt{\frac{\pi}{t}}
+  \left(1+2\sum_{n=1}^{\infty}
+  e^{-\frac{\pi^{2}n^{2}}{t}}\right).
 \end{align*}
 故
 \[
-z(t) = \frac{\sqrt{\pi}}{2\sqrt{t}} - \frac{1}{2} + \sum_{n=1}^{\infty} e^{-\frac{\pi^{2}n^{2}}{t}}.
+z(t)
+=
+\frac{\sqrt{\pi}}{2\sqrt{t}}
+-\frac{1}{2}
++\sqrt{\frac{\pi}{t}}
+ \sum_{n=1}^{\infty}e^{-\frac{\pi^{2}n^{2}}{t}}.
 \]
+
 进一步，有
 \begin{align*}
 \zeta(2x)
-&= \frac{1}{\Gamma(x)} \int_{0}^{\infty} t^{x-1} z(t)\,dt \\
-&= \frac{1}{\Gamma(x)} \int_{0}^{1} t^{x-1} z(t)\,dt + \frac{1}{\Gamma(x)} \int_{1}^{\infty} t^{x-1} z(t)\,dt \\
-&= \frac{1}{\Gamma(x)} \int_{1}^{\infty} t^{x-1} z(t)\,dt
-+ \frac{1}{\Gamma(x)} \int_{0}^{1} t^{x-1} \frac{\sqrt{\pi}}{2\sqrt{t}}\,dt
-- \frac{1}{2\Gamma(x)} \int_{0}^{1} t^{x-1}\,dt \\
-&\quad + \frac{1}{\Gamma(x)} \int_{0}^{1} t^{x-1} \sum_{n=1}^{\infty} e^{-\frac{\pi^{2}n^{2}}{t}}\,dt \\
-&\triangleq A(x) + B(x) - C(x) + D(x).
+&=\frac{1}{\Gamma(x)}
+  \int_{0}^{\infty}t^{x-1}z(t)\,dt\\
+&=\frac{1}{\Gamma(x)}
+  \int_{0}^{1}t^{x-1}z(t)\,dt
+ +\frac{1}{\Gamma(x)}
+  \int_{1}^{\infty}t^{x-1}z(t)\,dt\\
+&=\frac{1}{\Gamma(x)}
+  \int_{1}^{\infty}t^{x-1}z(t)\,dt
+ +\frac{1}{\Gamma(x)}
+  \int_{0}^{1}t^{x-1}
+  \frac{\sqrt{\pi}}{2\sqrt{t}}\,dt\\
+&\quad
+ -\frac{1}{2\Gamma(x)}
+  \int_{0}^{1}t^{x-1}\,dt\\
+&\quad
+ +\frac{\sqrt{\pi}}{\Gamma(x)}
+  \int_{0}^{1}t^{x-\frac{3}{2}}
+  \sum_{n=1}^{\infty}
+  e^{-\frac{\pi^{2}n^{2}}{t}}\,dt\\
+&\triangleq A(x)+B(x)-C(x)+D(x).
 \end{align*}
 
-下面分别讨论$A(x), B(x), C(x), D(x)$：
+下面分别讨论$A(x),B(x),C(x),D(x)$：
 
 $A(x)$：
 \[
-A(x) = \frac{1}{\Gamma(x)} \int_{1}^{\infty} t^{x-1} z(t)\,dt
-= \frac{1}{\Gamma(x)} \sum_{n=1}^{\infty} \int_{1}^{\infty} t^{x-1} e^{-n^{2}t}\,dt,
+A(x)
+=
+\frac{1}{\Gamma(x)}
+\int_{1}^{\infty}t^{x-1}z(t)\,dt
+=
+\frac{1}{\Gamma(x)}
+\sum_{n=1}^{\infty}
+\int_{1}^{\infty}t^{x-1}e^{-n^{2}t}\,dt.
 \]
-其中积分与求和可交换由于无穷求和一致收敛。令$A_{n}(x) = \int_{1}^{\infty} t^{x-1} e^{-n^{2}t}\,dt$，任取紧集$K \subset \mathbb{C}$，记$\sigma_{K} = \sup_{x \in K} |\mathrm{Re}\,x|$，则对任意$x \in K$，
+令
 \[
-|t^{x-1} e^{-n^{2}t}| \leq t^{\sigma_{K}-1} e^{-n^{2}t}.
+A_n(x)=\int_{1}^{\infty}
+t^{x-1}e^{-n^{2}t}\,dt.
+\]
+任取紧集$K\subset\mathbb{C}$，记
+\[
+\sigma_K
+=
+1+\sup_{x\in K}|\mathrm{Re}\,x|>1.
+\]
+则对任意$x\in K$及$t\geq1$，
+\[
+|t^{x-1}e^{-n^{2}t}|
+\leq
+t^{\sigma_K-1}e^{-n^{2}t}.
 \]
 从而
 \[
-|A_{n}(x)| \leq \int_{1}^{\infty} t^{\sigma_{K}-1} e^{-n^{2}t}\,dt
-= n^{-2\sigma_{K}} \int_{n^{2}}^{\infty} s^{\sigma_{K}-1} e^{-s}\,ds
-\leq \Gamma(\sigma_{K}) n^{-2\sigma_{K}} < \infty.
+|A_n(x)|
+\leq
+\int_{1}^{\infty}t^{\sigma_K-1}e^{-n^{2}t}\,dt
+=
+n^{-2\sigma_K}
+\int_{n^{2}}^{\infty}s^{\sigma_K-1}e^{-s}\,ds
+\leq
+\Gamma(\sigma_K)n^{-2\sigma_K}.
 \]
-又$f(x,t) = t^{x-1} e^{-n^{2}t} = e^{(x-1)\log t} e^{-n^{2}t}$为整函数，故$A_{n}(x)$为整函数，又可取$K$使$\sigma_{K} > 0.5$，则
+由于对固定$t>0$，函数
 \[
-\left|\sum_{n=1}^{\infty} A_{n}(x)\right|
-\leq \sum_{n=1}^{\infty} |A_{n}(x)|
-\leq \sum_{n=1}^{\infty} \Gamma(\sigma_{K}) n^{-2\sigma_{K}} < \infty.
+t^{x-1}e^{-n^{2}t}
+=
+e^{(x-1)\log t}e^{-n^{2}t}
 \]
-由Weierstrass-M判别法知$\sum_{n=1}^{\infty} A_{n}(x)$一致收敛，故为整函数。又由性质(b)知$\frac{1}{\Gamma(x)}$为整函数，因此$A(x)$为整函数；
+关于$x$为整函数，上述紧集上一致控制说明$A_n(x)$为整函数；并且
+\[
+\sum_{n=1}^{\infty}
+\sup_{x\in K}|A_n(x)|
+\leq
+\Gamma(\sigma_K)
+\sum_{n=1}^{\infty}n^{-2\sigma_K}
+<\infty.
+\]
+由 Weierstrass-M 判别法知，级数
+\[
+\sum_{n=1}^{\infty}A_n(x)
+\]
+在每个紧集上一致收敛，故为整函数。又由性质 (b) 知 $1/\Gamma(x)$ 为整函数，因此 $A(x)$ 为整函数。
 
 $B(x)$：
 \[
-B(x) = \frac{1}{\Gamma(x)} \int_{0}^{1} t^{x-1} \frac{\sqrt{\pi}}{2\sqrt{t}}\,dt
-= \frac{\sqrt{\pi}}{\Gamma(x)} \cdot \frac{1}{x - \frac{1}{2}},
+B(x)
+=
+\frac{1}{\Gamma(x)}
+\int_{0}^{1}t^{x-1}
+\frac{\sqrt{\pi}}{2\sqrt{t}}\,dt
+=
+\frac{\sqrt{\pi}}{2\Gamma(x)}
+\cdot\frac{1}{x-\frac{1}{2}}.
 \]
-故$B(x)$在$\mathbb{C}$上有唯一奇点$x = \frac{1}{2}$；
+故$B(x)$在$\mathbb{C}$上有唯一奇点
+$x=\frac{1}{2}$，且该点为单极点。
 
 $C(x)$：
 \[
-C(x) = \frac{1}{2\Gamma(x)} \int_{0}^{1} t^{x-1}\,dt
-= \frac{1}{2\Gamma(x)} \cdot \frac{1}{x}
-= \frac{1}{2\Gamma(x+1)},
+C(x)
+=
+\frac{1}{2\Gamma(x)}
+\int_{0}^{1}t^{x-1}\,dt
+=
+\frac{1}{2\Gamma(x)}\cdot\frac{1}{x}
+=
+\frac{1}{2\Gamma(x+1)}.
 \]
-故$C(x)$为整函数；
+故$C(x)$为整函数。
 
 $D(x)$：
 \[
-D(x) = \frac{1}{\Gamma(x)} \int_{0}^{1} t^{x-1} \sum_{n=1}^{\infty} e^{-\frac{\pi^{2}n^{2}}{t}}\,dt.
+D(x)
+=
+\frac{\sqrt{\pi}}{\Gamma(x)}
+\int_{0}^{1}t^{x-\frac{3}{2}}
+\sum_{n=1}^{\infty}
+e^{-\frac{\pi^{2}n^{2}}{t}}\,dt.
 \]
-作换元$s = \frac{1}{t}$，则
-\begin{align*}
-D(x) &= -\frac{1}{\Gamma(x)} \int_{1}^{\infty} s^{-(x-1)} \sum_{n=1}^{\infty} e^{-\pi^{2}n^{2}s} \cdot \frac{1}{s^{2}}\,ds \\
-&= -\frac{1}{\Gamma(x)} \int_{1}^{\infty} s^{-(x+1)} \sum_{n=1}^{\infty} e^{-\pi^{2}n^{2}s}\,ds,
-\end{align*}
+作换元$s=\frac{1}{t}$，则
+\[
+D(x)
+=
+\frac{\sqrt{\pi}}{\Gamma(x)}
+\int_{1}^{\infty}s^{-(x+\frac{1}{2})}
+\sum_{n=1}^{\infty}
+e^{-\pi^{2}n^{2}s}\,ds.
+\]
+由于积分中的指数衰减压倒任意幂次，仿照$A(x)$的紧集上一致估计可知该积分定义一个整函数；再由$1/\Gamma(x)$为整函数，故$D(x)$为整函数。
 
-同$A(x)$讨论知$D(x)$为整函数。
+综上，$A(x)+B(x)-C(x)+D(x)$在整个复平面上为亚纯函数，唯一可能的奇点是$x=\frac{1}{2}$处的单极点。它在半平面$\mathrm{Re}(x)>\frac{1}{2}$上与$\zeta(2x)$相等，因而给出了$\zeta(2x)$的亚纯延拓。令$s=2x$，可知$\zeta(s)$可亚纯延拓至整个复平面，并且唯一的奇点是$s=1$处的单极点。
 
-综上，我们将$\zeta$函数解析延拓至整个复平面上，并且有且仅有唯一的奇点$x = 1$（进一步该点是$\zeta$函数的单极点，推导可参考[5]）。
+\newpage
+\section{验证多边形热迹短时渐进展开}
 
-\subsection{验证多边形热迹短时渐进展开}
-
-设$\Omega \subset \mathbb{R}^{2}$为平面多边形区域，其上的Dirichlet Laplace算子具有离散谱，考察配备Dirichlet边界条件的特征值问题：
+设 $\Omega\subset\mathbb{R}^{2}$ 为平面多边形区域，其上的 Dirichlet Laplace 算子具有离散谱。具体地，考察配备 Dirichlet 边界条件的特征值问题：
 \[
 -\Delta u = \lambda u,\ \text{在 } \Omega \text{ 内};\quad u|_{\partial\Omega} = 0.
 \]
@@ -717,71 +918,68 @@ Z_{\Omega}(t) = \mathrm{Tr}(e^{t\Delta}) = \sum_{k=1}^{\infty} e^{-\lambda_{k}t}
 \]
 对多边形区域，论文[6]给出短时内热迹的渐进展开
 \[
-Z_{\Omega}(t) = \frac{|\Omega|}{4\pi t} - \frac{|\partial\Omega|}{8\sqrt{\pi t}} + \sum_{i=1}^{m} \frac{\pi^{2} - \theta_{i}^{2}}{24\pi\theta_{i}} + O(e^{-\gamma/t}),\quad \text{当 } t \rightarrow 0^{+}
+Z_{\Omega}(t)
+= \frac{|\Omega|}{4\pi t}
+- \frac{|\partial\Omega|}{8\sqrt{\pi t}}
++ \sum_{i=1}^{m}\frac{\pi^{2}-\theta_{i}^{2}}{24\pi\theta_{i}}
++ O(e^{-\gamma/t}),
+\qquad t\rightarrow0^{+}.
 \]
-对常数$\gamma > 0$成立。其中$|\Omega|$为$\Omega$的面积，$|\partial\Omega|$为$\Omega$的周长，$\{\theta_{i}\}_{i=1}^{m}$为$\Omega$的内角。
+该式对某个依赖于 $\Omega$ 的常数 $\gamma>0$ 成立。其中，$|\Omega|$ 为 $\Omega$ 的面积，$|\partial\Omega|$ 为 $\Omega$ 的周长，$\{\theta_i\}_{i=1}^{m}$ 为 $\Omega$ 的全体内角。
 
-下面我们将用Poisson求和公式完成两个task：给定多边形区域$\Omega$及显示谱，利用Poisson求和公式验证热迹短时渐进形式并给出最优的常数$\gamma$。
+下面我们将用Poisson求和公式完成两个task：给定两种多边形区域$\Omega$及对应谱序列，验证热迹短时渐进形式并给出最优的常数$\gamma$。
 
-首先我们利用Fourier变换给出二维Poisson求和公式。
+首先我们将Poisson求和公式应用在$d$维Gaussian函数。
 
-\begin{lemma}[多维Gaussian Fourier变换]
-设$A \in M_{n \times n}(\mathbb{R})$正定，令$B = A^{-1}$，则对任意$\xi \in \mathbb{R}^{n}$，
+\begin{lemma}[$d$维 Gaussian 函数的 Fourier 变换]\label{lem:multivariate-gaussian}
+设$A \in M_{d \times d}(\mathbb{R})$正定，令$B = A^{-1}$，则对任意$\xi \in \mathbb{R}^{d}$，
 \[
-\int_{\mathbb{R}^{n}} \exp\left(-\frac{1}{2} x^{T} A x\right) e^{-ix \cdot \xi}\,dx
-= (2\pi)^{\frac{n}{2}} \sqrt{\det B} \exp\left(-\frac{1}{2} \xi^{T} B \xi\right) \quad (\ast).
+\int_{\mathbb{R}^{d}} \exp(-x^{T} A x) e^{-2\pi i x \cdot \xi}\,dx
+= \pi^{\frac{d}{2}} \sqrt{\det B} \exp(-\pi^{2} \xi^{T} B \xi).
+\tag{G}\label{eq:multivariate-gaussian}
 \]
 \end{lemma}
 
 \begin{proof}
-由于$A$实正定，故存在实正交阵$P \in O_{n}(\mathbb{R})$及$a_{1}, \dots, a_{n} > 0$，使得
+由于$A$实正定，故存在实正交阵$P \in O_{d}(\mathbb{R})$及$a_{1}, \dots, a_{d} > 0$，使得
 \[
-A = P^{T} \mathrm{diag}(a_{1}, \dots, a_{n}) P.
+A = P^{T} \mathrm{diag}(a_{1}, \dots, a_{d}) P.
 \]
 令$y = Px,\ \eta = P\xi$，则
 \[
-x^{T}Ax = \sum_{j=1}^{n} a_{j} y_{j}^{2},\quad x \cdot \xi = \langle x, \xi \rangle = \langle P^{\ast}y, \xi \rangle = \langle y, P\xi \rangle = \langle y, \eta \rangle.
+x^{T}Ax = \sum_{j=1}^{d} a_{j} y_{j}^{2},\quad x \cdot \xi = \langle x, \xi \rangle = \langle P^{\ast}y, \xi \rangle = \langle y, P\xi \rangle = \langle y, \eta \rangle.
 \]
-又正交变换保体积元，代入$(\ast)$左侧积分式
+又正交变换保体积元，代入式~\eqref{eq:multivariate-gaussian} 左侧积分
 \begin{align*}
-\int_{\mathbb{R}^{n}} \exp\left(-\frac{1}{2} x^{T} A x\right) e^{-ix \cdot \xi}\,dx
-&= \int_{\mathbb{R}^{n}} \exp\left(-\frac{1}{2} \sum_{j=1}^{n} a_{j} y_{j}^{2}\right) e^{-i\sum_{j=1}^{n} y_{j}\eta_{j}}\,dy \\
-&= \int_{\mathbb{R}^{n}} \prod_{j=1}^{n} \exp\left(-\frac{1}{2} a_{j} y_{j}^{2}\right) e^{-iy_{j}\eta_{j}}\,dy \\
-&= \prod_{j=1}^{n} \int_{\mathbb{R}} \exp\left(-\frac{1}{2} a_{j} y_{j}^{2}\right) e^{-iy_{j}\eta_{j}}\,dy_{j}.
+\int_{\mathbb{R}^{d}} \exp(-x^{T} A x) e^{-2\pi i x \cdot \xi}\,dx
+&= \int_{\mathbb{R}^{d}} \exp\left(-\sum_{j=1}^{d} a_{j} y_{j}^{2}\right) e^{-2\pi i \sum_{j=1}^{d} y_{j}\eta_{j}}\,dy \\
+&= \int_{\mathbb{R}^{d}} \prod_{j=1}^{d} \exp(-a_{j} y_{j}^{2}) e^{-2\pi i y_{j}\eta_{j}}\,dy \\
+&= \prod_{j=1}^{d} \int_{\mathbb{R}} \exp(-a_{j} y_{j}^{2}) e^{-2\pi i y_{j}\eta_{j}}\,dy_{j}.
 \end{align*}
 由一维Gaussian kernel的Fourier变换，对任意$j$，
 \[
-\int_{\mathbb{R}} \exp\left(-\frac{1}{2} a_{j} y_{j}^{2}\right) e^{-iy_{j}\eta_{j}}\,dy_{j}
-= \sqrt{\frac{2\pi}{a_{j}}} \exp\left(-\frac{\eta_{j}^{2}}{2a_{j}}\right).
+\int_{\mathbb{R}} \exp(-a_{j} y_{j}^{2}) e^{-2\pi i y_{j}\eta_{j}}\,dy_{j}
+= \sqrt{\frac{\pi}{a_{j}}} \exp\left(-\frac{\pi^{2} \eta_{j}^{2}}{a_{j}}\right).
 \]
 对$j$求乘积，有
 \begin{align*}
-\prod_{j=1}^{n} \int_{\mathbb{R}} \exp\left(-\frac{1}{2} a_{j} y_{j}^{2}\right) e^{-iy_{j}\eta_{j}}\,dy_{j}
-&= \prod_{j=1}^{n} \sqrt{\frac{2\pi}{a_{j}}} \exp\left(-\frac{\eta_{j}^{2}}{2a_{j}}\right) \\
-&= (2\pi)^{\frac{n}{2}} (\det A)^{-\frac{1}{2}} \exp\left(-\frac{1}{2} \sum_{j=1}^{n} \frac{\eta_{j}^{2}}{a_{j}}\right).
+\prod_{j=1}^{d} \int_{\mathbb{R}} \exp(-a_{j} y_{j}^{2}) e^{-2\pi i y_{j}\eta_{j}}\,dy_{j}
+&= \prod_{j=1}^{d} \sqrt{\frac{\pi}{a_{j}}} \exp\left(-\frac{\pi^{2} \eta_{j}^{2}}{a_{j}}\right) \\
+&= \pi^{\frac{d}{2}} (\det A)^{-\frac{1}{2}} \exp\left(-\pi^{2} \sum_{j=1}^{d} \frac{\eta_{j}^{2}}{a_{j}}\right).
 \end{align*}
 又
 \[
-\sum_{j=1}^{n} \frac{\eta_{j}^{2}}{a_{j}}
-= \eta^{T} \mathrm{diag}(a_{1}^{-1}, \dots, a_{n}^{-1}) \eta
-= \xi^{T} P^{T} \mathrm{diag}(a_{1}^{-1}, \dots, a_{n}^{-1}) P \xi
+\sum_{j=1}^{d} \frac{\eta_{j}^{2}}{a_{j}}
+= \eta^{T} \mathrm{diag}(a_{1}^{-1}, \dots, a_{d}^{-1}) \eta
+= \xi^{T} P^{T} \mathrm{diag}(a_{1}^{-1}, \dots, a_{d}^{-1}) P \xi
 = \xi^{T} A^{-1} \xi
 = \xi^{T} B \xi.
 \]
 即证。
 \end{proof}
 
-回忆$\mathbb{R}^{d}$中一维Poisson求和公式：
-
-\begin{theorem}[一维Poisson求和公式]
-若$f \in \mathcal{S}(\mathbb{R}^{d})$，则
-\[
-\sum_{m \in \mathbb{Z}^{d}} f(m) = \sum_{l \in \mathbb{Z}^{d}} \widehat{f}(2\pi l).
-\]
-\end{theorem}
-
-\begin{theorem}[二维Poisson求和公式]
-设$A \in M_{n \times n}(\mathbb{R})$正定，$\alpha > 0,\ t > 0$，
+\begin{theorem}\label{thm:lattice-gaussian}
+设$A \in M_{d \times d}(\mathbb{R})$正定，$\alpha > 0,\ t > 0$，
 \[
 \sum_{m \in \mathbb{Z}^{d}} e^{-\alpha t\, m^{T} A m}
 = \frac{\pi^{\frac{d}{2}}}{(\alpha t)^{\frac{d}{2}} \sqrt{\det A}}
@@ -790,12 +988,12 @@ x^{T}Ax = \sum_{j=1}^{n} a_{j} y_{j}^{2},\quad x \cdot \xi = \langle x, \xi \ran
 \end{theorem}
 
 \begin{proof}
-取Gaussian函数$f(x) = \exp(-\alpha t\, x^{T} A x)$，利用引理7及定理5即证。
+取 Gaussian 函数$f(x) = \exp(-\alpha t\, x^{T} A x)$，利用引理~\ref{lem:multivariate-gaussian} 及 $d$ 维 Poisson 求和公式即证。
 \end{proof}
 
-\subsubsection*{Task 1：边长为1的等边三角形}
+\subsection{边长为1的等边三角形}
 
-$|\Omega| = \sqrt{3}$，$|\partial\Omega| = 3$，$\theta_{1} = \theta_{2} = \theta_{3} = \frac{\pi}{3}$，谱$\{\lambda_{k}\}_{k=1}^{\infty}$为
+$|\Omega| = \frac{\sqrt{3}}{4}$，$|\partial\Omega| = 3$，$\theta_{1} = \theta_{2} = \theta_{3} = \frac{\pi}{3}$，谱$\{\lambda_{k}\}_{k=1}^{\infty}$为
 \[
 \left\{\frac{16\pi^{2}}{9}(j^{2} + jk + k^{2})\right\}_{j,k=1}^{\infty}.
 \]
@@ -832,7 +1030,8 @@ j = 0,\quad k = 0,\quad j + k = 0
 \sum_{j > -k > 0} e^{-\alpha t (j^{2} + jk + k^{2})}
 &= \sum_{j > k > 0} e^{-\alpha t (j^{2} - jk + k^{2})} \\
 &= \sum_{j > k > 0} e^{-\alpha t ((j-k)^{2} + (j-k)k + k^{2})} \\
-&= \sum_{(j',k) \in \mathbb{Z}_{>0}^{2}} e^{-\alpha t P(j',k)} = H(t).
+&= \sum_{(j',k) \in \mathbb{Z}_{>0}^{2}} e^{-\alpha t P(j',k)} \\
+&= H(t).
 \end{align*}
 即证明了断言，因此
 \[
@@ -840,7 +1039,8 @@ F(t) = 6H(t) + 3(L(t) - 1) + 1
 \]
 即
 \[
-H(t) = \frac{1}{6}F(t) - \frac{1}{2}L(t) + \frac{1}{3} \quad (\star)
+H(t) = \frac{1}{6}F(t) - \frac{1}{2}L(t) + \frac{1}{3}.
+\tag{T}\label{eq:triangle-decomposition}
 \]
 下面分别计算$F(t)$、$L(t)$：
 
@@ -848,7 +1048,7 @@ H(t) = \frac{1}{6}F(t) - \frac{1}{2}L(t) + \frac{1}{3} \quad (\star)
 \[
 \det A = \frac{3}{4},\quad A^{-1} = \frac{4}{3} \begin{pmatrix} 1 & -\frac{1}{2} \\ -\frac{1}{2} & 1 \end{pmatrix}.
 \]
-由二维Poisson求和公式得：
+由定理~\ref{thm:lattice-gaussian}，得
 \begin{align*}
 F(t) &= \frac{\pi}{\alpha t \sqrt{\det A}}
        \sum_{(j,k) \in \mathbb{Z}^{2}} \exp\left(-\frac{\pi^{2}}{\alpha t} \begin{pmatrix} j & k \end{pmatrix} A^{-1} \begin{pmatrix} j \\ k \end{pmatrix}\right) \\
@@ -858,16 +1058,17 @@ F(t) &= \frac{\pi}{\alpha t \sqrt{\det A}}
    + \frac{9}{8\pi\sqrt{3}\, t}
    \sum_{(j,k) \neq (0,0)} \exp\left(-\frac{3}{4t} (j^{2} - jk + k^{2})\right).
 \end{align*}
-由一维Poisson求和公式得：
+由命题~\ref{prop:theta-inversion} 得
 \begin{align*}
-L(t) &= \sum_{n \in \mathbb{Z}} e^{-\alpha t n^{2}}
-= \vartheta\left(\frac{\alpha t}{\pi}\right)
-= \sqrt{\frac{\pi}{\alpha t}} \vartheta\left(\frac{\pi}{\alpha t}\right) \\
-&= \frac{3}{4\sqrt{\pi t}} \sum_{n \in \mathbb{Z}} e^{-\frac{9n^{2}}{16t}}
-= \frac{3}{4\sqrt{\pi t}}
+L(t)
+&= \sum_{n \in \mathbb{Z}} e^{-\alpha t n^{2}} \\
+&= \vartheta\left(\frac{\alpha t}{\pi}\right) \\
+&= \sqrt{\frac{\pi}{\alpha t}} \vartheta\left(\frac{\pi}{\alpha t}\right) \\
+&= \frac{3}{4\sqrt{\pi t}} \sum_{n \in \mathbb{Z}} e^{-\frac{9n^{2}}{16t}} \\
+&= \frac{3}{4\sqrt{\pi t}}
    + \frac{3}{4\sqrt{\pi t}} \sum_{n \neq 0} e^{-\frac{9n^{2}}{16t}}.
 \end{align*}
-代入$(\star)$，得：
+代入式~\eqref{eq:triangle-decomposition}，得
 \begin{align*}
 H(t) &= \frac{1}{6}\left(\frac{9}{8\pi\sqrt{3}\, t}
       + \frac{9}{8\pi\sqrt{3}\, t}
@@ -888,7 +1089,7 @@ R(t) = \frac{\sqrt{3}}{16\pi t} \sum_{(j,k) \neq (0,0)} \exp\left(-\frac{3}{4t} 
 故
 \[
 \sum_{(j,k) \neq (0,0)} \exp\left(-\frac{3}{4t} (j^{2} - jk + k^{2})\right)
-= O(e^{-3/(4t)}),
+= \mathcal{O}(e^{-3/(4t)}),
 \]
 \[
 \sum_{n \neq 0} e^{-\frac{9n^{2}}{16t}} = \mathcal{O}(e^{-9/(16t)}),\quad t \rightarrow 0^{+}.
@@ -898,10 +1099,10 @@ R(t) = \frac{\sqrt{3}}{16\pi t} \sum_{(j,k) \neq (0,0)} \exp\left(-\frac{3}{4t} 
 R(t) = \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-9/(16t)}\right)
 = \mathcal{O}\left(e^{-(\frac{9}{16} - \varepsilon)/t}\right),\quad t \rightarrow 0^{+}
 \]
-对任意$\varepsilon > 0$成立。即$\gamma = \frac{9}{16} - \varepsilon,\ \forall\varepsilon > 0$为最优常数。
+对任意$\varepsilon > 0$成立。即最优常数$\gamma$上确界为$\frac{9}{16}$，但该上确界取不到。
 \end{proof}
 
-\subsubsection*{Task 2：直角边为1的等腰直角三角形}
+\subsection{直角边为1的等腰直角三角形}
 
 $|\Omega| = \frac{1}{2}$，$|\partial\Omega| = 2 + \sqrt{2}$，$\theta_{1} = \theta_{2} = \frac{\pi}{4},\ \theta_{3} = \frac{\pi}{2}$，谱$\{\lambda_{k}\}_{k=1}^{\infty}$为
 \[
@@ -930,11 +1131,12 @@ H(t) &= \sum_{m,n \geq 1} \exp\left(-\pi^{2} t ((m+n)^{2} + m^{2})\right) \\
 \end{align*}
 下面分别计算$A(t)$、$B(t)$：
 
-由一维Poisson求和公式得：
+由命题~\ref{prop:theta-inversion} 得
 \begin{align*}
-1 + 2A(t) &= \sum_{n=-\infty}^{\infty} e^{-\pi^{2} t n^{2}}
-= \vartheta(\pi t)
-= \frac{1}{\sqrt{\pi t}} \vartheta\left(\frac{1}{\pi t}\right) \\
+1 + 2A(t)
+&= \sum_{n=-\infty}^{\infty} e^{-\pi^{2} t n^{2}} \\
+&= \vartheta(\pi t) \\
+&= \frac{1}{\sqrt{\pi t}} \vartheta\left(\frac{1}{\pi t}\right) \\
 &= \frac{1}{\sqrt{\pi t}} \sum_{n=-\infty}^{\infty} e^{-\frac{n^{2}}{t}},
 \end{align*}
 \[
@@ -943,7 +1145,7 @@ H(t) &= \sum_{m,n \geq 1} \exp\left(-\pi^{2} t ((m+n)^{2} + m^{2})\right) \\
 \]
 从而
 \[
-A(t) = \frac{1}{2\sqrt{\pi t}} - \frac{1}{2} + O\left(\frac{1}{\sqrt{t}} e^{-1/t}\right),
+A(t) = \frac{1}{2\sqrt{\pi t}} - \frac{1}{2} + \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-1/t}\right),
 \]
 \[
 B(t) = \frac{1}{2\sqrt{2\pi t}} - \frac{1}{2} + \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-1/(2t)}\right),\quad t \rightarrow 0^{+}.
@@ -961,12 +1163,15 @@ R(t) &= \mathcal{O}\left(\frac{1}{t} e^{-2/t}\right)
       + \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-1/t}\right)
       + \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-1/(2t)}\right) \\
 &= \mathcal{O}\left(\frac{1}{\sqrt{t}} e^{-1/(2t)}\right)
-= \mathcal{O}\left(e^{-(\frac{1}{2} - \varepsilon)/t}\right),\quad t \rightarrow 0^{+}
+\\
+&= \mathcal{O}\left(e^{-(\frac{1}{2} - \varepsilon)/t}\right),\quad t \rightarrow 0^{+}
 \end{align*}
-对任意$\varepsilon > 0$成立。即$\gamma = \frac{1}{2} - \varepsilon,\ \forall\varepsilon > 0$为最优常数。
+对任意$\varepsilon > 0$成立。即最优常数$\gamma$上确界为$\frac{1}{2}$，但该上确界取不到。
 \end{proof}
 
+\newpage
 \section*{评注}
+\markboth{评注}{}
 
 \begin{enumerate}
 \item 本文探讨了两种特殊的热方程，这两种方程均利用经典的分离变量方法，笔者着重探讨了解的相关分析性质；在解其他的热方程（改变维数、改变边界条件）时，需借助Fourier变换等其他工具来求解和讨论，鉴于篇幅，本文不再展开，[1][4]中有详细的探讨。
@@ -984,4 +1189,4 @@ R(t) &= \mathcal{O}\left(\frac{1}{t} e^{-2/t}\right)
 \bibitem{7} Gustav Mårdby, Beyond Three Terms: Exponential Bounds in the Neumann Heat Trace of Polygons, arXiv:2606.04937.
 \end{thebibliography}
 
-\end{document} 
+\end{document}
